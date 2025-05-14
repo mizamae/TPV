@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+
+{% load static %}
+{% load i18n %}
+{% load tz %}
+
+	<head>
+		
+		<title>{% block title %}{% include "_brandname.html" %}{% endblock %}</title>
+		
+		<!-- JS, Popper.js, and jQuery -->
+		<link rel="shortcut icon" type="image/ico" href="{% static 'site/ico/favicon.ico' %}" >
+		<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+		<!-- <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-icons.min.css' %}"> -->
+		
+		<script src="{% static 'site/js/jquery.js' %}"></script>
+
+		<!-- keyboard widget css & script -->
+		<link href="{% static 'keyboard/css/keyboard.css' %}" rel="stylesheet">
+		<script src="{% static 'keyboard/js/jquery.keyboard.js' %}"></script>
+
+		{% block extrahead %}
+		{% endblock %}
+	</head>
+	<body class="py-4">
+		{% block navbar %}
+		<div class="container container-fluid ">
+			<nav class="navbar navbar-light bg-light">
+				<div class="col-lg-4 col-md-2">
+					<a class="" href="{% url 'home' %}">
+						<img src="{% static 'site/logos/CompanyLogoNavbar.svg' %}" />
+					</a>
+
+					<div class="row" id="messages_container">
+						{% if messages %}
+						<ul class="messages">
+							{% for message in messages %}
+							<li{% if message.tags %} class="alert {{ message.tags }}" {% else %} class="alert alert-danger"{% endif %}>{{ message }}</li>
+							{% endfor %}
+						</ul>
+						{% endif %}
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4">
+				{% block navbar-center %}
+				{% endblock %}
+				</div>
+				<div class="col-lg-4 col-md-4">
+					<div class="row">
+						<div class="col-3 text-end">
+							{% if user.is_authenticated %}
+							<div class="dropdown">
+								<button class="btn btn-secondary dropdown-toggle col-12" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									{% if user.shortName %}
+										{{ user.shortName|truncatechars:20 }}
+									{% else %}
+										{{ user.get_username|truncatechars:20 }}
+									{% endif %}
+								</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									<form method="post" action="{% url 'logout' %}">
+										{% csrf_token %}
+										<button class="dropdown-item" type="submit">Logout</button>
+									</form>
+								</div>
+							</div>
+							{% endif %}
+						</div>
+						<div class="col-3">
+							{% if user.is_staff %}
+							<a class="btn btn-success col-12" href="{% url 'check_stocks' %}">{% trans "Ajuste de inventario" %}</a>
+							{% endif %}
+						</div>
+						<div class="col-3">
+							{% if user.is_staff %}
+							<a class="btn btn-success col-12" href="{% url 'check_products' %}">{% trans "Ajuste de precios" %}</a>
+							{% endif %}
+						</div>
+						<div class="col-3">
+							{% if user.is_staff %}
+							<button class="btn btn-outline-success col-12"><a href="{% url 'admin:index' %}">Admin</a></button>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</nav>
+		</div>
+		
+		{% endblock navbar %}
+		<div class="container container-fluid">
+			{% if user.is_authenticated %}
+				{% block container %}
+				{% endblock %}
+			{% else %}
+				{% block login %}
+				<div class="alert alert-danger" role="alert">
+					{% trans "You are not logged in. Try logging in to start working..." %}
+				</div>
+				<div class="d-grid gap-2 col-6 mx-auto">
+					<a class="btn btn-primary btn-lg" href="{% url 'login' %}">Login</a>
+				</div>
+				{% endblock login %}
+			{% endif %}
+		</div>
+
+		<div class="container sticky-bottom mt-4">
+			{% block footer %}
+			<footer class="footer mt-auto">
+					<div class="row">
+						<div class="col-3 text-center">
+							<p>&copy; {% include "_brandname.html" %} {% now 'Y' %}</p>
+						</div>
+						<div class="col-3 text-center">
+							<p>mizamae@gmail.com</p>
+						</div>
+						<div class="col-3 text-center">
+							{% get_current_timezone as TIME_ZONE %}
+							<p>TZ: {{ TIME_ZONE }}</p>
+						</div>
+						<div class="col-3 text-center">
+							<p>{% trans "Powered by " %}
+								<img class="img-fluid w-10"	src="{% static 'site/img/icons8-django-50.svg' %}" alt="back">
+							</p>
+						</div>
+					</div>
+				
+			</footer>
+			{% endblock %}
+		</div>
+		
+		<script src="{% static 'site/js/jquery-ui.min.js' %}"></script> 
+		<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>	
+	</body>
+</html>
+
+
+{% block local_scripts %}
+{% endblock local_scripts %}
+
+{% block app_scripts %}
+
+{% if messages %}
+<script>
+	setTimeout(
+        function () {
+            container = document.getElementById("messages_container");
+			if (container){container.style.display = "none";}
+        },
+        3000 // time in milliseconds
+    );
+</script>
+{% endif %}
+
+<script>
+
+$('.keyboard-numeric').keyboard({
+	layout : 'custom',
+	customLayout: { 'normal': ['7 8 9', '4 5 6', '1 2 3', '0 {dec} {bksp}', '{accept} {cancel}'] },
+	usePreview : false,
+	display : {
+		'bksp'      : '\u232b:Backspace',
+		'accept'      : '\u2714:Accept (Shift-Enter)',
+		'cancel'      : '\u2716:Cancel (Esc)',
+	},
+});
+
+$('.keyboard-normal').keyboard({
+
+// set this to ISO 639-1 language code to override language set by the layout
+// http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+// language defaults to "en" if not found
+language     : 'es',  // string or array
+rtl          : false, // language direction right-to-left
+
+// *** choose layout ***
+//layout       : 'qwerty',
+layout : 'custom',
+customLayout : { 'normal': ['1 2 3 4 5 6 7 8 9 0 {bksp}','q w e r t y u i o p','a s d f g h j k l ñ','{shift} z x c v b n m {dec}','{accept} {cancel}'],
+				'shift': ['1 2 3 4 5 6 7 8 9 0 {bksp}','Q W E R T Y U I O P','A S D F G H J K L Ñ','{shift} Z X C V B N M {dec}','{accept} {cancel}']
+			 },
+
+position : {
+  // optional - null (attach to input/textarea) or a jQuery object
+  // (attach elsewhere)
+  of : null,
+  my : 'center top',
+  at : 'center top',
+  // used when "usePreview" is false
+  // (centers keyboard at bottom of the input/textarea)
+  at2: 'center bottom'
+},
+
+// allow jQuery position utility to reposition the keyboard on window resize
+reposition : true,
+
+// preview added above keyboard if true, original input/textarea used if false
+// always disabled for contenteditable elements
+usePreview : false,
+
+// if true, the keyboard will always be visible
+alwaysOpen : false,
+
+// give the preview initial focus when the keyboard becomes visible
+initialFocus : true,
+// Avoid focusing the input the keyboard is attached to
+noFocus : false,
+
+// if true, keyboard will remain open even if the input loses focus.
+stayOpen : false,
+
+// Prevents the keyboard from closing when the user clicks or
+// presses outside the keyboard. The `autoAccept` option must
+// also be set to true when this option is true or changes are lost
+userClosed : false,
+
+// if true, keyboard will not close if you press escape.
+ignoreEsc : false,
+
+// if true, keyboard will only closed on click event instead of mousedown or
+// touchstart. The user can scroll the page without closing the keyboard.
+closeByClickEvent : false,
+
+// *** change keyboard language & look ***
+display : {
+  // \u2714 = check mark - same action as accept
+  'accept'      : '\u2714:Accept (Shift-Enter)',
+  // \u232b = outlined left arrow with x inside
+  'bksp'      : '\u232b:Backspace',
+
+  // \u2716 = big X, close - same action as cancel
+  'cancel'      : '\u2716:Cancel (Esc)',
+  // clear num pad
+  'clear'  : 'C:Clear',
+  
+  // added to titles of keys
+  // accept key status when acceptValid:true
+  'valid': 'valid',
+  'invalid': 'invalid',
+  // combo key states
+  'active': 'active',
+  'disabled': 'disabled'
+},
+
+// Message added to the key title while hovering, if the mousewheel plugin exists
+wheelMessage : 'Use mousewheel to see other keys',
+
+css: {
+        // input & preview
+        input: 'form-control input-sm',
+        // keyboard container
+        container: 'center-block dropdown-menu', // jumbotron
+        // default state
+        //buttonDefault: 'btn btn-default',
+        // hovered button
+        buttonHover: 'btn-primary',
+        // Action keys (e.g. Accept, Cancel, Tab, etc);
+        // this replaces "actionClass" option
+        buttonAction: 'active',
+        // used when disabling the decimal button {dec}
+        // when a decimal exists in the input area
+        buttonDisabled: 'disabled'
+    },
+
+// *** Useability ***
+// Auto-accept content when clicking outside the keyboard (popup will close)
+autoAccept : false,
+// Auto-accept content even if the user presses escape
+// (only works if `autoAccept` is `true`)
+autoAcceptOnEsc : false,
+
+// Prevents direct input in the preview window when true
+lockInput : false,
+
+// Prevent keys not in the displayed keyboard from being typed in
+restrictInput : false,
+// Additional allowed characters while restrictInput is true
+restrictInclude : '', // e.g. 'a b foo \ud83d\ude38'
+
+// Check input against validate function, if valid the accept button
+// is clickable; if invalid, the accept button is disabled.
+acceptValid : true,
+// Auto-accept when input is valid; requires `acceptValid`
+// set `true` & validate callback
+autoAcceptOnValid : false,
+
+// if acceptValid is true & the validate function returns a false, this option
+// will cancel a keyboard close only after the accept button is pressed
+cancelClose : true,
+
+// Use tab to navigate between input fields
+tabNavigation : false,
+
+// press enter (shift-enter in textarea) to go to the next input field
+enterNavigation : true,
+// mod key options: 'ctrlKey', 'shiftKey', 'altKey', 'metaKey' (MAC only)
+// alt-enter to go to previous; shift-alt-enter to accept & go to previous
+enterMod : 'altKey',
+
+// if true, the next button will stop on the last keyboard input/textarea;
+// prev button stops at first
+// if false, the next button will wrap to target the first input/textarea;
+// prev will go to the last
+stopAtEnd : true,
+
+// Set this to append the keyboard immediately after the input/textarea it
+// is attached to. This option works best when the input container doesn't
+// have a set width and when the "tabNavigation" option is true
+appendLocally : false,
+
+// Append the keyboard to a desired element. This can be a jQuery selector
+// string or object
+appendTo : 'body',
+
+// If false, the shift key will remain active until the next key is (mouse)
+// clicked on; if true it will stay active until pressed again
+stickyShift : true,
+
+// caret placed at the end of any text when keyboard becomes visible
+caretToEnd : false,
+
+// Prevent pasting content into the area
+preventPaste : false,
+
+// caret stays this many pixels from the edge of the input
+// while scrolling left/right; use "c" or "center" to center
+// the caret while scrolling
+scrollAdjustment : 10,
+
+// Set the max number of characters allowed in the input, setting it to
+// false disables this option
+maxLength : false,
+
+// allow inserting characters @ caret when maxLength is set
+maxInsert : true,
+
+// Mouse repeat delay - when clicking/touching a virtual keyboard key, after
+// this delay the key will start repeating
+repeatDelay : 500,
+
+// Mouse repeat rate - after the repeatDelay, this is the rate (characters
+// per second) at which the key is repeated. Added to simulate holding down
+// a real keyboard key and having it repeat. I haven't calculated the upper
+// limit of this rate, but it is limited to how fast the javascript can
+// process the keys. And for me, in Firefox, it's around 20.
+repeatRate : 20,
+
+// resets the keyboard to the default keyset when visible
+resetDefault : false,
+
+// Event (namespaced) on the input to reveal the keyboard. To disable it,
+// just set it to an empty string ''.
+openOn : 'focus',
+
+// When the character is added to the input
+keyBinding : 'mousedown touchstart',
+
+// enable/disable mousewheel functionality
+// enabling still depends on the mousewheel plugin
+useWheel : true,
+
+// combos (emulate dead keys)
+// http://en.wikipedia.org/wiki/Keyboard_layout#US-International
+// if user inputs `a the script converts it to à, ^o becomes ô, etc.
+useCombos : true,
+
+// *** Methods ***
+// Callbacks - add code inside any of these callback functions as desired
+initialized   : function(e, keyboard, el) {},
+beforeVisible : function(e, keyboard, el) {},
+visible       : function(e, keyboard, el) {},
+beforeInsert  : function(e, keyboard, el, textToAdd) { return textToAdd; },
+change        : function(e, keyboard, el) {},
+beforeClose   : function(e, keyboard, el, accepted) {},
+accepted      : function(e, keyboard, el) {},
+canceled      : function(e, keyboard, el) {},
+restricted    : function(e, keyboard, el) {},
+hidden        : function(e, keyboard, el) {},
+
+// called instead of base.switchInput
+switchInput : function(keyboard, goToNext, isAccepted) {},
+
+// used if you want to create a custom layout or modify the built-in keyboard
+create : function(keyboard) { return keyboard.buildKeyboard(); },
+
+// build key callback (individual keys)
+buildKey : function( keyboard, data ) {
+  /*
+  data = {
+	// READ ONLY
+	// true if key is an action key
+	isAction : [boolean],
+	// key class name suffix ( prefix = 'ui-keyboard-' ); may include
+	// decimal ascii value of character
+	name     : [string],
+	// text inserted (non-action keys)
+	value    : [string],
+	// title attribute of key
+	title    : [string],
+	// keyaction name
+	action   : [string],
+	// HTML of the key; it includes a <span> wrapping the text
+	html     : [string],
+	// jQuery selector of key which is already appended to keyboard
+	// use to modify key HTML
+	$key     : [object]
+  }
+  */
+  return data;
+},
+
+// this callback is called just before the "beforeClose" to check the value
+// if the value is valid, return true and the keyboard will continue as it
+// should (close if not always open, etc)
+// if the value is not value, return false and the clear the keyboard value
+// ( like this "keyboard.$preview.val('');" ), if desired
+// The validate function is called after each input, the "isClosing" value
+// will be false; when the accept button is clicked, "isClosing" is true
+validate : function(keyboard, value, isClosing) {
+  return true;
+}
+
+});
+
+</script>
+{% endblock app_scripts %}

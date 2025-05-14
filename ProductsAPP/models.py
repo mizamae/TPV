@@ -1,0 +1,345 @@
+from django.db import models
+from django.utils.translation import gettext as _
+from django.contrib.auth import get_user_model
+User=get_user_model()
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
+from django.contrib import admin
+from django.utils import timezone
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+import os
+FILE_DIR = os.path.join(settings.MEDIA_ROOT)
+IMAGES_FILESYSTEM = FileSystemStorage(location=FILE_DIR,base_url=settings.MEDIA_URL)
+
+# Create your models here.
+
+class ProductFamily(models.Model):
+    class Meta:
+        verbose_name = _('Category')
+        verbose_name_plural = _('Categories')
+
+    picture = models.ImageField(_('Image'),null=True,blank=True,storage=IMAGES_FILESYSTEM)
+    name = models.CharField(max_length=30, unique=True,verbose_name=_("Name"))
+    
+    class Meta:
+        ordering = ['name']
+   
+    def __str__(self) -> str:
+        return self.name
+    
+    @admin.display(description=_("Number of products"))
+    def getNumberOfProducts(self,):
+        return Product.objects.filter(family=self).count()
+        
+    def clean_name(self):
+        self.name=self.name.strip().upper()
+
+class Consumible(models.Model):
+    class Meta:
+        verbose_name = _('Consumable')
+        verbose_name_plural = _('Consumables')
+
+    picture = models.ImageField(_('Image'),null=True,blank=True,storage=IMAGES_FILESYSTEM)
+    name = models.CharField(max_length=150, unique=True,verbose_name=_("Name"))
+    barcode = models.CharField(max_length=150, unique=True,verbose_name=_("Barcode"),blank=True,null=True)
+
+    comments = models.TextField(_('Comments'),blank=True,null=True)
+    family = models.ForeignKey(ProductFamily,verbose_name=_("Family"), on_delete=models.CASCADE, related_name='consumible_family')
+    cost = models.FloatField(verbose_name=_("Unitary cost"),help_text=_("Cost of one unit"))
+    pvp = models.FloatField(verbose_name=_("Selling price"),help_text=_("Price of one unit"))
+    order_quantity = models.FloatField(verbose_name=_("Minimum order quantity"),default=10,
+                                             help_text=_("Determines the minimum quantity that can be sourced from supplier"))
+    stock = models.FloatField(verbose_name=_("Current stock"),blank=True,default=0,
+                                             help_text=_("Quantity in stock currently"))
+    stock_min = models.FloatField(verbose_name=_("Minimum stock"),blank=True,default=0,
+                                                 help_text=_("Quantity in stock that will require a new purchase order"))
+    generates_product = models.BooleanField(verbose_name=_("Can be directly sold"),default=False)
+    infinite = models.BooleanField(verbose_name=_("Infinite consumable"),default=False)
+    def __str__(self) -> str:
+        return self.name
+    
+    def reduce_stock(self,quantity):
+        if not self.infinite:
+            self.stock -= quantity
+            self.stock = round(self.stock,2)
+            if self.stock <= self.stock_min:
+                recipients=User.getStaffEmails()
+                if recipients!=[]:
+                    send_email.delay(
+                            subject=_('[STOCK_WARNING] Producto por debajo de stock de seguridad'),
+                            message=_('El consumible ' + str(self)+' ha alcanzado un nivel por debajo del mínimo de seguridad.\n Ahora se encuentra en un nivel de '+str(self.stock)),
+                            from_email=settings.EMAIL_HOST_USER,
+                            recipient_list=recipients)
+                
+            self.save(update_fields=['stock',])
+    
+    def increment_stock(self,quantity):
+        if not self.infinite:
+            self.stock += quantity
+            self.save(update_fields=['stock',])
+    
+    def getProductsWhereUsed(self):
+        positions= CombinationPosition.objects.filter(ingredient=self)
+        products=[]
+        quantities={}
+        for pos in positions:
+            products.append(pos.product)
+            quantities[pos.product.id]=pos.quantity
+        return {'products':products,'quantities':quantities}
+    
+    @staticmethod
+    def get_stock_value():
+        cons = Consumible.objects.filter(infinite=False)
+        value=0
+        for con in cons:
+            value+=con.stock*con.cost
+        return round(value,2)
+
+    @staticmethod
+    def get_monthly_cost(month,year):
+        cost=0
+        consumibles = Consumible.objects.all()
+        for cons in consumibles:
+            cost += Consumible.get_monthly_consumption(instance=cons,month=month,year=year)*cons.cost
+        return cost
+    
+    @staticmethod
+    def get_monthly_ingress(month,year):
+        ingress=0
+        consumibles = Consumible.objects.all()
+        for cons in consumibles:
+            ingress += Consumible.get_monthly_consumption(instance=cons,month=month,year=year)*cons.pvp
+        return ingress
+
+    @staticmethod
+    def get_monthly_consumption(instance,month,year):
+        consumption=0
+        info = instance.getProductsWhereUsed()
+        positions = BillPosition.objects.filter(bill__date__month=month,bill__date__year=year,product__in=info['products'])
+        for pos in positions:
+            factor = info['quantities'][pos.product.id]
+            consumption+=pos.quantity*factor
+        return round(consumption,2)
+
+class Product(models.Model):
+    class Meta:
+        verbose_name = _('Producto vendible')
+        verbose_name_plural = _('Productos vendibles')
+
+    picture = models.ImageField(verbose_name=_('Imagen del producto'),null=True,blank=True,storage=IMAGES_FILESYSTEM)
+    barcode = models.CharField(max_length=150, unique=True,verbose_name=_("Barcode"))
+    name = models.CharField(max_length=150, unique=True,verbose_name=_("Nombre del producto"))
+    details = models.TextField(_('Details'),blank=True,null=True)
+    family = models.ForeignKey(ProductFamily, on_delete=models.CASCADE, related_name='family')    
+
+    single_ingredient = models.BooleanField(verbose_name=_("Es un producto de consumible"),default=False)
+    ingredients = models.ManyToManyField(Consumible,blank=True,through='CombinationPosition')
+
+    manual_pvp = models.FloatField(verbose_name=_("Precio de venta"),help_text=_("Precio de venta de una unidad"),blank=True,null=True)
+
+    discount = models.ForeignKey('ProductDiscount', on_delete=models.SET_NULL, related_name='products_affected',blank=True,null=True)
+
+    class Meta:
+        ordering = ['name']
+    
+    def save(self, **kwargs):
+        self.name=self.name.strip().upper()
+        if self.manual_pvp and self.manual_pvp <=0:
+            self.manual_pvp=None
+        return super().save(**kwargs)
+    def __str__(self) -> str:
+        return self.name
+    
+    @property
+    def Ingredients(self):
+        return CombinationPosition.objects.filter(product=self)
+    
+    @admin.display(description=_("Coste"))
+    def cost(self,):
+        cost=0
+        for comp in self.Ingredients:
+            cost+=comp.quantity*comp.ingredient.cost
+        return round(cost,2)
+    
+    @admin.display(description=_("P.V.P."))
+    def pvp(self,):
+        if self.discount:
+            factor = (100-self.discount.percent)/100
+        else:
+            factor = 1
+
+        if self.manual_pvp:
+            return round(factor*self.manual_pvp,2)
+        else:
+            pvp=0
+            for comp in self.Ingredients:
+                pvp+=comp.quantity*comp.ingredient.pvp
+            return round(factor*pvp,2)
+    
+    @property
+    def stock(self):
+        stock_value = 1e6
+        for comp in self.Ingredients:
+            stock_value = min(stock_value,comp.ingredient.stock/comp.quantity)
+        return stock_value
+
+    def reduce_stock(self,quantity):
+        for comp in self.Ingredients:
+            comp.ingredient.reduce_stock(quantity = quantity*comp.quantity )    
+    
+    def increase_stock(self,quantity):
+        for comp in self.Ingredients:
+            comp.ingredient.increment_stock(quantity = quantity*comp.quantity )
+
+    
+
+class ProductDiscount(models.Model):
+    PERCENTAGE_VALIDATOR = [MinValueValidator(0), MaxValueValidator(100)]
+
+    percent = models.FloatField(default=0,verbose_name=_("Percentage over selling price"),validators=PERCENTAGE_VALIDATOR)
+
+    def __str__(self):
+        return str(round(self.percent,1))+"%"
+    
+    @admin.display(description=_("Affected products"))
+    def adminAffectedProducts(self,):
+        return list(map(str,self.affectedProducts))
+    
+    @property
+    def affectedProducts(self):
+        return self.products_affected.all()
+
+class CombinationPosition(models.Model):
+    class Meta:
+        verbose_name = _('Combinación de consumible')
+        verbose_name_plural = _('Combinación de consumibles')
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='resultant_product')
+    quantity = models.FloatField(default=1,verbose_name=_("Cantidad"))
+    ingredient = models.ForeignKey(Consumible, on_delete=models.CASCADE, related_name='ingredient',verbose_name=_("Consumible"))
+
+    def __str__(self) -> str:
+        return str(self.ingredient)
+
+class BillAccount(models.Model):
+    STATUS_OPEN=0
+    STATUS_CLOSED=1
+    STATUS_PAID=2
+    STATUS_TYPES = (
+        (STATUS_OPEN, _("Open")),
+        (STATUS_CLOSED, _("Closed not Paid")),
+        (STATUS_PAID, _("Closed and Paid")),        
+    )
+
+    PAYMENTTYPE_CASH=0
+    PAYMENTTYPE_CREDITCARD=1
+
+    PAYMENT_TYPES = (
+        (PAYMENTTYPE_CASH, _("On cash")),
+        (PAYMENTTYPE_CREDITCARD, _("By credit card")),        
+    )
+
+    code = models.CharField(max_length=20,editable=False)
+    owner = models.ForeignKey(settings.CUSTOMER_MODEL,on_delete=models.SET_NULL,null=True,blank=True,related_name='owner',editable = True)
+    createdBy = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,null=True,blank=True,related_name='createdBy',editable = False)
+    date = models.DateTimeField(verbose_name=_("Fecha y hora"),auto_now_add=True)
+
+    status = models.PositiveSmallIntegerField(verbose_name=_("Estado"),default=STATUS_OPEN,editable = True,choices=STATUS_TYPES)
+
+    positions = models.ManyToManyField(Product,blank=True,through='BillPosition',related_name="bill_lines")
+
+    paymenttype = models.PositiveSmallIntegerField(verbose_name=_("Payment"),blank=False,null=True,choices=PAYMENT_TYPES)
+
+    invoice = models.JSONField(blank=True,null=True)
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return self.code + _(" del usuario ")+ str(self.owner)
+    
+    def save(self,*args,**kwargs):
+        create = self.id is None
+        if create:
+            date = timezone.now()
+            number = BillAccount.objects.filter(date__year = date.year).count()
+            self.code = str(date.year) + "-" + str(number+1)
+        super(BillAccount,self).save(*args,**kwargs)
+    
+    def bill_positions(self):
+        return BillPosition.objects.filter(bill=self).order_by("product__name")
+    
+    def add_bill_position(self,product,quantity=1):
+        instance,created=BillPosition.objects.get_or_create(bill=self,product=product)
+        if created:
+            instance.quantity=quantity
+        else:
+            instance.quantity+=quantity
+        product.reduce_stock(quantity=quantity)
+        instance.save()
+
+    def close(self):
+        if self.paymenttype is not None:
+            self.invoice = self.toJSON()
+            self.status = BillAccount.STATUS_PAID
+            self.save(update_fields=['status','invoice'])
+
+    def toJSON(self):
+        value = {'total':self.getPVP(),'positions':[]}
+        for component in self.bill_positions():
+            value['positions'].append({'quantity':component.quantity,'product':str(component.product),
+                                       'pvp':component.product.pvp(),'subtotal':component.quantity*component.product.pvp()})
+        return value
+
+    @admin.display(description=_("P.V.P."))
+    def getPVP(self,):
+        pvp=0
+        if self.status != BillAccount.STATUS_PAID:
+            for component in self.bill_positions():
+                pvp+=component.quantity*component.product.pvp()
+        else:
+            for line in self.invoice['positions']:
+                pvp+=line['quantity']*line['pvp']
+        return round(pvp,2)
+    
+    @staticmethod
+    def create(createdBy):
+        instance = BillAccount()
+        instance.createdBy = createdBy
+        instance.save()
+        return instance
+        
+class BillPosition(models.Model):
+    position = models.SmallIntegerField(verbose_name=_("Posicion"),null=True,blank=True,editable = True)
+    bill = models.ForeignKey(BillAccount, on_delete=models.CASCADE, related_name='bill')
+    quantity = models.PositiveSmallIntegerField(default=1,verbose_name=_("Cantidad"))
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product')
+    
+    class Meta:
+        unique_together = ['bill','product']
+    
+    def __str__(self) -> str:
+        return str(self.product)
+    
+    def save(self, *args, **kwargs):
+        if self.id is None:
+            self.position = self.getNextPosition()
+        return super(BillPosition, self).save(*args, **kwargs)
+    
+    def reduce_quantity(self, quantity):
+        self.update(quantity=self.quantity-quantity)
+        self.product.increase_stock(quantity=quantity)
+
+    def update(self, quantity):
+        if quantity > 0 :
+            self.quantity=quantity
+            self.save(update_fields=['quantity',])
+        else:
+            self.delete()
+    
+    def getNextPosition(self):
+        return BillPosition.objects.filter(bill=self.bill).count()+1
+    
+    def getsubtotal(self):
+        return round(self.quantity * self.product.pvp(),2)

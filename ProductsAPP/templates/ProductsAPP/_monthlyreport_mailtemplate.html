@@ -1,0 +1,45 @@
+{% load custom_tags %}
+
+<!DOCTYPE html>
+<html>
+    <body>
+        <br>
+
+        <h2>{{ heading }}</h2>
+        
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Consumo</th>
+                    <th>PVP</th>
+                    <th>Coste</th>
+                    <th>Ingreso</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in consumibles %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{% get_monthly_consumption item month year %}</td>
+                        <td>{{ item.pvp }}</td>
+                        <td>{{ item.cost }}</td>
+                        <td>{% get_monthly_cost item month year %}</td>
+                        <td>{% get_monthly_ingress item month year %}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan=4><p class="h5">TOTAL</p></td>
+                    <td><p class="h5">{{ total_cost }} €</p></td>
+                    <td><p class="h5">{{ total_ingress }} €</p></td>
+                </tr>
+                <tr>
+                    <td colspan=5><p class="h5">BENEFICIO</p></td>
+                    <td><p class="h5">{{ benefit }} €</p></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

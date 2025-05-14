@@ -1,0 +1,27 @@
+{% load i18n %}
+{% load static %}
+
+<div class="card" style="border-radius: 10%">
+    <div class="card-header text-center" id="heading2">
+        <h5>{{ header }}</h5>
+    </div>
+
+    {% if permission_OK %}
+	<a class="btn btn-primary-outline btn-block m-0" href="{% url link_to %}" role="button">
+		<img src="{% static icon %}" alt="{{ header }}" height="100%" width="100%">
+	</a>
+    {% else %}
+    <a class="btn btn-primary-outline disabled" href="" role="button">
+        <img src="{% static icon %}" alt="{{ header }}" height="100%" width="100%">
+    </a>
+    {% endif %}
+    
+    <div class="card-body">
+        {{ details }}
+    </div>
+</div>
+
+
+
+
+

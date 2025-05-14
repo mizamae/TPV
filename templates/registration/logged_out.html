@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block login %}
+
+<div class="limiter mt-2">
+  <div class="container-login100">
+    <p>&nbsp;</p>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6 text-center">
+            <img src="{% static 'site/logos/CompanyLogoLoginout.svg' %}" /> 
+        </div>
+        <div class="col-3"></div>
+    </div>
+    <div class="row">
+      <div class="col-4"></div>
+      <div class="col-4 text-center">
+        <h4>You are logged out</h4>  <br>
+        <a class="btn btn-primary col-12" href="{% url 'login' %}">Log-in again</a>
+      </div>
+      <div class="col-4"></div>
+    </div>
+  </div>
+</div>
+
+{% endblock login %}
+
+{% block footer %}
+{% endblock footer %}

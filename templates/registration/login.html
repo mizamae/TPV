@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block login %}
+
+<div class="limiter mt-2">
+  <div class="container-login100">
+    <p>&nbsp;</p>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6 text-center">
+            <img src="{% static 'site/logos/CompanyLogoLoginout.svg' %}" /> 
+            <!-- <h1 class="display-1" style="color:#D6FB0F;">Let's go electric</h1> -->
+        </div>
+        <div class="col-3"></div>
+    </div>
+    <div class="row">
+      <div class="col-4"></div>
+      <div class="col-4">
+        <form method="POST" action="{% url 'login' %}">
+          {% csrf_token %}
+          {% if form.errors %}
+          <div class="alert alert-warning fade show" role="alert">
+              Your <strong>identifier</strong> did not match
+          </div>
+          {% endif %}
+          {% if messages %}
+          <div>
+              <ul class="messages">
+                  {% for message in messages %}
+                  <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
+                  {% endfor %}
+              </ul>
+          </div>
+          {% endif %}
+          <div class="form-group">
+            <label for="id_identifier">{% trans "Identifier" %}</label>
+            <input type="text" name="identifier" autocomplete="identifier" required class="form-control" id="id_identifier" aria-describedby="identifierHelp" placeholder="Enter your identifier">
+            <!-- <small id="identifierHelp" class="form-text text-muted">We'll never share your identifier with anyone else.</small> -->
+          </div>
+          <input type="hidden" name="next" value="{{ next }}">
+          <button type="submit" class="btn btn-primary col-12 mt-2">Log-in</button>
+          <script>
+            document.getElementById("id_identifier").focus();
+          </script>
+        </form>
+      </div>
+      <div class="col-4"></div>
+    </div>
+  </div>
+</div>
+
+{% endblock login %}
+
+{% block footer %}
+{% endblock footer %}

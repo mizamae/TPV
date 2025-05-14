@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block container %}
+
+<div class="row px-1">
+    <div class = "col-sm-1">
+        {% trans "NEW BILL" as header %}
+        {% with permission_OK=perms.ProductsAPP.add_billaccount link_to='create_bill' icon='ProductsAPP/newBill.svg'	%}
+        {% include "_app_card.html" %}
+        {% endwith %}
+    </div>
+    
+</div>
+
+<br>
+
+{% if todays_bills %}
+<div class='row px-5'> 
+    <div class='col-3'> 
+        <p class="h4">{% trans "Today's bills" %}</p>
+    </div>
+    <div class='col-3'> 
+        <p class="h4">{% trans "Today's income " %} {{ todays_income }} €</p>
+    </div>
+</div>
+
+<div class='row px-5'> 
+{% with rows=todays_bills model='bill' %}
+{% include "ProductsAPP/_list.html" %}
+{% endwith %}
+</div>
+{% endif %}
+
+{% endblock %}
