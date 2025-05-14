@@ -1,0 +1,22 @@
+{% load i18n %}
+{% load static %}
+
+{% if model == 'bill' %}
+<table class="table" id="{{ model }}_table">
+    <thead>
+        <tr>
+            <th scope="col">{% trans "Code" %}</th>
+            <th scope="col">{% trans "Date and time" %}</th>
+            <th scope="col">{% trans "Total" %}</th>
+            <th scope="col">{% trans "Customer" %}</th>
+            <th scope="col">{% trans "Positions" %}</th>
+            <th scope="col">{% trans "Information" %}</th>
+        </tr>
+    </thead>
+    <tbody>	
+        {% for row in rows %}
+        {% include "ProductsAPP/_bill.html" %}
+        {% endfor %}
+    </tbody>    
+</table>
+{% endif %}

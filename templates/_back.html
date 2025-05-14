@@ -1,0 +1,13 @@
+{% load i18n %}
+{% load static %}
+
+{% if back_params %}
+<a class="btn btn-toggle btn-block active p-0"  href="{% url back_to back_params %}" role="button" aria-pressed="true">
+{% else %}
+<a class="btn btn-toggle btn-block active p-0"  href="{% url back_to %}" role="button" aria-pressed="true">
+{% endif %}
+	<h6 style="text-align: center;">{% trans "VOLVER" %}</h6>
+	<div class="col-12 no-gutters">
+		<img class="img-fluid w-100"  src="{% static 'site/img/arrow_back_ios_new_FILL0_wght400_GRAD0_opsz48.svg' %}" alt="back">
+	</div>
+</a>

@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block navbar-center %}
+<div class="row">
+	{% if bill.owner %}
+	<div class="col-12">
+		<h4 class="text-center">{% trans " Bill " %} {{ bill.code }}  {% trans " of customer " %} {{ bill.owner }}
+		{% if bill.owner.saves_paper %}
+		<a class="btn bg-transparent" data-toggle="tooltip" data-bs-placement="top" title="Customer prefers electronic receipts" >
+		<img src="{% static 'site/ico/GreenLeaf.svg' %}" style="max-width:50px;" /> 
+		</a>
+		{% endif%}
+		</h4>
+	</div>
+	{% else %}
+	<div class="col-7">
+		<h4 class="text-center">{% trans " Assign customer to bill "  %}{{ bill.code }}</h4>
+	</div>
+	<div class="col-3">
+		<form action="{% url 'assign_customer' code=bill.code %}" method="post">
+				{% csrf_token %}
+				{{ findCustomerForm.data }}
+				<input type="submit" hidden />
+		</form>
+	</div>
+	<div class="col-2">
+	</div>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block container %}
+
+<div class="row flex-nowrap">
+	<div class="col-9">
+		<div class="d-flex">
+			<div class="nav flex-column w-15 nav-pills me-3" id="v-pills-tab2" role="tablist" aria-orientation="vertical">
+				{% for tab in productfamilies_tabs %}
+				<a class="nav-link {% if tab.active %} active {% endif %}" id="v-pills-products{{ tab.id }}-tab" data-bs-toggle="pill" data-bs-target="#v-pills-products{{ tab.id }}" type="button" role="tab" aria-controls="v-pills-products{{ tab.id }}" aria-selected="{% if tab.active %} true {% else %} false {% endif %} ">
+					{{ tab.name }}
+				</a>
+				{% endfor %}
+			</div>
+			<div class="tab-content" id="v-pills-tabContent2">
+				{% for tab in productfamilies_tabs %}
+				<div class="tab-pane fade show {% if tab.active %} active {% endif %}" id="v-pills-products{{ tab.id }}" role="tabpanel" aria-labelledby="v-pills-products{{ tab.id }}-tab">
+					<div class="card-group">
+						{% for product in tab.items|slice:"0:6" %}	
+						{% include "ProductsAPP/_product_card.html" %}			
+						{% endfor %}
+					</div>
+					<div class="card-group">
+						{% for product in tab.items|slice:"6:11" %}	
+						{% include "ProductsAPP/_product_card.html" %}			
+						{% endfor %}
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+		{% comment %} <div class="col py-3">
+			{% if show_back_button %}
+				<div class="col-1">
+					{% include "_back.html" with back_to=back_to %}
+				</div>
+			{% endif %}
+            <h3>{{ legend }}</h3>
+			<div class="container">
+				{%  for cat in categories  %}
+					{% if forloop.counter0|divisibleby:6 %} 
+					<div class="row text-center"> 
+					{%  endif %}
+						{% if cat.pvp %}
+						<div class="col-md-2" type="submit" name="upvote" onclick='location.href="{% url 'append_to_bill' bill.code cat.id %}";'  style="cursor: pointer;">
+						{% else %}
+						<div class="col-md-2" onclick='location.href="{% url 'view_family' bill.code cat.id %}";'  style="cursor: pointer;">
+						{% endif %}
+							<div class="card" style="height: 30vh;">
+								{% if cat.picture %}<img src="{{ cat.picture.url }}" alt="" style="height: 20vh;">{% endif %}
+								<div class="card-content" style="height: 10vh;">
+									<br>
+									<hr>
+									<h4>{{ cat.name }}</h4>
+									<p class="text-end">{% if cat.stock %}{{ cat.stock|floatformat:1 }}{% endif %}</p>
+									<br>
+									
+								</div><!-- card content -->
+							</div><!-- card -->
+						</div><!-- col-md-4 -->
+					{%  if forloop.counter|divisibleby:6 or forloop.last %}
+					</div><!-- row closing -->
+					<hr>
+					{%  endif %}
+				{%  endfor %}
+			 </div><!-- container -->
+        </div> {% endcomment %}
+	<div class="col-3 px-sm-2 px-0 bg-dark">
+		<div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+			<div class='col-12'>
+				<form action="{% url 'append_barcode_to_bill' code=bill.code %}" method="post">
+						{% csrf_token %}
+						{{ barcode2BillForm|crispy }}
+						<input type="submit" hidden />
+				</form>
+			</div>
+			<script>
+				document.getElementById("id_barcode").focus();
+			</script>
+			<table class="table table-dark" id="bill_table">
+				<thead>
+					<tr>
+						<th scope="col">{% trans "Uds" %}</th>
+						<th scope="col">{% trans "Producto" %}</th>
+						<th scope="col">{% trans "Coste" %}</th>
+						<th scope="col">{% trans "Subtotal" %}</th>
+						<th scope="col">{% trans "X" %}</th>
+					</tr>
+				</thead>
+				<tbody>	
+					{% for row in bill.bill_positions %}
+					<tr> 
+						<td>{{ row.quantity }}</td>
+						<td>{{ row.product }}</td>
+						<td>{{ row.product.pvp }} €</td>
+						<td>{{ row.getsubtotal }} €</td>
+						<td>
+							<a type="button" class="btn btn-primary col-12" href={% url 'reduce_bill_position' id=row.id %}>
+								-
+							</a>
+						</td>
+					</tr>
+					{% endfor %}
+					<tr> 
+						<td colspan=3><h4>{% trans "TOTAL" %}</h4></td>
+						<td scope="col"><h4>{{ bill.getPVP }} €</h4></td>
+					</tr>
+					<tr>
+						<a type="button" class="btn btn-success col-12" href={% url 'resume_bill' code=bill.code %} >
+							<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-credit-card" viewBox="0 0 16 16">
+								<path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+								<path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+								</svg>
+							<span class="h4 text-white">{% trans " Cerrar cuenta" %}</span>
+						</a>
+					</tr>
+				</tbody>    
+			</table>
+		</div>
+	</div>
+</div>
+
+{% endblock container %}
+
+{% block scripts %}
+
+{% endblock scripts %}

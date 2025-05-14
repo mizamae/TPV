@@ -1,0 +1,39 @@
+{% load i18n %}
+{% load static %}
+
+<div class="card" style="width: 20rem;">
+    <div class="card-header">
+        <p class="h4 text-center">{{ product.name }}</p>
+    </div>
+
+    <a href="{% url 'append_to_bill' bill.code product.id %}" title = "{{ product.name }}">
+    <img src={% if product.picture %}"{{ product.picture.url }}"{% endif %} class="card-img-top" role="button" 
+            alt="{{ product.name }}" style="background-color:rgb(214, 214, 214) ;" 
+            onclick='location.href="{% url 'append_to_bill' bill.code product.id %}";'  style="cursor: pointer;">
+    </a>
+
+    <div class="card-body" style="background-color: rgb(237, 237, 237);">
+        <h5 class="card-title">{% trans "Details" %}</h5>
+        <p class="card-text">
+            {{ product.details }}
+        </p>
+    </div>
+    <div class="card-footer" style="background-color:rgb(214, 214, 214) ;">
+        <div class='row'>
+            <div class='col-6'>
+                <h6 class="card-title text-center">{% trans "PVP" %}</h5>
+            </div>
+            <div class='col-6'>
+                <h6 class="card-title">{{ product.pvp }}€</h5>
+            </div>  
+        </div>
+        <div class='row'>
+            <div class='col-6'>
+                <h6 class="card-title text-center">{% trans "Stock" %}</h5>
+            </div>
+            <div class='col-6'>
+                <h6 class="card-title">{{ product.stock }}</h5>
+            </div>  
+        </div>
+    </div>
+</div>
