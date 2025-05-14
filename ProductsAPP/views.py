@@ -13,7 +13,7 @@ from UsersAPP.models import Customer
 @login_required(login_url="login")
 def add_bill(request):
     bill=BillAccount.create(createdBy=request.user)
-    return redirect('edit_bill',code=bill.code,tab=0)
+    return redirect('MaterialsAPP_edit_bill',code=bill.code,tab=0)
 
 @login_required(login_url="login")
 def edit_bill(request,code,tab=None):
@@ -51,7 +51,7 @@ def assign_customer(request,code):
             else:
                 messages.info(request, _("No customer found "))
                     
-    return redirect('edit_bill',code=bill.code,tab=0)
+    return redirect('MaterialsAPP_edit_bill',code=bill.code,tab=0)
 
 @login_required(login_url="login")
 def append_barcode_to_bill(request,code):
@@ -62,11 +62,11 @@ def append_barcode_to_bill(request,code):
             barcode = form.cleaned_data['barcode']
             try:
                 product=Product.objects.get(barcode=barcode)
-                return redirect('append_to_bill',code=bill.code,id=product.id)
+                return redirect('MaterialsAPP_append_to_bill',code=bill.code,id=product.id)
             except:
                 pass            
     messages.error(request, _("The barcode introduced is not registered"))
-    return redirect('edit_bill',code = bill.code,tab=0) 
+    return redirect('MaterialsAPP_edit_bill',code = bill.code,tab=0) 
 
 @login_required(login_url="login")
 def append_to_bill(request,code,id):
@@ -74,14 +74,14 @@ def append_to_bill(request,code,id):
     product=Product.objects.get(id=id)
     bill.add_bill_position(product=product,quantity=1)
 
-    return redirect('edit_bill',code=bill.code,tab=product.family.id)
+    return redirect('MaterialsAPP_edit_bill',code=bill.code,tab=product.family.id)
 
 @login_required(login_url="login")
 def reduce_bill_position(request,id):
     bill_pos=BillPosition.objects.get(id=id)
     family=bill_pos.product.family
     bill_pos.reduce_quantity(quantity=1)
-    return redirect('edit_bill',code=bill_pos.bill.code,tab=family.id)
+    return redirect('MaterialsAPP_edit_bill',code=bill_pos.bill.code,tab=family.id)
 
 @login_required(login_url="login")
 def resume_bill(request,code):
@@ -102,7 +102,7 @@ def close_bill(request,code):
                 bill.delete()
         else:
             messages.error(request, _("The payment method should be defined"))
-            return redirect('resume_bill',code = bill.code)
+            return redirect('MaterialsAPP_resume_bill',code = bill.code)
 
     return redirect('home')
 
@@ -111,21 +111,6 @@ def delete_bill(request,code):
     bill=BillAccount.objects.get(code=code)
     bill.delete()
     return redirect('home')
-
-@login_required(login_url="login")
-def view_family(request,code,id):
-    bill=BillAccount.objects.get(code=code)
-    family=ProductFamily.objects.get(id=id)
-    products = Product.objects.filter(family=family)
-    return render(request, 'bill.html',{'bill' : bill,
-                                        'categories':products,
-                                        'legend':str(family),
-                                        'show_back_button':True,
-                                        'back_to':'edit_bill',
-                                        'back_params':bill.code,
-                                        "findCustomerForm":findCustomerForm(),
-                                        "barcode2BillForm":barcode2BillForm(),
-                                        })
 
 
 # Create your views here.

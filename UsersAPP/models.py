@@ -9,11 +9,11 @@ from .managers import CustomUserManager
 import uuid
 
 class Customer(models.Model):
-    first_name = models.CharField(_("Name"), max_length=150, blank=True)
+    first_name = models.CharField(_("Name"), max_length=150)
     last_name = models.CharField(_("Surname"), max_length=150, blank=True)
     email = models.EmailField(_("Email address"), blank=True)
     phone = models.CharField(_("Phone number"),max_length=15, blank=True)
-    cif = models.CharField(_("Tax number"),max_length=15, blank=True, null=True, unique=True)
+    cif = models.CharField(_("Tax number"),max_length=15, unique=True)
     saves_paper = models.BooleanField(
         _("Electronic receipt"),
         default=False,
