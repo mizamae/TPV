@@ -10,6 +10,7 @@ from django.db.models import Q
 User=get_user_model()
 
 from ProductsAPP.models import BillAccount
+from .forms import reportForm
 
 def home(request):
     now = datetime.datetime.now()
@@ -21,3 +22,19 @@ def home(request):
 
     return render(request, 'home.html',{'todays_bills':todays_bills,
                                         'todays_income':todays_income})
+
+def reports_home(request):
+    if request.method == "POST":
+        form=reportForm(request.POST)
+        if form.is_valid():
+            report={}
+            report['type'] = form.cleaned_data['_type']
+            report['to'] = form.cleaned_data['_to'] if form.cleaned_data['_to'] else datetime.datetime.today().date()
+            report['from'] = form.cleaned_data['_from'] if form.cleaned_data['_from'] else report['to']-datetime.timedelta(days=365)
+            
+    else:
+        form=reportForm()
+
+    return render(request, 'form.html', {'form': form,
+                                        'title':_("View report"),
+                                        'back_to':'home',})

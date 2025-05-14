@@ -94,6 +94,7 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'crispy_forms',
     "crispy_bootstrap5",
+    "bootstrap_datepicker_plus",
 
     'UsersAPP',
     'ProductsAPP'

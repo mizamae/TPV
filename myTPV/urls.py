@@ -24,6 +24,8 @@ from . import views
 urlpatterns = [
     path("", views.home , name="home"),
 
+    path("reports/", views.reports_home , name="MyTPV_reports_home"),
+
     #path("accounts/", include("django.contrib.auth.urls")),
     path('users/', include('UsersAPP.urls')),
     path("products/", include("ProductsAPP.urls")),
