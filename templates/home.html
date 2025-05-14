@@ -4,14 +4,31 @@
 
 {% block container %}
 
-<div class="row px-1">
+<div class="row px-5">
     <div class = "col-sm-1">
         {% trans "NEW BILL" as header %}
-        {% with permission_OK=perms.ProductsAPP.add_billaccount link_to='create_bill' icon='ProductsAPP/newBill.svg'	%}
+        {% with permission_OK=perms.ProductsAPP.add_billaccount link_to='MaterialsAPP_create_bill' icon='ProductsAPP/newBill.svg'	%}
         {% include "_app_card.html" %}
         {% endwith %}
     </div>
-    
+    <div class = "col-sm-1">
+        {% trans "NEW CUSTOMER" as header %}
+        {% with permission_OK=perms.UsersAPP.add_customer link_to='UsersAPP_create_customer' icon='UsersAPP/newCustomer.svg'	%}
+        {% include "_app_card.html" %}
+        {% endwith %}
+    </div>
+    <div class = "col-sm-1">
+        {% trans "STOCK" as header %}
+        {% with permission_OK=perms.ProductsAPP.edit_stock link_to='MaterialsAPP_check_stocks' icon='ProductsAPP/stock.svg'	%}
+        {% include "_app_card.html" %}
+        {% endwith %}
+    </div>
+    <div class = "col-sm-1">
+        {% trans "PRICES" as header %}
+        {% with permission_OK=perms.ProductsAPP.edit_prices link_to='MaterialsAPP_check_products' icon='ProductsAPP/products.svg'	%}
+        {% include "_app_card.html" %}
+        {% endwith %}
+    </div>
 </div>
 
 <br>

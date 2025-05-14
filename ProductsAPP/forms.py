@@ -60,7 +60,7 @@ class paymentMethodsForm(forms.ModelForm):
         buttons=FormActions(
                         Div(
                         Column(Submit('submit', _('Close the bill'),css_class="btn btn-primary col-12"),css_class="col-9"),
-                        Column(HTML('<a href="{% url "edit_bill" "'+str(self.instance.code)+'" 0 %}" class="btn btn-secondary col-12">'+str(_('Cancel'))+'</a>'),css_class="col-3"),
+                        Column(HTML('<a href="{% url "MaterialsAPP_edit_bill" "'+str(self.instance.code)+'" 0 %}" class="btn btn-secondary col-12">'+str(_('Cancel'))+'</a>'),css_class="col-3"),
                         css_class="row")
                     )
         
