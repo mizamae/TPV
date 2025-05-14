@@ -29,6 +29,12 @@
         {% include "_app_card.html" %}
         {% endwith %}
     </div>
+    <div class = "col-sm-1">
+        {% trans "REPORTS" as header %}
+        {% with permission_OK=perms.ProductsAPP.view_reports link_to='MyTPV_reports_home' icon='site/ico/reports.svg'	%}
+        {% include "_app_card.html" %}
+        {% endwith %}
+    </div>
 </div>
 
 <br>
@@ -37,6 +43,9 @@
 <div class='row px-5'> 
     <div class='col-3'> 
         <p class="h4">{% trans "Today's bills" %}</p>
+    </div>
+    <div class='col-6'> 
+
     </div>
     <div class='col-3'> 
         <p class="h4">{% trans "Today's income " %} {{ todays_income }} €</p>
