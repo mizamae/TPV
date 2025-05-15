@@ -30,6 +30,7 @@ urlpatterns = [
     path('users/', include('UsersAPP.urls')),
     path("products/", include("ProductsAPP.urls")),
     path('admin/', admin.site.urls),
+    path('django_plotly_dash/', include('django_plotly_dash.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load tz %}
+{% load custom_tags %}
+
+{% block container %}
+{{ message }}
+{% for figure in figures %}
+<div class="row px-5 py-2">	
+    <div class="col-9">		
+        {% if figure %}
+        <h4 class='text-center'>{{ titles|get_at_index:forloop.counter0 }}</h4>
+        {{ figure|safe }}
+        {% endif %}
+    </div>
+</div>
+{% empty %}
+<div class="row px-5 py-2">	
+    <div class="alerts alert-warning text-center"><h5>Sorry, no figures found.<h5></div>
+</div>
+{% endfor %}
+{% endblock container %}

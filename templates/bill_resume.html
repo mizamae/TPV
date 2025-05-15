@@ -39,12 +39,11 @@
 								</tr>
 							</thead>
 							<tbody>
-							{% if bill.status != bill.STATUS_PAID %}
-								{% for row in bill.bill_positions %}
+								{% for row in bill.bill_positions.all %}
 								<tr> 
 									<td>{{ row.quantity }}</td>
 									<td>{{ row.product }}</td>
-									<td>{{ row.product.pvp }} €</td>
+									<td>{{ row.pvp }} €</td>
 									<td>{{ row.getsubtotal }} €</td>
 								</tr>
 								{% endfor %}
@@ -52,37 +51,7 @@
 									<td colspan=3><h4>{% trans "TOTAL" %}</h4></td>
 									<td scope="col"><h4>{{ bill.getPVP }} €</h4></td>
 								</tr>
-							{% else %}
-								
-								{% for key,value in bill.invoice.items %}
-									{% if key == "positions" %}
-										{% for line in value %}
-										<tr> 
-											{% for key2,value2 in line.items %}
-												{% if key2 == 'pvp' or key2 == 'subtotal' %}
-												<td>{{ value2 }} €</td>
-												{% else %}
-												<td>{{ value2 }}</td>
-												{% endif %}
-											{% endfor %}
-										</tr>
-										{% endfor %}
-									{% endif %}
-								{% endfor %}
-								
-								<tr> 
-									<td colspan=3><h4>{% trans "TOTAL" %}</h4></td>
-									{% if bill.status != bill.STATUS_PAID %}
-									<td scope="col"><h4>{{ bill.getPVP }} €</h4></td>
-									{% else %}
-									{% for key,value in bill.invoice.items %}
-										{% if key == "total" %}
-										<td scope="col"><h4>{{ value }} €</h4></td>
-										{% endif %}
-									{% endfor %}
-									{% endif %}
-								</tr>
-							{% endif %}
+							
 							</tbody>    
 						</table>
 					</div>

@@ -9,11 +9,12 @@ from bootstrap_datepicker_plus.widgets import DatePickerInput
 FORMS_LABEL_CLASS='col'
 FORMS_FIELD_CLASS='col'
 
-REPORT_TYPE_TOTAL_SALES=0
-REPORT_TYPE_SALES_PER_PRODUCTS=1
+REPORT_TYPE_SALES=0
+REPORT_TYPE_PRODUCTS=1
+
 REPORT_CHOICES =(
-    (REPORT_TYPE_TOTAL_SALES, _("Gross sales")),
-    (REPORT_TYPE_SALES_PER_PRODUCTS, _("Sales per product")),
+    (REPORT_TYPE_SALES, _("Sales report")),
+    (REPORT_TYPE_PRODUCTS, _("Products report")),
 )
 
 class reportForm(forms.Form):
@@ -56,3 +57,6 @@ class reportForm(forms.Form):
                                     Field('_to',type=''),
                                     buttons,
                                 )
+        
+    def clean__type(self,):
+        return int(self.cleaned_data['_type'])

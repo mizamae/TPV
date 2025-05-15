@@ -7,6 +7,8 @@ from django.conf import settings
 from django.contrib import admin
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
+import datetime
+from .tasks import send_email
 
 import os
 FILE_DIR = os.path.join(settings.MEDIA_ROOT)
@@ -88,6 +90,21 @@ class Consumible(models.Model):
             quantities[pos.product.id]=pos.quantity
         return {'products':products,'quantities':quantities}
     
+    def get_monthly_consumption(self,month,year):
+        consumption=0
+        info = self.getProductsWhereUsed()
+        startDate = datetime.date(year=year,month=month,day=1)
+        if month<=11:
+            endDate = datetime.date(year=year,month=month+1,day=1)
+        else:
+            endDate = datetime.date(year=year+1,month=1,day=1)
+        
+        positions = BillPosition.objects.filter(bill__createdOn__gte=startDate,bill__createdOn__lte=endDate,product__in=info['products'])
+        for pos in positions:
+            factor = info['quantities'][pos.product.id]
+            consumption+=pos.quantity*factor
+        return round(consumption,2)
+    
     @staticmethod
     def get_stock_value():
         cons = Consumible.objects.filter(infinite=False)
@@ -101,7 +118,7 @@ class Consumible(models.Model):
         cost=0
         consumibles = Consumible.objects.all()
         for cons in consumibles:
-            cost += Consumible.get_monthly_consumption(instance=cons,month=month,year=year)*cons.cost
+            cost += cons.get_monthly_consumption(month=month,year=year)*cons.cost
         return cost
     
     @staticmethod
@@ -109,18 +126,10 @@ class Consumible(models.Model):
         ingress=0
         consumibles = Consumible.objects.all()
         for cons in consumibles:
-            ingress += Consumible.get_monthly_consumption(instance=cons,month=month,year=year)*cons.pvp
+            ingress += cons.get_monthly_consumption(month=month,year=year)*cons.pvp
         return ingress
 
-    @staticmethod
-    def get_monthly_consumption(instance,month,year):
-        consumption=0
-        info = instance.getProductsWhereUsed()
-        positions = BillPosition.objects.filter(bill__date__month=month,bill__date__year=year,product__in=info['products'])
-        for pos in positions:
-            factor = info['quantities'][pos.product.id]
-            consumption+=pos.quantity*factor
-        return round(consumption,2)
+    
 
 class Product(models.Model):
     class Meta:
@@ -182,7 +191,7 @@ class Product(models.Model):
         stock_value = 1e6
         for comp in self.Ingredients:
             stock_value = min(stock_value,comp.ingredient.stock/comp.quantity)
-        return stock_value
+        return round(stock_value)
 
     def reduce_stock(self,quantity):
         for comp in self.Ingredients:
@@ -243,7 +252,7 @@ class BillAccount(models.Model):
     code = models.CharField(max_length=20,editable=False)
     owner = models.ForeignKey(settings.CUSTOMER_MODEL,on_delete=models.SET_NULL,null=True,blank=True,related_name='owner',editable = True)
     createdBy = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,null=True,blank=True,related_name='createdBy',editable = False)
-    date = models.DateTimeField(verbose_name=_("Fecha y hora"),auto_now_add=True)
+    createdOn = models.DateTimeField(verbose_name=_("Fecha y hora"),auto_now_add=True)
 
     status = models.PositiveSmallIntegerField(verbose_name=_("Estado"),default=STATUS_OPEN,editable = True,choices=STATUS_TYPES)
 
@@ -251,7 +260,7 @@ class BillAccount(models.Model):
 
     paymenttype = models.PositiveSmallIntegerField(verbose_name=_("Payment"),blank=False,null=True,choices=PAYMENT_TYPES)
 
-    invoice = models.JSONField(blank=True,null=True)
+    total = models.FloatField(verbose_name=_("Total cost"),help_text=_("Total cost of the invoice"),blank=True,null=True)
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -263,7 +272,7 @@ class BillAccount(models.Model):
         create = self.id is None
         if create:
             date = timezone.now()
-            number = BillAccount.objects.filter(date__year = date.year).count()
+            number = BillAccount.objects.filter(createdOn__date__year = date.year).count()
             self.code = str(date.year) + "-" + str(number+1)
         super(BillAccount,self).save(*args,**kwargs)
     
@@ -281,13 +290,13 @@ class BillAccount(models.Model):
 
     def close(self):
         if self.paymenttype is not None:
-            self.invoice = self.toJSON()
+            self.total = self.getPVP()
             self.status = BillAccount.STATUS_PAID
-            self.save(update_fields=['status','invoice'])
+            self.save(update_fields=['status','total'])
 
     def toJSON(self):
         value = {'total':self.getPVP(),'positions':[]}
-        for component in self.bill_positions():
+        for component in self.bill_positions.all():
             value['positions'].append({'quantity':component.quantity,'product':str(component.product),
                                        'pvp':component.product.pvp(),'subtotal':component.quantity*component.product.pvp()})
         return value
@@ -295,12 +304,8 @@ class BillAccount(models.Model):
     @admin.display(description=_("P.V.P."))
     def getPVP(self,):
         pvp=0
-        if self.status != BillAccount.STATUS_PAID:
-            for component in self.bill_positions():
-                pvp+=component.quantity*component.product.pvp()
-        else:
-            for line in self.invoice['positions']:
-                pvp+=line['quantity']*line['pvp']
+        for component in self.bill_positions.all():
+            pvp+=component.quantity*component.product.pvp()
         return round(pvp,2)
     
     @staticmethod
@@ -312,10 +317,11 @@ class BillAccount(models.Model):
         
 class BillPosition(models.Model):
     position = models.SmallIntegerField(verbose_name=_("Posicion"),null=True,blank=True,editable = True)
-    bill = models.ForeignKey(BillAccount, on_delete=models.CASCADE, related_name='bill')
+    bill = models.ForeignKey(BillAccount, on_delete=models.CASCADE, related_name='bill_positions')
     quantity = models.PositiveSmallIntegerField(default=1,verbose_name=_("Cantidad"))
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product')
-    
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='bill_positions')
+    pvp = models.FloatField(verbose_name=_("Precio de venta"),help_text=_("Precio de venta de una unidad"),blank=True,null=True)
+
     class Meta:
         unique_together = ['bill','product']
     
@@ -325,6 +331,7 @@ class BillPosition(models.Model):
     def save(self, *args, **kwargs):
         if self.id is None:
             self.position = self.getNextPosition()
+            self.pvp = self.product.pvp()
         return super(BillPosition, self).save(*args, **kwargs)
     
     def reduce_quantity(self, quantity):
@@ -342,4 +349,4 @@ class BillPosition(models.Model):
         return BillPosition.objects.filter(bill=self.bill).count()+1
     
     def getsubtotal(self):
-        return round(self.quantity * self.product.pvp(),2)
+        return round(self.quantity * self.pvp,2)
