@@ -4,7 +4,24 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
+        {
+            "name": "Celery Workers",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "celery",
+            "console": "integratedTerminal",
+            "envFile": "${workspaceFolder}/.venv",
+            "args": ["-A", "myTPV","worker" , "-l", "info","--pool","solo"]
+        },
+        {
+            "name": "Celery Beat",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "celery",
+            "console": "integratedTerminal",
+            "envFile": "${workspaceFolder}/.venv",
+            "args": ["-A", "myTPV","beat" , "-l", "info"]
+        },
         {
             "name": "Run Django",
             "type": "debugpy",
@@ -39,5 +56,12 @@
             "autoStartBrowser": false,
             "program": "${workspaceFolder}\\manage.py"
         }
-    ]
+    ],
+    "compounds": [
+        {
+          "name": "Run Django+Celery+Beat",
+          "configurations": ["Run Django","Celery Workers", "Celery Beat"],
+          "stopAll": true
+        }
+      ]
 }

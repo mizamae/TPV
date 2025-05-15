@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from os.path import dirname, join, exists
+from os import mkdir
 
 import environ
 # Use 12factor inspired environment variables or from a file
@@ -50,9 +51,10 @@ CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1',]
 
 # EMAIL CONFIGURATION
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_BACKEND = 'utils.googleGmail.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = env('EMAIL_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_PASSW')
+EMAIL_HOST_PASSWORD = env('EMAIL_PASSW',cast=str)
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
@@ -92,10 +94,12 @@ INSTALLED_APPS = [
 
     "django_celery_results",
     'django_celery_beat',
+    'django_plotly_dash.apps.DjangoPlotlyDashConfig',
     'crispy_forms',
     "crispy_bootstrap5",
     "bootstrap_datepicker_plus",
 
+    'myTPV',
     'UsersAPP',
     'ProductsAPP'
 ]
@@ -108,6 +112,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_plotly_dash.middleware.BaseMiddleware',
 ]
 
 ROOT_URLCONF = 'myTPV.urls'
@@ -177,9 +182,79 @@ STATIC_ROOT = join(BASE_DIR.parent,'static')
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+
+    'django_plotly_dash.finders.DashAssetFinder',
+    'django_plotly_dash.finders.DashComponentFinder',
+    'django_plotly_dash.finders.DashAppDirectoryFinder',
+]
+
+PLOTLY_COMPONENTS = [
+
+    # Common components (ie within dash itself) are automatically added
+
+    # django-plotly-dash components
+    'dpd_components',
 ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+import logging.config
+# Log everything to the logs directory at the top
+LOGFILE_ROOT = join(BASE_DIR,  'logs') #'/home/pi/MyHome/logs'
+if not exists(LOGFILE_ROOT):
+    mkdir(LOGFILE_ROOT)
+
+# Reset logging
+# (see http://www.caktusgroup.com/blog/2015/01/27/Django-Logging-Configuration-logging_config-default-settings-logger/)
+
+LOGGING_CONFIG = None
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': "[%(asctime)s] %(levelname)s [%(pathname)s:%(lineno)s] %(message)s",
+            'datefmt': "%d/%b/%Y %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'django_log_file': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': join(LOGFILE_ROOT, 'django.log'),
+            'maxBytes': 1024 * 1024,
+            'backupCount': 1,
+            'formatter': 'verbose'
+        },
+        'celery_log_file':{
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': join(LOGFILE_ROOT, 'celery.log'),
+            'formatter': 'verbose',
+            'maxBytes': 100000,  # 1 mb
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['django_log_file'],
+            'propagate': False,
+            'level': 'DEBUG',
+        },
+        "celery": {
+            'handlers': ['celery_log_file'],
+            'level': 'INFO',
+        },
+    }
+}
+
+logging.config.dictConfig(LOGGING)

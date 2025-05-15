@@ -96,7 +96,7 @@ def close_bill(request,code):
         paymentForm = paymentMethodsForm(request.POST,instance=bill)
         if paymentForm.is_valid():
             paymentForm.save()
-            if bill.bill_positions().count() > 0:
+            if bill.bill_positions.all().count() > 0:
                 bill.close()
             else:
                 bill.delete()

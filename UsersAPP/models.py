@@ -125,7 +125,15 @@ class User(AbstractBaseUser,PermissionsMixin):
     def getType(self) -> str:
         return self.get_type_display()
     
-
+    @staticmethod
+    def getStaffEmails():
+        staff = User.objects.filter(is_staff=True)
+        recipients=[]
+        for user in staff:
+            if user.email:
+                recipients.append(user.email)
+        return recipients
+    
     @classmethod
     def loadDefaultObjects(cls):
         import json

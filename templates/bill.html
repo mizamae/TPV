@@ -86,7 +86,7 @@
 					</tr>
 				</thead>
 				<tbody>	
-					{% for row in bill.bill_positions %}
+					{% for row in bill.bill_positions.all %}
 					<tr> 
 						<td>{{ row.quantity }}</td>
 						<td>{{ row.product }}</td>

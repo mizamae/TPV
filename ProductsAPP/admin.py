@@ -44,8 +44,8 @@ class PRODUCTAdmin(admin.ModelAdmin):
 admin.site.register(Product, PRODUCTAdmin)
 
 class BILLACCOUNT_Admin(admin.ModelAdmin):
-    list_display = ("date","code","owner","get_status_display")
-    ordering = ('date',)
+    list_display = ("createdOn","code","owner","get_status_display")
+    ordering = ('createdOn',)
     
 admin.site.register(BillAccount, BILLACCOUNT_Admin)
 
