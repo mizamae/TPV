@@ -1,9 +1,9 @@
 {% load i18n %}
 {% load static %}
 
-<div class="card" style="max-width: 15rem;">
+<div class="card" style="max-width: 16rem;width: 16rem;">
     <div class="card-header">
-        <p class="h4 text-center">{{ product.name }}</p>
+        <p class="h6 text-center">{{ product.name }}</p>
     </div>
 
     <a href="{% url 'MaterialsAPP_append_to_bill' bill.code product.id %}" title = "{{ product.name }}">
@@ -34,6 +34,16 @@
             <div class='col-6'>
                 <h6 class="card-title">{{ product.stock }}</h5>
             </div>  
+        </div>
+        <div class='row'>
+            {% if product.discount %}
+            <div class='col-6 alerts alert-success'>
+                <h6 class="card-title text-center">{% trans "Discount" %}</h5>
+            </div>
+            <div class='col-6 alerts alert-success'>
+                <h6 class="card-title">{{ product.discount }}</h5>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

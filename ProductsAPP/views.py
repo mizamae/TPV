@@ -3,7 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.conf import settings
 from django.utils.translation import gettext as _
+from django.urls import reverse
+from django.http import HttpResponse
 
+import json
 from .models import BillAccount, Product, ProductFamily, BillPosition, Consumible
 from .forms import paymentMethodsForm, StockFormSet, ProductFormSet, barcode2BillForm
 
@@ -16,7 +19,7 @@ def add_bill(request):
     return redirect('MaterialsAPP_edit_bill',code=bill.code,tab=0)
 
 @login_required(login_url="login")
-def edit_bill(request,code,tab=None):
+def edit_bill(request,code,tab=None,billPos=None):
     bill=BillAccount.objects.get(code=code)
     productFamilies=ProductFamily.objects.all()
     productfamilies_tabs=[]
@@ -24,6 +27,12 @@ def edit_bill(request,code,tab=None):
         tab=0
     else:
         tab=int(tab)
+    
+    if billPos is None or billPos == 'None':
+        billPos=None
+    else:
+        billPos=BillPosition.objects.get(id=int(billPos))
+
     for i,_type in enumerate(productFamilies):
         productfamilies_tabs.append({'name':_type.name,'id':_type.id,'active':i==tab,'items':Product.objects.filter(family=_type).order_by("name")})
 
@@ -34,7 +43,9 @@ def edit_bill(request,code,tab=None):
                                         'legend':"Categorías",
                                         "findCustomerForm":findCustomerForm(),
                                         "barcode2BillForm":barcode2BillForm(),
+                                        "billPos":billPos
                                         })
+
 
 @login_required(login_url="login")
 def assign_customer(request,code):
@@ -72,9 +83,9 @@ def append_barcode_to_bill(request,code):
 def append_to_bill(request,code,id):
     bill=BillAccount.objects.get(code=code)
     product=Product.objects.get(id=id)
-    bill.add_bill_position(product=product,quantity=1)
+    billPos=bill.add_bill_position(product=product,quantity=1)
 
-    return redirect('MaterialsAPP_edit_bill',code=bill.code,tab=product.family.id)
+    return redirect('MaterialsAPP_edit_billPos',code=bill.code,tab=product.family.id,billPos=billPos.id)
 
 @login_required(login_url="login")
 def reduce_bill_position(request,id):
@@ -112,6 +123,16 @@ def delete_bill(request,code):
     bill.delete()
     return redirect('home')
 
+def setMultiplier_billPosition(request,id):
+    ''' This is an AJAX request, return data for the request to proceed '''
+    if request.method == 'POST':
+        value = json.loads(request.body.decode())['value']
+        billPosition = BillPosition.objects.get(id=id)
+        billPosition.increase_quantity(quantity=value-1)
+        response={'url':reverse('MaterialsAPP_edit_bill',kwargs={'code':billPosition.bill.code,'tab':billPosition.product.family.id})}
+    else:
+        response=None
+    return HttpResponse(json.dumps(response), content_type='application/json')
 
 # Create your views here.
 @login_required(login_url="login")

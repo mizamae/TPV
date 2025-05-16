@@ -201,7 +201,6 @@ class Product(models.Model):
         for comp in self.Ingredients:
             comp.ingredient.increment_stock(quantity = quantity*comp.quantity )
 
-    
 
 class ProductDiscount(models.Model):
     PERCENTAGE_VALIDATOR = [MinValueValidator(0), MaxValueValidator(100)]
@@ -287,6 +286,7 @@ class BillAccount(models.Model):
             instance.quantity+=quantity
         product.reduce_stock(quantity=quantity)
         instance.save()
+        return instance
 
     def close(self):
         if self.paymenttype is not None:
@@ -333,6 +333,10 @@ class BillPosition(models.Model):
             self.position = self.getNextPosition()
             self.pvp = self.product.pvp()
         return super(BillPosition, self).save(*args, **kwargs)
+    
+    def increase_quantity(self,quantity):
+        self.update(quantity=self.quantity+quantity)
+        self.product.reduce_stock(quantity=quantity)
     
     def reduce_quantity(self, quantity):
         self.update(quantity=self.quantity-quantity)
