@@ -34,8 +34,10 @@ def edit_bill(request,code,tab=None,billPos=None):
         billPos=BillPosition.objects.get(id=int(billPos))
 
     for i,_type in enumerate(productFamilies):
-        productfamilies_tabs.append({'name':_type.name,'id':_type.id,'active':i==tab,'items':Product.objects.filter(family=_type).order_by("name")})
+        productfamilies_tabs.append({'name':_type.name,'id':_type.id,'active':_type.id==tab,'items':Product.objects.filter(family=_type).order_by("name")})
 
+    if tab==0:
+        productfamilies_tabs[0]['active']=True
 
     return render(request, 'bill.html',{'bill' : bill,
                                         #'categories':non_emptyFamilies,
