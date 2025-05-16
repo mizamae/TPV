@@ -114,6 +114,85 @@
 					</tr>
 				</tbody>    
 			</table>
+			
+			{% if billPos %}
+			<br>
+			<br>
+			<h5>{{ billPos.product.name }}</h5>
+			<table class="table table-dark text-center" id="multiplier_table" style="width:100%">
+				<tbody>	
+					<tr style="height:75px"> 
+						<td class='h3' colspan=3><span id="BillPosTotalQuantity"><span></td>
+					</tr>
+					<tr style="height:75px"> 
+						<td class='h3' onclick="appendDigit(7);" style="cursor: pointer;">7</td>
+						<td class='h3' onclick="appendDigit(8);" style="cursor: pointer;">8</td>
+						<td class='h3' onclick="appendDigit(9);" style="cursor: pointer;">9</td>
+					</tr>
+					<tr style="height:75px"> 
+						<td class='h3' onclick="appendDigit(4);" style="cursor: pointer;">4</td>
+						<td class='h3' onclick="appendDigit(5);" style="cursor: pointer;">5</td>
+						<td class='h3' onclick="appendDigit(6);" style="cursor: pointer;">6</td>
+					</tr>
+					<tr style="height:75px"> 
+						<td class='h3' onclick="appendDigit(1);" style="cursor: pointer;">1</td>
+						<td class='h3' onclick="appendDigit(2);" style="cursor: pointer;">2</td>
+						<td class='h3' onclick="appendDigit(3);" style="cursor: pointer;">3</td>
+					</tr>
+					<tr style="height:75px"> 
+						<td class='h3' onclick="correctLast();" style="cursor: pointer;"><<</td>
+						<td class='h3' colspan=2 onclick="setMultiplier();" style="cursor: pointer;">Set Value</td>
+					</tr>
+				</tbody>    
+			</table>
+			<script>
+				$.ajaxSetup({ 
+					beforeSend: function(xhr, settings) {
+						function getCookie(name) {
+							var cookieValue = null;
+							if (document.cookie && document.cookie != '') {
+								var cookies = document.cookie.split(';');
+								for (var i = 0; i < cookies.length; i++) {
+									var cookie = jQuery.trim(cookies[i]);
+									// Does this cookie string begin with the name we want?
+									if (cookie.substring(0, name.length + 1) == (name + '=')) {
+										cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+										break;
+									}
+								}
+							}
+							return cookieValue;
+						}
+						xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+					} 
+				});
+
+				let value = document.getElementById("BillPosTotalQuantity");
+
+				function correctLast(){
+					if (value.textContent.length > 1){value.textContent = value.textContent.substring(0, value.textContent.length - 1);}
+					else {value.textContent = '';}
+				}
+				function appendDigit(digit){
+					value.textContent+=digit;
+				}
+				function setMultiplier(){
+					$.ajax({
+								url: "{% url 'ProductsAPP_billPosition_setMultiplier' id=billPos.id %}",
+								type: "POST",
+								dataType: 'json',
+								contentType: 'application/json',
+								data: JSON.stringify({"value": parseInt(value.textContent) })
+							}).done(function( data ) {
+								if ( data ) {
+									let url = data['url'];
+									window.location.href=url;
+								}
+								//
+							});
+				}
+			</script>
+			{% endif %}
 		</div>
 	</div>
 </div>
