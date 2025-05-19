@@ -6,6 +6,8 @@ from crispy_forms.bootstrap import FormActions,InlineRadios
 from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Column, Field
 from bootstrap_datepicker_plus.widgets import DatePickerInput
 
+from .models import SiteSettings
+
 FORMS_LABEL_CLASS='col'
 FORMS_FIELD_CLASS='col'
 
@@ -60,3 +62,45 @@ class reportForm(forms.Form):
         
     def clean__type(self,):
         return int(self.cleaned_data['_type'])
+    
+class siteSettingsForm(forms.ModelForm):
+
+    class Meta:
+        model = SiteSettings
+        exclude = []
+
+    def __init__(self, *args, **kwargs):
+        super(siteSettingsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.use_custom_control = True
+        self.helper.label_class = FORMS_LABEL_CLASS
+        self.helper.field_class = FORMS_FIELD_CLASS
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_method = 'post'
+        self.helper.form_show_labels = True
+        
+        for field in self.fields:
+            help_text = self.fields[field].help_text
+            self.fields[field].help_text = None
+            if help_text != '':
+                self.fields[field].widget.attrs.update({'class':'form-control','data-toggle':'tooltip' ,'title':help_text, 'data-bs-placement':'right', 'data-bs-container':'body'})
+            else:
+                self.fields[field].widget.attrs.update({'class':'form-control'})
+        
+        buttons=FormActions(
+                        Div(
+                        Column(Submit('submit', _('Save'),css_class="btn btn-primary col-12"),css_class="col-9"),
+                        Column(HTML('<a href="{% url "home"  %}" class="btn btn-secondary col-12">'+str(_('Cancel'))+'</a>'),css_class="col-3"),
+                        css_class="row")
+                    )
+        
+        self.helper.layout = Layout(
+                                    Field('SHOP_NAME',type=''),
+                                    Field('VERSION_AUTO_UPDATE',type=''),
+                                    Field('VERSION_CODE',type=''),
+                                    Field('LAN_IP',type=''),
+                                    Field('SEC2LOGOUT',type=''),
+                                    Field('VAT',type=''),
+
+                                )
+        self.helper.layout.append(buttons)

@@ -25,6 +25,7 @@ urlpatterns = [
     path("", views.home , name="home"),
 
     path("reports/", views.reports_home , name="MyTPV_reports_home"),
+    path("sitesettings/", views.siteSettings , name="MyTPV_sitesettings"),
 
     #path("accounts/", include("django.contrib.auth.urls")),
     path('users/', include('UsersAPP.urls')),

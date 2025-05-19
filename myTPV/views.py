@@ -11,7 +11,8 @@ from django.db.models import Q
 User=get_user_model()
 
 from ProductsAPP.models import BillAccount
-from .forms import reportForm, REPORT_TYPE_SALES, REPORT_TYPE_PRODUCTS
+from .forms import reportForm, REPORT_TYPE_SALES, REPORT_TYPE_PRODUCTS, siteSettingsForm
+from .models import SiteSettings
 
 def home(request):
     now = datetime.datetime.now()
@@ -36,12 +37,26 @@ def reports_home(request):
             if report['type']==REPORT_TYPE_SALES:
                 from ProductsAPP.reports import SalesReport
                 titles,figures = SalesReport(_from=report['from'],_to=report['to'])
-
-                return render(request, 'reportWithFigs.html', {'titles':titles,'figures':figures })
+                heading = _("Sales report") 
+            elif report['type']==REPORT_TYPE_PRODUCTS:
+                from ProductsAPP.reports import ProductsReport
+                titles,figures = ProductsReport(_from=report['from'],_to=report['to'])
+                heading = _("Products report") 
+            return render(request, 'reportWithFigs.html', {'titles':titles,'figures':figures, 'heading':heading})
             
     else:
         form=reportForm()
 
     return render(request, 'form.html', {'form': form,
                                         'title':_("View report"),
+                                        'back_to':'home',})
+@login_required
+def siteSettings(request):
+    if request.method == "POST":
+        pass
+    else:
+        form=siteSettingsForm(instance = SiteSettings.load())
+
+    return render(request, 'form.html', {'form': form,
+                                        'title':_("Site settings"),
                                         'back_to':'home',})

@@ -275,8 +275,8 @@ class BillAccount(models.Model):
             self.code = str(date.year) + "-" + str(number+1)
         super(BillAccount,self).save(*args,**kwargs)
     
-    def bill_positions(self):
-        return BillPosition.objects.filter(bill=self).order_by("product__name")
+    # def bill_positions(self):
+    #     return BillPosition.objects.filter(bill=self).order_by("product__name")
     
     def add_bill_position(self,product,quantity=1):
         instance,created=BillPosition.objects.get_or_create(bill=self,product=product)
@@ -295,17 +295,17 @@ class BillAccount(models.Model):
             self.save(update_fields=['status','total'])
 
     def toJSON(self):
-        value = {'total':self.getPVP(),'positions':[]}
+        value = {'date':self.createdOn,'total':self.getPVP(),'positions':[]}
         for component in self.bill_positions.all():
             value['positions'].append({'quantity':component.quantity,'product':str(component.product),
-                                       'pvp':component.product.pvp(),'subtotal':component.quantity*component.product.pvp()})
+                                       'pvp':component.pvp,'subtotal':component.quantity*component.pvp})
         return value
 
     @admin.display(description=_("P.V.P."))
     def getPVP(self,):
         pvp=0
         for component in self.bill_positions.all():
-            pvp+=component.quantity*component.product.pvp()
+            pvp+=component.quantity*component.pvp
         return round(pvp,2)
     
     @staticmethod
@@ -316,11 +316,11 @@ class BillAccount(models.Model):
         return instance
         
 class BillPosition(models.Model):
-    position = models.SmallIntegerField(verbose_name=_("Posicion"),null=True,blank=True,editable = True)
+    position = models.SmallIntegerField(verbose_name=_("Position"),null=True,blank=True,editable = True)
     bill = models.ForeignKey(BillAccount, on_delete=models.CASCADE, related_name='bill_positions')
-    quantity = models.PositiveSmallIntegerField(default=1,verbose_name=_("Cantidad"))
+    quantity = models.PositiveSmallIntegerField(default=1,verbose_name=_("Quantity"))
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='bill_positions')
-    pvp = models.FloatField(verbose_name=_("Precio de venta"),help_text=_("Precio de venta de una unidad"),blank=True,null=True)
+    pvp = models.FloatField(verbose_name=_("Selling price"),help_text=_("Selling price at the moment of the operation"),blank=True,null=True)
 
     class Meta:
         unique_together = ['bill','product']

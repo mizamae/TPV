@@ -35,29 +35,23 @@ class SingletonModel(models.Model):
     
 class SiteSettings(SingletonModel):
     class Meta:
-        verbose_name = _('Configuración')
-        verbose_name_plural = _('Configuraciones')
+        verbose_name = _('Configuration')
+        verbose_name_plural = _('Configurations')
 
-    society_name = models.CharField(verbose_name=_('Nombre de la sociedad'),max_length=100,
-                                    help_text=_('Nombre de la sociedad'),default='Mi sociedad')
-    VERSION_AUTO_UPDATE=models.BooleanField(verbose_name=_('Actualización automática'),
-                                help_text=_('Actualizaciones automáticas'),default=False)
-    VERSION_CODE= models.CharField(verbose_name=_('Código de la versión actualmente instalada'),
+    SHOP_NAME = models.CharField(verbose_name=_('Name of the shop'),max_length=100,
+                                    help_text=_('The name of the shop'),default='My shop')
+    VERSION_AUTO_UPDATE=models.BooleanField(verbose_name=_('Automatic updates'),
+                                help_text=_('Allows to automatically update the software from official repository (requires internet access)'),default=False)
+    VERSION_CODE= models.CharField(verbose_name=_('Code of the current version'),
                                 max_length=10,default='',blank=True)
 
-    LAN_IP = models.GenericIPAddressField()
+    LAN_IP = models.GenericIPAddressField(blank=True, null=True)
 
-    SEC2LOGOUT = models.PositiveSmallIntegerField(verbose_name=_("Segundos de inactividad para logout"),default=0,
-                                                 help_text=_("Número de segundos tras los cuales, el usuario deberá loggearse de nuevo"))
+    SEC2LOGOUT = models.PositiveSmallIntegerField(verbose_name=_("Seconds to logout"),default=0,
+                                                 help_text=_("Seconds after when, the user would need to login again"))
     
-    def store2DB(self,update_fields=None):
-        try:
-            self.save(update_fields=update_fields)
-        except OperationalError:
-            logger.error("Operational error on Django. System restarted")
-            import os
-            os.system("sudo reboot")
-    
+    VAT = models.FloatField(verbose_name=_("VAT"),help_text=_("Percentage of the cost added as a tax"),default=21.0)
+
     @classmethod
     def runOnInit(cls):
         connected = cls.checkInternetConnection()
