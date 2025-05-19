@@ -40,7 +40,8 @@
           {% endif %}
           <div class="form-group">
             <label for="id_identifier">{% trans "Identifier" %}</label>
-            <input type="text" name="identifier" autocomplete="identifier" required class="form-control" id="id_identifier" aria-describedby="identifierHelp" placeholder="Enter your identifier">
+            <input type="password" name="identifier" autocomplete="identifier" 
+            required class="form-control" id="id_identifier" aria-describedby="identifierHelp" placeholder="Enter your identifier">
             <!-- <small id="identifierHelp" class="form-text text-muted">We'll never share your identifier with anyone else.</small> -->
           </div>
           <input type="hidden" name="next" value="{{ next }}">

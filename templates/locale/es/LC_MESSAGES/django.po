@@ -1,0 +1,169 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-19 17:52+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
+"1 : 2;\n"
+
+#: .\templates\_back.html:9
+msgid "Back"
+msgstr ""
+
+#: .\templates\base.html:96
+msgid "You are not logged in. Try logging in to start working..."
+msgstr "No estas logueado. Logueate antes de hacer nada..."
+
+#: .\templates\base.html:120
+msgid "Powered by "
+msgstr ""
+
+#: .\templates\bill.html:11 .\templates\bill_resume.html:8
+msgid " Bill "
+msgstr " Factura "
+
+#: .\templates\bill.html:11
+msgid " of customer "
+msgstr " del cliente "
+
+#: .\templates\bill.html:21
+msgid " Assign customer to bill "
+msgstr " Asignar cliente "
+
+#: .\templates\bill.html:81 .\templates\bill_resume.html:35
+msgid "Units"
+msgstr "Uds"
+
+#: .\templates\bill.html:82 .\templates\bill_resume.html:36
+#: .\templates\products.html:20
+msgid "Product"
+msgstr "Producto"
+
+#: .\templates\bill.html:83 .\templates\bill_resume.html:37
+msgid "Cost"
+msgstr "Precio"
+
+#: .\templates\bill.html:84 .\templates\bill_resume.html:38
+msgid "Subtotal"
+msgstr ""
+
+#: .\templates\bill.html:85
+msgid "X"
+msgstr ""
+
+#: .\templates\bill.html:103 .\templates\bill_resume.html:51
+msgid "TOTAL"
+msgstr ""
+
+#: .\templates\bill.html:112
+msgid " Close bill"
+msgstr " Cerrar cuenta"
+
+#: .\templates\bill.html:144
+msgid "Set Value"
+msgstr "Fijar Uds"
+
+#: .\templates\bill_resume.html:8
+msgid " from user "
+msgstr " del cliente "
+
+#: .\templates\bill_resume.html:63
+msgid "Details of the payment"
+msgstr "Detalles del pago"
+
+#: .\templates\bill_resume.html:96
+msgid " Exit"
+msgstr " Salir"
+
+#: .\templates\home.html:9
+msgid "NEW BILL"
+msgstr "NUEVA CUENTA"
+
+#: .\templates\home.html:15
+msgid "NEW CUSTOMER"
+msgstr "NUEVO CLIENTE"
+
+#: .\templates\home.html:21
+msgid "STOCK"
+msgstr ""
+
+#: .\templates\home.html:27
+msgid "PRICES"
+msgstr "PRECIOS"
+
+#: .\templates\home.html:33
+msgid "REPORTS"
+msgstr "INFORMES"
+
+#: .\templates\home.html:45
+msgid "Today's bills"
+msgstr "Cuentas de hoy"
+
+#: .\templates\home.html:51
+msgid "Today's income "
+msgstr "Ingreso de hoy"
+
+#: .\templates\products.html:8
+msgid "Products view"
+msgstr "Vista de producto"
+
+#: .\templates\products.html:21 .\templates\stock.html:22
+msgid "Sell price"
+msgstr "Precio de venta"
+
+#: .\templates\products.html:22
+msgid "Manual sell price"
+msgstr "Precio de venta manual"
+
+#: .\templates\products.html:23
+msgid "Active discount"
+msgstr "Descuento activo"
+
+#: .\templates\products.html:46 .\templates\stock.html:50
+msgid "Save"
+msgstr "Guardar"
+
+#: .\templates\registration\login.html:42
+msgid "Identifier"
+msgstr "Identificador"
+
+#: .\templates\registration\password_reset_confirm.html:26
+msgid "New password"
+msgstr "Nueva contraseña"
+
+#: .\templates\registration\password_reset_confirm.html:31
+msgid "New password confirmation"
+msgstr "Confirmacion de contraseña"
+
+#: .\templates\stock.html:8
+msgid "Stock view"
+msgstr "Vista de stock"
+
+#: .\templates\stock.html:20
+msgid "Consumable"
+msgstr "Consumible"
+
+#: .\templates\stock.html:21
+msgid "Unitary cost"
+msgstr "Coste unitario"
+
+#: .\templates\stock.html:23
+msgid "Units in stock"
+msgstr "Unidades en stock"
+
+#: .\templates\stock.html:57
+msgid "The total cost of the stock is "
+msgstr "El coste total del stock asciende a "

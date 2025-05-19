@@ -11,7 +11,7 @@ FORMS_LABEL_CLASS='col'
 FORMS_FIELD_CLASS='col'
 
 class findCustomerForm(forms.Form):
-    data=forms.CharField(required=True,help_text=_("Introduce ID, phone or email"))
+    data=forms.CharField(required=True,help_text=_("Enter ID, phone or email"))
 
     def __init__(self, *args, **kwargs):
         super(findCustomerForm, self).__init__(*args, **kwargs)

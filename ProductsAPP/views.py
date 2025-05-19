@@ -144,7 +144,7 @@ def check_stock(request):
         stock_formset = StockFormSet(request.POST,queryset=Consumible.objects.filter(infinite=False))
         if stock_formset.is_valid():
             stock_formset.save()
-            messages.success(request, _("El stock ha sido actualizado"))
+            messages.success(request, _("The stock has been updated"))
             return redirect('home')
         else:
             for error in list(stock_formset.errors.values()):
@@ -162,7 +162,7 @@ def check_products(request):
         product_formset = ProductFormSet(request.POST)
         if product_formset.is_valid():
             product_formset.save()
-            messages.success(request, _("Los productos han sido actualizados"))
+            messages.success(request, _("Product prices have been updated"))
             return redirect('home')
         else:
             for error in list(product_formset.errors.values()):

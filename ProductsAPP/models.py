@@ -69,8 +69,8 @@ class Consumible(models.Model):
                 recipients=User.getStaffEmails()
                 if recipients!=[]:
                     send_email.delay(
-                            subject=_('[STOCK_WARNING] Producto por debajo de stock de seguridad'),
-                            message=_('El consumible ' + str(self)+' ha alcanzado un nivel por debajo del mínimo de seguridad.\n Ahora se encuentra en un nivel de '+str(self.stock)),
+                            subject=_('[STOCK_WARNING] Product below the minimum stock level'),
+                            message=_('The consumable ' + str(self)+' has reached an stock level below its minimum.\n Now its stock is '+str(self.stock)),
                             from_email=settings.EMAIL_HOST_USER,
                             recipient_list=recipients)
                 
@@ -133,19 +133,19 @@ class Consumible(models.Model):
 
 class Product(models.Model):
     class Meta:
-        verbose_name = _('Producto vendible')
-        verbose_name_plural = _('Productos vendibles')
+        verbose_name = _('Sellable product')
+        verbose_name_plural = _('Sellable products')
 
-    picture = models.ImageField(verbose_name=_('Imagen del producto'),null=True,blank=True,storage=IMAGES_FILESYSTEM)
+    picture = models.ImageField(verbose_name=_('Image of the product'),null=True,blank=True,storage=IMAGES_FILESYSTEM)
     barcode = models.CharField(max_length=150, unique=True,verbose_name=_("Barcode"))
-    name = models.CharField(max_length=150, unique=True,verbose_name=_("Nombre del producto"))
+    name = models.CharField(max_length=150, unique=True,verbose_name=_("Name of the product"))
     details = models.TextField(_('Details'),blank=True,null=True)
     family = models.ForeignKey(ProductFamily, on_delete=models.CASCADE, related_name='family')    
 
-    single_ingredient = models.BooleanField(verbose_name=_("Es un producto de consumible"),default=False)
+    single_ingredient = models.BooleanField(verbose_name=_("Direct from consumable"),default=False)
     ingredients = models.ManyToManyField(Consumible,blank=True,through='CombinationPosition')
 
-    manual_pvp = models.FloatField(verbose_name=_("Precio de venta"),help_text=_("Precio de venta de una unidad"),blank=True,null=True)
+    manual_pvp = models.FloatField(verbose_name=_("Selling price"),help_text=_("Selling price of one unir"),blank=True,null=True)
 
     discount = models.ForeignKey('ProductDiscount', on_delete=models.SET_NULL, related_name='products_affected',blank=True,null=True)
 
@@ -164,14 +164,14 @@ class Product(models.Model):
     def Ingredients(self):
         return CombinationPosition.objects.filter(product=self)
     
-    @admin.display(description=_("Coste"))
+    @admin.display(description=_("Cost"))
     def cost(self,):
         cost=0
         for comp in self.Ingredients:
             cost+=comp.quantity*comp.ingredient.cost
         return round(cost,2)
     
-    @admin.display(description=_("P.V.P."))
+    @admin.display(description=_("Sell price"))
     def pvp(self,):
         if self.discount:
             factor = (100-self.discount.percent)/100
@@ -220,12 +220,12 @@ class ProductDiscount(models.Model):
 
 class CombinationPosition(models.Model):
     class Meta:
-        verbose_name = _('Combinación de consumible')
-        verbose_name_plural = _('Combinación de consumibles')
+        verbose_name = _('Combination of consumables')
+        verbose_name_plural = _('Combinations of consumables')
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='resultant_product')
-    quantity = models.FloatField(default=1,verbose_name=_("Cantidad"))
-    ingredient = models.ForeignKey(Consumible, on_delete=models.CASCADE, related_name='ingredient',verbose_name=_("Consumible"))
+    quantity = models.FloatField(default=1,verbose_name=_("Quantity"))
+    ingredient = models.ForeignKey(Consumible, on_delete=models.CASCADE, related_name='ingredient',verbose_name=_("Consumable"))
 
     def __str__(self) -> str:
         return str(self.ingredient)
@@ -251,9 +251,9 @@ class BillAccount(models.Model):
     code = models.CharField(max_length=20,editable=False)
     owner = models.ForeignKey(settings.CUSTOMER_MODEL,on_delete=models.SET_NULL,null=True,blank=True,related_name='owner',editable = True)
     createdBy = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,null=True,blank=True,related_name='createdBy',editable = False)
-    createdOn = models.DateTimeField(verbose_name=_("Fecha y hora"),auto_now_add=True)
+    createdOn = models.DateTimeField(verbose_name=_("Date and time"),auto_now_add=True)
 
-    status = models.PositiveSmallIntegerField(verbose_name=_("Estado"),default=STATUS_OPEN,editable = True,choices=STATUS_TYPES)
+    status = models.PositiveSmallIntegerField(verbose_name=_("Status"),default=STATUS_OPEN,editable = True,choices=STATUS_TYPES)
 
     positions = models.ManyToManyField(Product,blank=True,through='BillPosition',related_name="bill_lines")
 
@@ -265,7 +265,7 @@ class BillAccount(models.Model):
         super().__init__(*args, **kwargs)
 
     def __str__(self) -> str:
-        return self.code + _(" del usuario ")+ str(self.owner)
+        return self.code + _(" of customer ")+ str(self.owner)
     
     def save(self,*args,**kwargs):
         create = self.id is None
@@ -301,7 +301,7 @@ class BillAccount(models.Model):
                                        'pvp':component.pvp,'subtotal':component.quantity*component.pvp})
         return value
 
-    @admin.display(description=_("P.V.P."))
+    @admin.display(description=_("Sell price"))
     def getPVP(self,):
         pvp=0
         for component in self.bill_positions.all():

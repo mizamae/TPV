@@ -107,6 +107,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "django.middleware.locale.LocaleMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -162,6 +163,17 @@ CUSTOMER_MODEL = "UsersAPP.Customer"
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-uk'
+LANGUAGES = [
+    ('es', 'Castellano'),
+    ('en', 'English'),
+]
+
+LOCALE_PATHS = [ 
+        join(BASE_DIR, "myTPV/locale"), 
+        join(BASE_DIR, "ProductsAPP/locale"), 
+        join(BASE_DIR, "UsersAPP/locale"), 
+        join(BASE_DIR, "templates/locale"),
+    ]
 
 TIME_ZONE = env('TIME_ZONE',default="Europe/Madrid")
 

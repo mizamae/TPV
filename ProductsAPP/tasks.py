@@ -15,7 +15,7 @@ def send_email(subject,message,from_email,recipient_list):
     if "gmail" in settings.EMAIL_HOST:
         from utils.googleGmail import googleGmail_handler
         googleGmail_handler.sendMultipleEmails(subject=subject,attachments=None,recipients=recipient_list,html_content=message)
-        logger.info(_("Enviado email a " + str(recipient_list)))
+        logger.info("Email sent to " + str(recipient_list))
 
 @shared_task(bind=False,name='ProductsAPP_monthly_results')
 def monthly_results():
@@ -30,7 +30,7 @@ def monthly_results():
         month-=1
     
 
-    subject=_('[RESULTADOS_MENSUALES] Resultados del mes ' + str(month) + ' del año ' + str(year))
+    subject=_('[MONTHLY_RESULTS] Results of the month ' + str(month) + ' of ' + str(year))
     consumibles = Consumible.objects.all()
     
     total_ingress = Consumible.get_monthly_ingress(month,year)
@@ -47,7 +47,7 @@ def monthly_results():
     })
 
     recipients=User.getStaffEmails()
-    logger.info(_("Direcciones del personal staff " + str(recipients)))
+    logger.info("Direcciones del personal staff " + str(recipients))
 
     if recipients!=[]:
         send_email(subject,message,from_email=settings.EMAIL_HOST_USER,recipient_list=recipients)
@@ -58,7 +58,7 @@ def monthly_results():
 def check_stock_level():
     from .models import Consumible
     warning = []
-    message=_('Los siguientes consumibles se encuentran por debajo del mínimo definido:')
+    message=_('The following consumables are below its safety stock level:')
     consumibles = Consumible.objects.all()
 
     now=timezone.now().date()
@@ -69,18 +69,18 @@ def check_stock_level():
         monthly_consumption = Consumible.get_monthly_consumption(instance=consumible,month=month,year=year)
         if consumible.stock <= consumible.stock_min:
             warning.append(consumible.name)
-            message+='\n'+_('\t- ' + str(consumible)+' tiene un stock de '+str(consumible.stock))
+            message+='\n'+_('\t- ' + str(consumible)+' has a stock of '+str(consumible.stock))
     
     if warning !=[]:
         recipients=User.getStaffEmails()
-        logger.info(_("Direcciones del personal staff " + str(recipients)))
+        logger.info("Direcciones del personal staff " + str(recipients))
         logger.info(message)
         if recipients!=[]:
-            send_email(subject=_('[AVISO_STOCK] Listado de productos por debajo de stock de seguridad'),
+            send_email(subject=_('[STOCK_WARNING] List of the products with stock below its minimum'),
                     message=message,
                     from_email=settings.EMAIL_HOST_USER,
                     recipient_list=recipients)
     else:
-        logger.info(_("Comprobado niveles de stock y todo esta OK"))
+        logger.info("Comprobado niveles de stock y todo esta OK")
         
 

@@ -78,9 +78,9 @@
 			<table class="table table-dark" id="bill_table">
 				<thead>
 					<tr>
-						<th scope="col">{% trans "Uds" %}</th>
-						<th scope="col">{% trans "Producto" %}</th>
-						<th scope="col">{% trans "Coste" %}</th>
+						<th scope="col">{% trans "Units" %}</th>
+						<th scope="col">{% trans "Product" %}</th>
+						<th scope="col">{% trans "Cost" %}</th>
 						<th scope="col">{% trans "Subtotal" %}</th>
 						<th scope="col">{% trans "X" %}</th>
 					</tr>
@@ -109,7 +109,7 @@
 								<path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
 								<path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
 								</svg>
-							<span class="h4 text-white">{% trans " Cerrar cuenta" %}</span>
+							<span class="h4 text-white">{% trans " Close bill" %}</span>
 						</a>
 					</tr>
 				</tbody>    
@@ -141,7 +141,7 @@
 					</tr>
 					<tr style="height:75px"> 
 						<td class='h3' onclick="correctLast();" style="cursor: pointer;"><<</td>
-						<td class='h3' colspan=2 onclick="setMultiplier();" style="cursor: pointer;">Set Value</td>
+						<td class='h3' colspan=2 onclick="setMultiplier();" style="cursor: pointer;">{% trans "Set Value" %}</td>
 					</tr>
 				</tbody>    
 			</table>
