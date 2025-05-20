@@ -141,9 +141,9 @@ Esta información puede ayudar a definir niveles mínimos de stock, identificar 
 
 ## Contribuciones
 
-Las *pull requests* son bienvenidas. Para cambios importantes, abre primero un *issue* para discutir lo que te gustaría modificar.
+Los *pull requests* son bienvenidos. Para cambios importantes, abre primero un *issue* para discutir lo que te gustaría modificar.
 
-Por favor, asegúrate de actualizar los tests según corresponda.
+Por favor, asegúrate de actualizar los tests según corresponda (¡cuando los haya!).
 
 ## Licencia
 
