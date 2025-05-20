@@ -19,7 +19,7 @@ def ProductsReport(_from,_to):
         df['position_revenue'] = df['quantity']*(df['pvp']-df['product_cost'])
 
         # units sold figure
-        df_fig11 = df.groupby('product_name')['id'].count()
+        df_fig11 = df.groupby('product_name')['quantity'].sum()
         df_fig11 = df_fig11.rename('Units sold')
         df_fig11.sort_values(ascending=False,inplace=True)
 

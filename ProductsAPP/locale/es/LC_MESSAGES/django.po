@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-19 17:43+0200\n"
+"POT-Creation-Date: 2025-05-20 09:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,15 +19,41 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: .\ProductsAPP\forms.py:31
+#: .\ProductsAPP\forms.py:14 .\ProductsAPP\templates\ProductsAPP\_list.html:8
+msgid "Code"
+msgstr "Codigo"
+
+#: .\ProductsAPP\forms.py:15
+msgid "From"
+msgstr "Desde"
+
+#: .\ProductsAPP\forms.py:16
+msgid "To"
+msgstr "Hasta"
+
+#: .\ProductsAPP\forms.py:36
+msgid "Show"
+msgstr "Mostrar"
+
+#: .\ProductsAPP\forms.py:37
+msgid "Back"
+msgstr "Volver"
+
+#: .\ProductsAPP\forms.py:42
+#, fuzzy
+#| msgid "Enter/Scan a barcode"
+msgid "Enter bill code"
+msgstr "Introduce/Escanea un codigo de barras"
+
+#: .\ProductsAPP\forms.py:67
 msgid "Enter/Scan a barcode"
 msgstr "Introduce/Escanea un codigo de barras"
 
-#: .\ProductsAPP\forms.py:62
+#: .\ProductsAPP\forms.py:98
 msgid "Close the bill"
 msgstr "Cerrar la cuenta"
 
-#: .\ProductsAPP\forms.py:63
+#: .\ProductsAPP\forms.py:99
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -80,7 +106,7 @@ msgid "Cost of one unit"
 msgstr "El coste de una unidad"
 
 #: .\ProductsAPP\models.py:52 .\ProductsAPP\models.py:148
-#: .\ProductsAPP\models.py:323
+#: .\ProductsAPP\models.py:324
 msgid "Selling price"
 msgstr "Precio de venta"
 
@@ -94,8 +120,7 @@ msgstr "Cantidad minima de pedido"
 
 #: .\ProductsAPP\models.py:54
 msgid "Determines the minimum quantity that can be sourced from supplier"
-msgstr ""
-"Establece la cantidad minima de produco que se puede adquirir del proveedor"
+msgstr "Establece la cantidad minima de produco que se puede adquirir del proveedor"
 
 #: .\ProductsAPP\models.py:55
 msgid "Current stock"
@@ -143,7 +168,7 @@ msgstr "Numer de productos"
 
 #: .\ProductsAPP\models.py:141
 msgid "Name of the product"
-msgstr "Nombre delproducto"
+msgstr "Nombre del producto"
 
 #: .\ProductsAPP\models.py:142
 #: .\ProductsAPP\templates\ProductsAPP\_product_card.html:16
@@ -162,7 +187,7 @@ msgstr "Precio de venta de una unidad"
 msgid "Cost"
 msgstr "Coste"
 
-#: .\ProductsAPP\models.py:174 .\ProductsAPP\models.py:304
+#: .\ProductsAPP\models.py:174 .\ProductsAPP\models.py:305
 #: .\ProductsAPP\templates\ProductsAPP\_product_card.html:24
 msgid "Sell price"
 msgstr "Precio de venta"
@@ -181,67 +206,67 @@ msgstr "Combinacion de consumibles"
 
 #: .\ProductsAPP\models.py:224
 msgid "Combinations of consumables"
-msgstr "COmbinaciones de consumibles"
+msgstr "Combinaciones de consumibles"
 
-#: .\ProductsAPP\models.py:227 .\ProductsAPP\models.py:321
+#: .\ProductsAPP\models.py:227 .\ProductsAPP\models.py:322
 msgid "Quantity"
 msgstr "Cantidad"
 
-#: .\ProductsAPP\models.py:238
+#: .\ProductsAPP\models.py:239
 msgid "Open"
 msgstr "Abierto"
 
-#: .\ProductsAPP\models.py:239
+#: .\ProductsAPP\models.py:240
 msgid "Closed not Paid"
 msgstr "Cerrado sin cobro"
 
-#: .\ProductsAPP\models.py:240
+#: .\ProductsAPP\models.py:241
 msgid "Closed and Paid"
 msgstr "Cerrado y cobrado"
 
-#: .\ProductsAPP\models.py:247
+#: .\ProductsAPP\models.py:248
 msgid "On cash"
 msgstr "En efectivo"
 
-#: .\ProductsAPP\models.py:248
+#: .\ProductsAPP\models.py:249
 msgid "By credit card"
 msgstr "Con tarjeta de credito"
 
-#: .\ProductsAPP\models.py:254 .\ProductsAPP\templates\ProductsAPP\_list.html:9
+#: .\ProductsAPP\models.py:255 .\ProductsAPP\templates\ProductsAPP\_list.html:9
 msgid "Date and time"
 msgstr "Fecha y hora"
 
-#: .\ProductsAPP\models.py:256
+#: .\ProductsAPP\models.py:257
 msgid "Status"
 msgstr "Estado"
 
-#: .\ProductsAPP\models.py:260
+#: .\ProductsAPP\models.py:261
 msgid "Payment"
 msgstr "Pago"
 
-#: .\ProductsAPP\models.py:262
+#: .\ProductsAPP\models.py:263
 msgid "Total cost"
 msgstr "Coste total"
 
-#: .\ProductsAPP\models.py:262
+#: .\ProductsAPP\models.py:263
 msgid "Total cost of the invoice"
 msgstr "Importe total de la factura"
 
-#: .\ProductsAPP\models.py:268
+#: .\ProductsAPP\models.py:269
 msgid " of customer "
 msgstr " del cliente "
 
-#: .\ProductsAPP\models.py:319
+#: .\ProductsAPP\models.py:320
 msgid "Position"
 msgstr "Posicion"
 
-#: .\ProductsAPP\models.py:323
+#: .\ProductsAPP\models.py:324
 msgid "Selling price at the moment of the operation"
 msgstr "Precio de venta en el momento de la transaccion"
 
 #: .\ProductsAPP\reports.py:36
 msgid "Units sold per product"
-msgstr "Unidades vendidad por producto"
+msgstr "Unidades vendidas por producto"
 
 #: .\ProductsAPP\reports.py:52
 msgid "Total revenue per product"
@@ -261,7 +286,7 @@ msgstr "Por hora"
 
 #: .\ProductsAPP\tasks.py:33
 msgid "[MONTHLY_RESULTS] Results of the month "
-msgstr ""
+msgstr "[RESULTADOS MENSUALES] Rsultados del mes "
 
 #: .\ProductsAPP\tasks.py:61
 msgid "The following consumables are below its safety stock level:"
@@ -291,10 +316,6 @@ msgstr " Ver"
 msgid " Delete"
 msgstr " Borrar"
 
-#: .\ProductsAPP\templates\ProductsAPP\_list.html:8
-msgid "Code"
-msgstr "Codigo"
-
 #: .\ProductsAPP\templates\ProductsAPP\_list.html:10
 msgid "Total"
 msgstr ""
@@ -319,22 +340,26 @@ msgstr ""
 msgid "Discount"
 msgstr "Descuento"
 
-#: .\ProductsAPP\views.py:65
+#: .\ProductsAPP\views.py:67
 msgid "No customer found "
 msgstr "Cliente no encontrado"
 
-#: .\ProductsAPP\views.py:81
+#: .\ProductsAPP\views.py:83
 msgid "The barcode introduced is not registered"
 msgstr "Codigo de barras no registrado"
 
-#: .\ProductsAPP\views.py:117
+#: .\ProductsAPP\views.py:119
 msgid "The payment method should be defined"
 msgstr "El metodo de pago debe establecerse antes de cerrar"
 
-#: .\ProductsAPP\views.py:147
+#: .\ProductsAPP\views.py:149
 msgid "The stock has been updated"
 msgstr "El stock ha sido actualizado"
 
-#: .\ProductsAPP\views.py:165
+#: .\ProductsAPP\views.py:167
 msgid "Product prices have been updated"
 msgstr "Los precios de los productos han sido actualizados"
+
+#: .\ProductsAPP\views.py:196
+msgid "Historic"
+msgstr "Historico"

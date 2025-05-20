@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-19 17:52+0200\n"
+"POT-Creation-Date: 2025-05-20 09:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,13 +21,13 @@ msgstr ""
 
 #: .\templates\_back.html:9
 msgid "Back"
-msgstr ""
+msgstr "Volver"
 
-#: .\templates\base.html:96
+#: .\templates\base.html:119
 msgid "You are not logged in. Try logging in to start working..."
 msgstr "No estas logueado. Logueate antes de hacer nada..."
 
-#: .\templates\base.html:120
+#: .\templates\base.html:143
 msgid "Powered by "
 msgstr ""
 
@@ -88,6 +88,14 @@ msgstr "Detalles del pago"
 msgid " Exit"
 msgstr " Salir"
 
+#: .\templates\historicBills.html:10
+msgid " bills found"
+msgstr " facturas encontradas"
+
+#: .\templates\historicBills.html:22
+msgid "No bills found"
+msgstr "No se han encontrado facturas"
+
 #: .\templates\home.html:9
 msgid "NEW BILL"
 msgstr "NUEVA CUENTA"
@@ -108,11 +116,15 @@ msgstr "PRECIOS"
 msgid "REPORTS"
 msgstr "INFORMES"
 
-#: .\templates\home.html:45
+#: .\templates\home.html:39
+msgid "HISTORICS"
+msgstr "HISTORICO"
+
+#: .\templates\home.html:51
 msgid "Today's bills"
 msgstr "Cuentas de hoy"
 
-#: .\templates\home.html:51
+#: .\templates\home.html:57
 msgid "Today's income "
 msgstr "Ingreso de hoy"
 

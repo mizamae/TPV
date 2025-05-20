@@ -6,11 +6,13 @@
 
 {% block container %}
 {{ message }}
+
+<h3 class='text-center'>{{ heading }}</h3>
 {% for figure in figures %}
 <div class="row px-5 py-2">	
     <div class="col-1"></div>	
     <div class="col-10">
-        <h3 class='text-center'>{{ heading }}</h3>
+        
         {% if figure %}
         <h4>{{ titles|get_at_index:forloop.counter0 }}</h4>
         {{ figure|safe }}

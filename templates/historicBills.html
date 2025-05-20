@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block container %}
+
+{% if bills %}
+    <div class='row px-5'> 
+        <div class='col-3'> 
+            <p class="h4">{{ number }}{% trans " bills found" %}</p>
+        </div>
+    </div>
+
+    <div class='row px-5'> 
+    {% with rows=bills model='bill' %}
+    {% include "ProductsAPP/_list.html" %}
+    {% endwith %}
+    </div>
+{% else %}
+    <div class='row px-5'> 
+        <div class='col-3'> 
+            <p class="alerts alerts-info h4">{% trans "No bills found" %}</p>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}

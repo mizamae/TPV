@@ -89,7 +89,12 @@ class User(AbstractBaseUser,PermissionsMixin):
 
     class Meta:
         permissions=(
+            ("can_view_reports", _("Can view reports")),
+            ("can_see_historics", _("Can access historic bills")),
             ("can_edit_stock", _("Can manually modify stock values")),
+            ("can_edit_prices", _("Can manually modify prices")),
+            ("can_add_customer", _("Can create a new customer")),
+            ("can_add_billaccount", _("Can create a new bill"))
         )
 
     def __str__(self):

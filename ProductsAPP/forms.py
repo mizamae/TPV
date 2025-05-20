@@ -5,9 +5,45 @@ from .models import BillAccount, Consumible, Product
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import FormActions,InlineRadios
 from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Column, Field
+from bootstrap_datepicker_plus.widgets import DatePickerInput
 
 FORMS_LABEL_CLASS='col'
 FORMS_FIELD_CLASS='col'
+
+class billSearchForm(forms.Form):
+    code=forms.CharField(label=_("Code"),help_text="Code of the bill",required=False)
+    _from = forms.DateField(label=_("From"),help_text="Date of the initial data",required=False,disabled=False,widget=DatePickerInput(options={"format": "DD/MM/YYYY "}))
+    _to = forms.DateField(label=_("To"),help_text="Date of the final data",required=False,disabled=False,widget=DatePickerInput(options={"format": "DD/MM/YYYY "}))
+
+    def __init__(self, *args, **kwargs):
+        super(billSearchForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.label_class = 'col-3 h3'
+        self.helper.field_class = 'col-9'
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_method = 'post'
+        self.helper.form_show_labels = True
+        for field in self.fields:
+            help_text = self.fields[field].help_text
+            self.fields[field].help_text = None
+            if help_text != '':
+                self.fields[field].widget.attrs.update({'class':'form-control','data-toggle':'tooltip' ,'title':help_text, 'data-bs-placement':'right', 'data-bs-container':'body'})
+            else:
+                self.fields[field].widget.attrs.update({'class':'form-control'})
+
+        buttons=FormActions(
+                        Div(
+                        Column(Submit('submit', _('Show'),css_class="btn btn-primary col-12"),css_class="col-9"),
+                        Column(HTML('<a href="{% url "home" %}" class="btn btn-secondary col-12">'+str(_('Back'))+'</a>'),css_class="col-3"),
+                        css_class="row")
+                    )
+        
+        self.helper.layout = Layout(
+                                    Field('code',type='',id='id_code',placeholder=_('Enter bill code')),
+                                    Field('_from',type=''),
+                                    Field('_to',type=''),
+                                    buttons,
+        )
 
 class barcode2BillForm(forms.Form):
     barcode=forms.CharField(required=True)
@@ -144,7 +180,5 @@ class ProductInlineForm(forms.ModelForm):
                                     Field('manual_pvp',type='text'),
                                     Field('discount',type=''),
                                 )
-
-    
 
 ProductFormSet = forms.modelformset_factory(Product,form=ProductInlineForm,fields = ["name","manual_pvp","discount"],extra=0,can_delete=False,edit_only=True,)

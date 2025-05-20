@@ -5,11 +5,13 @@ from django.conf import settings
 from django.utils.translation import gettext as _
 from django.urls import reverse
 from django.http import HttpResponse
+from django.db.models import Sum, Count
 
 import json
 from .models import BillAccount, Product, ProductFamily, BillPosition, Consumible
-from .forms import paymentMethodsForm, StockFormSet, ProductFormSet, barcode2BillForm
+from .forms import paymentMethodsForm, StockFormSet, ProductFormSet, barcode2BillForm, billSearchForm
 
+import datetime
 from UsersAPP.forms import findCustomerForm
 from UsersAPP.models import Customer
 
@@ -170,3 +172,26 @@ def check_products(request):
 
     product_formset = ProductFormSet()
     return render(request, 'products.html', {'product_formset': product_formset,})
+
+@login_required(login_url="login")
+def historics_home(request):
+    if request.method == "POST":
+        form=billSearchForm(request.POST)
+        if form.is_valid():
+            info={}
+            info['code'] = form.cleaned_data['code']
+            info['to'] = form.cleaned_data['_to'] if form.cleaned_data['_to'] else datetime.datetime.today().date()+datetime.timedelta(days=1)
+            info['from'] = form.cleaned_data['_from'] if form.cleaned_data['_from'] else info['to']-datetime.timedelta(days=365)
+            if info['code']:
+                bills = BillAccount.objects.filter(code=info['code']).annotate(order_positions = Count('positions'))
+            else:
+                bills = BillAccount.objects.filter(createdOn__gt=info['from'],createdOn__lt=info['to']).annotate(order_positions = Count('positions'))
+            
+            return render(request, 'historicBills.html', {'bills':bills,'number':bills.count()})
+            
+    else:
+        form=billSearchForm()
+
+    return render(request, 'form.html', {'form': form,
+                                        'title':_("Historic"),
+                                        'back_to':'home',})

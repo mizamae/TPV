@@ -231,6 +231,7 @@ class CombinationPosition(models.Model):
         return str(self.ingredient)
 
 class BillAccount(models.Model):
+
     STATUS_OPEN=0
     STATUS_CLOSED=1
     STATUS_PAID=2

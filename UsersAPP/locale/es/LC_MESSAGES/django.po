@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-19 17:54+0200\n"
+"POT-Creation-Date: 2025-05-20 09:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,7 +75,7 @@ msgstr "Cajero"
 msgid "Manager"
 msgstr ""
 
-#: .\UsersAPP\models.py:57 .\UsersAPP\models.py:124
+#: .\UsersAPP\models.py:57 .\UsersAPP\models.py:129
 msgid "Type"
 msgstr "Tipo"
 
@@ -118,14 +118,34 @@ msgid "date joined"
 msgstr ""
 
 #: .\UsersAPP\models.py:92
+msgid "Can view reports"
+msgstr "Puede ver informes"
+
+#: .\UsersAPP\models.py:93
+msgid "Can access historic bills"
+msgstr "Puede acceder a los historicos"
+
+#: .\UsersAPP\models.py:94
 msgid "Can manually modify stock values"
 msgstr "Puede modificar los niveles de stock"
 
-#: .\UsersAPP\models.py:103 .\UsersAPP\models.py:105
+#: .\UsersAPP\models.py:95
+msgid "Can manually modify prices"
+msgstr "Puede modificar los precios"
+
+#: .\UsersAPP\models.py:96
+msgid "Can create a new customer"
+msgstr "Puede crear nuevo cliente"
+
+#: .\UsersAPP\models.py:97
+msgid "Can create a new bill"
+msgstr "Puede crear nueva factura"
+
+#: .\UsersAPP\models.py:108 .\UsersAPP\models.py:110
 msgid "Missing name of the user"
 msgstr "Falta el nombre del usuario"
 
-#: .\UsersAPP\models.py:110
+#: .\UsersAPP\models.py:115
 msgid "Profiles"
 msgstr "Perfiles"
 
