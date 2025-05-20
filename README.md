@@ -6,10 +6,9 @@ Tiny TPV is distributed in the hope that it will be useful, but WITHOUT ANY WARR
 
 You should have received a copy of the GNU General Public License along with Tiny TPV. If not, see <https://www.gnu.org/licenses/>. -->
 
+# Tiny TPV
 [![en](https://img.shields.io/badge/lang-en-red.svg)](README.md)
 [![es](https://img.shields.io/badge/lang-es-yellow.svg)](README.es.md)
-
-# Tiny TPV
 
 Tiny TPV is a fully featured application that can be used in physical commerces as a payment terminal.
 Among its current available features are:
