@@ -40,6 +40,7 @@ class PRODUCTAdmin(admin.ModelAdmin):
     list_display = ("name","family","pvp","cost","stock")
     ordering = ('name',)
     inlines = (IngredientInline,)
+    exclude = ('single_ingredient',)
 
 admin.site.register(Product, PRODUCTAdmin)
 

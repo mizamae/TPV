@@ -132,7 +132,7 @@ def setMultiplier_billPosition(request,id):
     if request.method == 'POST':
         value = json.loads(request.body.decode())['value']
         billPosition = BillPosition.objects.get(id=id)
-        billPosition.increase_quantity(quantity=value-1)
+        billPosition.set_quantity(quantity=value)
         response={'url':reverse('MaterialsAPP_edit_bill',kwargs={'code':billPosition.bill.code,'tab':billPosition.product.family.id})}
     else:
         response=None

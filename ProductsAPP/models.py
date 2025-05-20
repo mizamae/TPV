@@ -58,9 +58,15 @@ class Consumible(models.Model):
                                                  help_text=_("Quantity in stock that will require a new purchase order"))
     generates_product = models.BooleanField(verbose_name=_("Can be directly sold"),default=False)
     infinite = models.BooleanField(verbose_name=_("Infinite consumable"),default=False)
+    
     def __str__(self) -> str:
         return self.name
     
+    def clean(self):
+        from django.core.exceptions import ValidationError  
+        if self.generates_product and not self.barcode:
+            raise ValidationError({'barcode':(_('A barcode is required if consumable is to be sold directly'))})
+
     def reduce_stock(self,quantity):
         if not self.infinite:
             self.stock -= quantity
@@ -145,7 +151,7 @@ class Product(models.Model):
     single_ingredient = models.BooleanField(verbose_name=_("Direct from consumable"),default=False)
     ingredients = models.ManyToManyField(Consumible,blank=True,through='CombinationPosition')
 
-    manual_pvp = models.FloatField(verbose_name=_("Selling price"),help_text=_("Selling price of one unir"),blank=True,null=True)
+    manual_pvp = models.FloatField(verbose_name=_("Override selling price"),help_text=_("Override automatic selling price of one unit"),blank=True,null=True)
 
     discount = models.ForeignKey('ProductDiscount', on_delete=models.SET_NULL, related_name='products_affected',blank=True,null=True)
 
@@ -157,6 +163,7 @@ class Product(models.Model):
         if self.manual_pvp and self.manual_pvp <=0:
             self.manual_pvp=None
         return super().save(**kwargs)
+        
     def __str__(self) -> str:
         return self.name
     
@@ -335,6 +342,13 @@ class BillPosition(models.Model):
             self.pvp = self.product.pvp()
         return super(BillPosition, self).save(*args, **kwargs)
     
+    def set_quantity(self,quantity):
+        if quantity > self.quantity:
+            self.product.reduce_stock(quantity=quantity-self.quantity)
+        else:
+            self.product.increase_stock(quantity=self.quantity-quantity)
+        self.update(quantity=quantity)
+
     def increase_quantity(self,quantity):
         self.update(quantity=self.quantity+quantity)
         self.product.reduce_stock(quantity=quantity)

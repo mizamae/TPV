@@ -15,32 +15,32 @@
     <div class="card-body" style="background-color: rgb(237, 237, 237);">
         <h5 class="card-title">{% trans "Details" %}</h5>
         <p class="card-text">
-            {{ product.details }}
+            {{ product.details|linebreaks }}
         </p>
     </div>
     <div class="card-footer" style="background-color:rgb(214, 214, 214) ;">
         <div class='row'>
-            <div class='col-6'>
+            <div class='col-7'>
                 <h6 class="card-title text-center">{% trans "Sell price" %}</h5>
             </div>
-            <div class='col-6'>
+            <div class='col-5'>
                 <h6 class="card-title">{{ product.pvp }}€</h5>
             </div>  
         </div>
         <div class='row'>
-            <div class='col-6'>
+            <div class='col-7'>
                 <h6 class="card-title text-center">{% trans "Stock" %}</h5>
             </div>
-            <div class='col-6'>
+            <div class='col-5'>
                 <h6 class="card-title">{{ product.stock }}</h5>
             </div>  
         </div>
         <div class='row'>
             {% if product.discount %}
-            <div class='col-6 alerts alert-success'>
+            <div class='col-7 alerts alert-success'>
                 <h6 class="card-title text-center">{% trans "Discount" %}</h5>
             </div>
-            <div class='col-6 alerts alert-success'>
+            <div class='col-5 alerts alert-success'>
                 <h6 class="card-title">{{ product.discount }}</h5>
             </div>
             {% endif %}
