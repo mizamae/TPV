@@ -6,6 +6,9 @@ Tiny TPV is distributed in the hope that it will be useful, but WITHOUT ANY WARR
 
 You should have received a copy of the GNU General Public License along with Tiny TPV. If not, see <https://www.gnu.org/licenses/>. -->
 
+[![en](https://img.shields.io/badge/lang-en-red.svg)](README.md)
+[![es](https://img.shields.io/badge/lang-es-yellow.svg)](README.es.md)
+
 # Tiny TPV
 
 Tiny TPV is a fully featured application that can be used in physical commerces as a payment terminal.
@@ -126,11 +129,27 @@ Once the bill is confirmed, the home page is again shown. Now all the bills exec
 When several bills have been introduced, or better of, several days have passed while introducing bills; some rich information can be extracted
 from the database in a visual form.
 
-|![sales report 1](/assets/images/per_day.png)|![sales report 2](/assets/images/per_weekday.png)|![sales report 3](/assets/images/per_hour.png)|
+For example, information about the number of bills (operations) or the total income can be gathered in a per day basis,
 
-or on a per product's base
+![sales report 1](/assets/images/per_day.png)
 
-|![product report 1](/assets/images/per_product_units_sold.png)|![product report 2](/assets/images/per_product_revenue.png)|
+or on a per week-day basis,
+
+![sales report 2](/assets/images/per_weekday.png)
+
+or even on a per-hour
+
+![sales report 3](/assets/images/per_hour.png)|
+
+This information can be helpful in defining the shop's more active days or hours. 
+
+Additionally, information on a per product's base can also be yielded such as the number of items sold of each product or the total benefit from 
+each of the product.
+
+![product report 1](/assets/images/per_product_units_sold.png)
+![product report 2](/assets/images/per_product_revenue.png)|
+
+This information can be helpful in determining minimum stock levels, real money-making products or those not very profitable.
 
 ## Contributing
 
