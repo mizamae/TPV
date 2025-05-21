@@ -24,6 +24,13 @@ env_file = join(dirname(__file__), 'local.env')
 if exists(env_file):
     environ.Env.read_env(str(env_file))
 
+COMMERCE_DATA = {'name':"Pattas S.L.",
+                'address1':"Avda Gipuzkoa 4",
+                'address2':'31187 Tolosa',
+                'cif':"97245623",
+                'phone':"944525656",
+                'web':'www.pattas.es'}
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 GIT_PATH = BASE_DIR

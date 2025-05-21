@@ -6,7 +6,7 @@ from django.utils.translation import gettext as _
 from django.urls import reverse
 from django.http import HttpResponse
 from django.db.models import Sum, Count
-
+import os
 import json
 from .models import BillAccount, Product, ProductFamily, BillPosition, Consumible
 from .forms import paymentMethodsForm, StockFormSet, ProductFormSet, barcode2BillForm, billSearchForm
@@ -108,6 +108,20 @@ def resume_bill(request,code):
     bill=BillAccount.objects.get(code=code)
     paymentForm = paymentMethodsForm(instance=bill)
     return render(request, 'bill_resume.html',{'bill' : bill,'paymentForm':paymentForm})
+
+@login_required(login_url="login")
+def print_bill(request,code):
+    bill=BillAccount.objects.get(code=code)
+    billData = bill.toJSON()
+    from utils.pdfConverter import PrintedBill
+    bill = PrintedBill(billData=billData,commerceData=settings.COMMERCE_DATA)
+    filename = billData["code"]+".pdf"
+    with open(filename, "wb") as binary_file:
+        binary_file.write(bill.pdf)
+    response = HttpResponse(open(filename, "rb"),content_type='application/force-download')
+    response['Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(filename)
+    os.remove(billData["code"]+".pdf")
+    return response
 
 @login_required(login_url="login")
 def close_bill(request,code):

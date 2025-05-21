@@ -23,12 +23,7 @@ def sendBillReceipt(billData):
     from .models import BillAccount
     if billData['status'] == BillAccount.STATUS_PAID and billData['customer'] and billData['customer']['email']:
         from utils.pdfConverter import PrintedBill
-        bill = PrintedBill(billData=billData,commerceData={'name':"Pattas S.L.",
-                                                            'address1':"Avda Gipuzkoa 4",
-                                                            'address2':'31187 Tolosa',
-                                                            'cif':"97245623",
-                                                            'phone':"944525656",
-                                                            'web':'www.pattas.es'})
+        bill = PrintedBill(billData=billData,commerceData=settings.COMMERCE_DATA)
         with open(billData["code"]+".pdf", "wb") as binary_file:
             binary_file.write(bill.pdf)
         if "gmail" in settings.EMAIL_HOST:
