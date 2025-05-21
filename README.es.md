@@ -35,7 +35,7 @@ pip install -r requirements.txt
 
 Una vez en funcionamiento, lo primero que aparece es la página de inicio de sesión.  
 ![login page](/assets/images/login.png)  
-El inicio de sesión en este proyecto se realiza mediante un identificador (sin nombre de usuario ni contraseña). El identificador de usuario es un código uuid4 que se asigna a cada usuario cuando se crea.  
+El inicio de sesión en este proyecto se realiza mediante un identificador (sin nombre de usuario ni contraseña). El identificador de usuario es un código (de hasta 20 caracteres) que se asigna a cada usuario cuando se crea.  
 Crea un superusuario ejecutando el siguiente comando:
 
 ```

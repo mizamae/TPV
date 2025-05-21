@@ -38,6 +38,11 @@ def edit_bill(request,code,tab=None,billPos=None):
     for i,_type in enumerate(productFamilies):
         productfamilies_tabs.append({'name':_type.name,'id':_type.id,'active':_type.id==tab,'items':Product.objects.filter(family=_type).order_by("name")})
 
+    if not productfamilies_tabs:
+        return render(request, 'errorPage.html',{'heading':_('Error on bill creation'),
+                                                 'info':_('There are no product families created. Need to create at least one')
+                                        })
+    
     if tab==0:
         productfamilies_tabs[0]['active']=True
 

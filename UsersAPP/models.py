@@ -55,7 +55,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     )
 
     type = models.PositiveSmallIntegerField(verbose_name=_("Type"),default=TYPE_CASHIER,choices=TYPES)
-    identifier = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    identifier = models.CharField(editable=True, unique=True,max_length=20)
 
     first_name = models.CharField(_("First name"), max_length=150, blank=True)
     last_name = models.CharField(_("Last name"), max_length=150, blank=True)
@@ -99,7 +99,7 @@ class User(AbstractBaseUser,PermissionsMixin):
 
     def __str__(self):
         return self.first_name + " " + self.last_name
-            
+
     def shortName(self,):
         try:
             if self.first_name and self.last_name:
