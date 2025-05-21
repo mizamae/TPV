@@ -35,7 +35,8 @@ pip install -r requirements.txt
 
 Una vez en funcionamiento, lo primero que aparece es la página de inicio de sesión.  
 ![login page](/assets/images/login.png)  
-El inicio de sesión en este proyecto se realiza mediante un identificador (sin nombre de usuario ni contraseña). El identificador de usuario es un código (de hasta 20 caracteres) que se asigna a cada usuario cuando se crea.  
+El inicio de sesión en este proyecto se realiza mediante un identificador (sin nombre de usuario ni contraseña). El identificador de usuario es un código (de hasta 20 caracteres) que se asigna a cada usuario cuando se crea. El proceso ha sido diseñado para que los identificadores puedan imprimirse en una tarjeta personal como un código de barras y leerse fácilmente con un escáner. 
+
 Crea un superusuario ejecutando el siguiente comando:
 
 ```
@@ -43,7 +44,6 @@ python ./manage.py createsuperuser
 ```
 
 Inicia sesión introduciendo el identificador generado en el campo de inicio de sesión.  
-El proceso ha sido diseñado para que los identificadores puedan imprimirse en una tarjeta personal como un código de barras y leerse fácilmente con un escáner.  
 Una vez iniciada la sesión, se muestra la página principal donde se pueden ejecutar distintas acciones haciendo clic en los botones correspondientes:
 
 - NUEVA FACTURA: inicia una nueva factura y se pueden asociar productos.

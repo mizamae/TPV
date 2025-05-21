@@ -34,14 +34,15 @@ pip install -r requirements.txt
 Once up and running the first thing that appears is the login page.
 ![login page](/assets/images/login.png)
 The login in this project has been established by an identifier (no username and password). The user identifier is a code (up to 20 characters long) that is assigned to each user
-when created.
+when created. The login process has been conceived so that identifiers can be printed in a personal card as a barcode and easily read with a barcode scanner.
+
 Create a superuser by issuing the following command
 ```
 python ./manage.py createsuperuser
 ```
 Login by introducing the generated identifier in the login field.
-The login process has been conceived so that identifiers can be printed in a personal card as a barcode and easily read with a barcode scanner.
 Once logged in, the base page is shown where different actions can be executed by clicking in the corresponding buttons.
+
 - NEW BILL: starts a new bill and products can be asociated to it
 - NEW CUSTOMER: new customer profile can be created
 - STOCK: the units in stock (and the cost and selling price) of the different consumables can be edited here
