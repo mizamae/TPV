@@ -20,10 +20,10 @@ def home(request):
     todays_bills = BillAccount.objects.filter(createdOn__gt=start_datetime).annotate(order_positions = Count('positions'))
     todays_income=0
     for bill in todays_bills.filter(status = BillAccount.STATUS_PAID):
-        todays_income += bill.getPVP()
+        todays_income += bill.getTotal()
 
     return render(request, 'home.html',{'todays_bills':todays_bills,
-                                        'todays_income':todays_income})
+                                        'todays_income':round(todays_income,2)})
 
 def reports_home(request):
     if request.method == "POST":

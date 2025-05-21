@@ -76,7 +76,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=150, unique=True, verbose_name='Nombre del producto')),
                 ('details', models.TextField(verbose_name='Details')),
                 ('single_ingredient', models.BooleanField(default=False, verbose_name='Es un producto de consumible')),
-                ('manual_pvp', models.FloatField(blank=True, help_text='Precio de venta de una unidad', null=True, verbose_name='Precio de venta')),
+                ('manual_price', models.FloatField(blank=True, help_text='Precio de venta de una unidad', null=True, verbose_name='Precio de venta')),
                 ('ingredients', models.ManyToManyField(blank=True, through='ProductsAPP.CombinationPosition', to='ProductsAPP.consumible')),
                 ('family', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='family', to='ProductsAPP.productfamily')),
             ],

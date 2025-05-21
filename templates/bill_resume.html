@@ -48,8 +48,16 @@
 								</tr>
 								{% endfor %}
 								<tr> 
+									<td colspan=3><h5>{% trans "VAT" %}</h5></td>
+									{% if bill.status == bill.STATUS_PAID %}
+									<td scope="col"><h5>{{ bill.vat_amount }} €</h5></td>
+									{% else %}
+									<td scope="col"><h5>{{ bill.getVATAmount }} €</h5></td>
+									{% endif %}
+								</tr>
+								<tr> 
 									<td colspan=3><h4>{% trans "TOTAL" %}</h4></td>
-									<td scope="col"><h4>{{ bill.getPVP }} €</h4></td>
+									<td scope="col"><h4>{{ bill.getTotal }} €</h4></td>
 								</tr>
 							
 							</tbody>    

@@ -168,13 +168,13 @@ class PrintedBill(object):
         self.nextRow(1.5)
         fontSize=10
         self.pdf.setFont(self.fontName, fontSize)
-        text = "VAT (21%): ..................." + str(round(self.billData['total']*0.21,2))+"€"
+        text = "VAT: ........................" + str(round(self.billData['vat'],2))+"€"
         string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
         self.pdf.drawString(self.maxX-string_width, self.currentY, text)
         self.nextRow(2)
         fontSize=12
         self.pdf.setFont(self.fontName, fontSize)
-        text = "TOTAL: ......................." + str(round(self.billData['total'],2))+"€"
+        text = "TOTAL: ......................." + str(round(self.billData['total']+self.billData['vat'],2))+"€"
         string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
         self.pdf.drawString(self.maxX-string_width, self.currentY, text)
 
@@ -237,6 +237,7 @@ if __name__ == '__main__':
                                    'customer':{'name':'Mikel','surname':"Zabaleta",'cif':"777789997"},
                                    'date':datetime.datetime.now(),
                                    'total':56.23,
+                                   'vat':12.03,
                                    'positions':[
                                        {'quantity':2,'product':"Product "+str(i),'pvp':10,'subtotal':20} for i in range(26) 
                                    ]

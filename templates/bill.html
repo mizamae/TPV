@@ -90,7 +90,7 @@
 					<tr>
 						<th scope="col">{% trans "Units" %}</th>
 						<th scope="col">{% trans "Product" %}</th>
-						<th scope="col">{% trans "Cost" %}</th>
+						<th scope="col">{% trans "Price" %}</th>
 						<th scope="col">{% trans "Subtotal" %}</th>
 						<th scope="col">{% trans "X" %}</th>
 					</tr>
@@ -110,8 +110,12 @@
 					</tr>
 					{% endfor %}
 					<tr> 
+						<td colspan=3><h5>{% trans "VAT" %}</h5></td>
+						<td scope="col"><h5>{{ bill.getVATAmount }} €</h5></td>
+					</tr>
+					<tr> 
 						<td colspan=3><h4>{% trans "TOTAL" %}</h4></td>
-						<td scope="col"><h4>{{ bill.getPVP }} €</h4></td>
+						<td scope="col"><h4>{{ bill.getTotal }} €</h4></td>
 					</tr>
 					<tr>
 						<a type="button" class="btn btn-success col-12" href={% url 'MaterialsAPP_resume_bill' code=bill.code %} >

@@ -6,6 +6,8 @@ from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from django.contrib import admin
 from django.utils import timezone
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.core.validators import MinValueValidator, MaxValueValidator
 import datetime
 from .tasks import send_email, sendBillReceipt
@@ -15,6 +17,20 @@ FILE_DIR = os.path.join(settings.MEDIA_ROOT)
 IMAGES_FILESYSTEM = FileSystemStorage(location=FILE_DIR,base_url=settings.MEDIA_URL)
 
 # Create your models here.
+
+class VATValue(models.Model):
+    class Meta:
+        verbose_name = _('VAT value')
+        verbose_name_plural = _('VAT values')
+
+    name = models.CharField(max_length=30, unique=True,verbose_name=_("Name"))
+    pc_value = models.FloatField(verbose_name=_("Percentage value"),help_text=_("Percentage over product value"))
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name + " ("+str(self.pc_value)+"%)"
 
 class ProductFamily(models.Model):
     class Meta:
@@ -48,8 +64,8 @@ class Consumible(models.Model):
 
     comments = models.TextField(_('Comments'),blank=True,null=True)
     family = models.ForeignKey(ProductFamily,verbose_name=_("Family"), on_delete=models.CASCADE, related_name='consumible_family')
-    cost = models.FloatField(verbose_name=_("Unitary cost"),help_text=_("Cost of one unit"))
-    pvp = models.FloatField(verbose_name=_("Selling price"),help_text=_("Price of one unit"))
+    cost = models.FloatField(verbose_name=_("Unitary cost"),help_text=_("Cost of one unit excluding VAT"))
+    price = models.FloatField(verbose_name=_("Selling price"),help_text=_("Selling price of one unit excluding VAT"))
     order_quantity = models.FloatField(verbose_name=_("Minimum order quantity"),default=10,
                                              help_text=_("Determines the minimum quantity that can be sourced from supplier"))
     stock = models.FloatField(verbose_name=_("Current stock"),blank=True,default=0,
@@ -59,6 +75,8 @@ class Consumible(models.Model):
     generates_product = models.BooleanField(verbose_name=_("Can be directly sold"),default=False)
     infinite = models.BooleanField(verbose_name=_("Infinite consumable"),default=False)
     
+    vat = models.ForeignKey(VATValue,verbose_name=_("Applicable VAT"), on_delete=models.SET_NULL, related_name='consumibles', null=True)
+
     def __str__(self) -> str:
         return self.name
     
@@ -131,10 +149,15 @@ class Consumible(models.Model):
         ingress=0
         consumibles = Consumible.objects.all()
         for cons in consumibles:
-            ingress += cons.get_monthly_consumption(month=month,year=year)*cons.pvp
+            ingress += cons.get_monthly_consumption(month=month,year=year)*cons.price
         return ingress
 
-    
+@receiver(post_save, sender=Consumible, dispatch_uid="create_Product_onCreate")
+def create_Product_onCreate(sender, instance, created, **kwargs):
+    if created and instance.generates_product:
+        product = Product.objects.create(picture=instance.picture,name=instance.name,barcode=instance.barcode,
+                            family=instance.family,single_ingredient=True) 
+        CombinationPosition.objects.get_or_create(product=product,quantity=1,ingredient=instance)
 
 class Product(models.Model):
     class Meta:
@@ -150,22 +173,30 @@ class Product(models.Model):
     single_ingredient = models.BooleanField(verbose_name=_("Direct from consumable"),default=False)
     ingredients = models.ManyToManyField(Consumible,blank=True,through='CombinationPosition')
 
-    manual_pvp = models.FloatField(verbose_name=_("Override selling price"),help_text=_("Override automatic selling price of one unit"),blank=True,null=True)
+    manual_price = models.FloatField(verbose_name=_("Override selling price"),help_text=_("Override automatic selling price of one unit"),blank=True,null=True)
 
     discount = models.ForeignKey('ProductDiscount', on_delete=models.SET_NULL, related_name='products_affected',blank=True,null=True)
+
+    vat = models.ForeignKey(VATValue,verbose_name=_("Applicable VAT"), on_delete=models.SET_NULL, related_name='products',null=True)
 
     class Meta:
         ordering = ['name']
     
     def save(self, **kwargs):
         self.name=self.name.strip().upper()
-        if self.manual_pvp and self.manual_pvp <=0:
-            self.manual_pvp=None
+        if self.manual_price and self.manual_price <=0:
+            self.manual_price=None
         return super().save(**kwargs)
         
     def __str__(self) -> str:
         return self.name
     
+    @property
+    def VATvalue(self):
+        if self.vat:
+            return self.vat.pc_value
+        else: # gets the standard value
+            return VATValue.objects.get(id=1).pc_value
     @property
     def Ingredients(self):
         return CombinationPosition.objects.filter(product=self)
@@ -178,19 +209,36 @@ class Product(models.Model):
         return round(cost,2)
     
     @admin.display(description=_("Sell price"))
-    def pvp(self,):
+    def price(self,):
         if self.discount:
             factor = (100-self.discount.percent)/100
         else:
             factor = 1
 
-        if self.manual_pvp:
-            return round(factor*self.manual_pvp,2)
+        if self.manual_price:
+            return round(factor*self.manual_price,2)
+        else:
+            price=0
+            for comp in self.Ingredients:
+                price+=comp.quantity*comp.ingredient.price
+            return round(factor*price,2)
+        
+    @property
+    def pvp(self):
+        if self.discount:
+            factor = (100-self.discount.percent)/100
+        else:
+            factor = 1
+
+        vat = self.VATvalue/100
+
+        if self.manual_price:
+            return round((factor+vat)*self.manual_price,2)
         else:
             pvp=0
             for comp in self.Ingredients:
-                pvp+=comp.quantity*comp.ingredient.pvp
-            return round(factor*pvp,2)
+                pvp+=comp.quantity*comp.ingredient.price
+            return round((factor+vat)*pvp,2) 
     
     @property
     def stock(self):
@@ -266,7 +314,8 @@ class BillAccount(models.Model):
 
     paymenttype = models.PositiveSmallIntegerField(verbose_name=_("Payment"),blank=False,null=True,choices=PAYMENT_TYPES)
 
-    total = models.FloatField(verbose_name=_("Total cost"),help_text=_("Total cost of the invoice"),blank=True,null=True)
+    total = models.FloatField(verbose_name=_("Total amount"),help_text=_("Total cost of the invoice before VAT"),blank=True,null=True)
+    vat_amount = models.FloatField(verbose_name=_("VAT amount"),help_text=_("Total amount of the VAT"),blank=True,null=True)
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -297,27 +346,42 @@ class BillAccount(models.Model):
 
     def close(self):
         if self.paymenttype is not None:
-            self.total = self.getPVP()
+            self.total = self.getTotalBeforeVAT()
+            self.vat_amount = self.getVATAmount()
             self.status = BillAccount.STATUS_PAID
-            self.save(update_fields=['status','total'])
+            self.save(update_fields=['status','vat_amount','total'])
             if self.owner and self.owner.saves_paper:
                 sendBillReceipt.delay(billData=self.toJSON())
 
 
     def toJSON(self):
         value = {'code':self.code,'customer':self.owner.toJSON() if self.owner else {},
-                 'date':self.createdOn,'status':self.status,'total':self.getPVP(),'positions':[]}
+                 'date':self.createdOn,'status':self.status,'total':self.getTotalBeforeVAT(),"vat":self.getVATAmount(),'positions':[]}
         for component in self.bill_positions.all():
             value['positions'].append({'quantity':component.quantity,'product':str(component.product),
                                        'pvp':component.pvp,'subtotal':component.quantity*component.pvp})
         return value
 
-    @admin.display(description=_("Sell price"))
-    def getPVP(self,):
-        pvp=0
+    @admin.display(description=_("Total including VAT"))
+    def getTotal(self,):
+        if self.status!=BillAccount.STATUS_PAID:
+            return round(self.getTotalBeforeVAT()+self.getVATAmount(),2)
+        else:
+            return round(self.total+self.vat_amount,2)
+    
+    @admin.display(description=_("Total before VAT"))
+    def getTotalBeforeVAT(self,):
+        total=0
         for component in self.bill_positions.all():
-            pvp+=component.quantity*component.pvp
-        return round(pvp,2)
+            total+=component.quantity*component.product.price()
+        return round(total,2)
+    
+    @admin.display(description=_("VAT amount"))
+    def getVATAmount(self,):
+        total=0
+        for component in self.bill_positions.all():
+            total+=component.quantity*(component.product.pvp-component.product.price())
+        return round(total,2)
     
     @staticmethod
     def create(createdBy):
@@ -342,7 +406,7 @@ class BillPosition(models.Model):
     def save(self, *args, **kwargs):
         if self.id is None:
             self.position = self.getNextPosition()
-            self.pvp = self.product.pvp()
+            self.pvp = self.product.pvp
         return super(BillPosition, self).save(*args, **kwargs)
     
     def set_quantity(self,quantity):

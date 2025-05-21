@@ -9,11 +9,7 @@
 {% endif %}
     <td>{{ row.code }}</td>
     <td>{{ row.createdOn }}</td>
-    {% if row.status == row.STATUS_OPEN %} <!-- if invoice is open, the prices are updated continuously  -->
-        <td scope="col">{{ row.getPVP }} €</td>
-    {% else %} <!-- if invoice is closed or paid, the prices are frozen as defined in JSONField  -->
-        <td scope="col">{{ row.total }} €</td>
-    {% endif %}
+    <td scope="col">{{ row.getTotal }} €</td>
     <td>{{ row.owner.cif }}</td>
     <td>{{ row.order_positions }}</td>
     <td>

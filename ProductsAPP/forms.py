@@ -111,10 +111,10 @@ class paymentMethodsForm(forms.ModelForm):
 class ConsumibleInlineForm(forms.ModelForm):
     class Meta:
         model = Consumible
-        fields = ["name","cost","pvp","stock"]
+        fields = ["name","cost","price","stock"]
         widgets = { # this is needed since the virtual keyboard only works with inputs type text, not number
             'cost': forms.TextInput(attrs={'type':'text','inputmode':"numeric"}),
-            'pvp': forms.TextInput(attrs={'type':'text','inputmode':"numeric"}),
+            'price': forms.TextInput(attrs={'type':'text','inputmode':"numeric"}),
             'stock': forms.TextInput(attrs={'type':'text','inputmode':"numeric"})
         }
     
@@ -140,19 +140,19 @@ class ConsumibleInlineForm(forms.ModelForm):
         self.helper.layout = Layout(
                                     Field('name',type=''),
                                     Field('cost',type='text'),
-                                    Field('pvp',type='text'),
+                                    Field('price',type='text'),
                                     Field('stock',type='text'),
                                 )
 
 StockFormSet = forms.modelformset_factory(Consumible,form=ConsumibleInlineForm,
-                                    fields = ["name","cost","pvp","stock"],extra=0,can_delete=False,edit_only=True,)
+                                    fields = ["name","cost","price","stock"],extra=0,can_delete=False,edit_only=True,)
 
 class ProductInlineForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ["name","manual_pvp","discount"]
+        fields = ["name","manual_price","discount"]
         widgets = { # this is needed since the virtual keyboard only works with inputs type text, not number
-            'manual_pvp': forms.TextInput(attrs={'type':'text','inputmode':"numeric"})
+            'manual_price': forms.TextInput(attrs={'type':'text','inputmode':"numeric"})
         }
     
     def __init__(self, *args, **kwargs):
@@ -173,12 +173,12 @@ class ProductInlineForm(forms.ModelForm):
                 self.fields[field].widget.attrs.update({'class':'form-control','data-toggle':'tooltip' ,'title':help_text, 'data-placement':'right', 'data-container':'body'})
             else:
                 self.fields[field].widget.attrs.update({'class':'form-control'})
-            if field=='manual_pvp': # to display the screen keyboard
+            if field=='manual_price': # to display the screen keyboard
                 self.fields[field].widget.attrs.update({'step':'0.1','min':'0','class':'form-control keyboard-numeric'})
         self.helper.layout = Layout(
                                     Field('name',type=''),
-                                    Field('manual_pvp',type='text'),
+                                    Field('manual_price',type='text'),
                                     Field('discount',type=''),
                                 )
 
-ProductFormSet = forms.modelformset_factory(Product,form=ProductInlineForm,fields = ["name","manual_pvp","discount"],extra=0,can_delete=False,edit_only=True,)
+ProductFormSet = forms.modelformset_factory(Product,form=ProductInlineForm,fields = ["name","manual_price","discount"],extra=0,can_delete=False,edit_only=True,)

@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='product',
-            name='manual_pvp',
+            name='manual_price',
             field=models.FloatField(blank=True, help_text='Override automatic selling price of one unit', null=True, verbose_name='Override selling price'),
         ),
         migrations.AlterField(
