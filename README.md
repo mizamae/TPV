@@ -18,6 +18,7 @@ Among its current available features are:
 - The selling process of the products are automatically calculated based on desired margins. Besides, it can be overriden manually.
 - Discounts can be applied to products impacting on its selling price.
 - Control of the stock levels and raises warnings if lower than minimum.
+- Generates and sends invoices automatically to customers adhered to e-invoicing
 - Several reports can be generated to obtain information about the sales. 
 
 ## Installation

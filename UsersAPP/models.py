@@ -6,12 +6,11 @@ from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 
 from .managers import CustomUserManager
-import uuid
 
 class Customer(models.Model):
     first_name = models.CharField(_("Name"), max_length=150)
     last_name = models.CharField(_("Surname"), max_length=150, blank=True)
-    email = models.EmailField(_("Email address"), blank=True)
+    email = models.EmailField(_("Email address"), blank=True, null=True)
     phone = models.CharField(_("Phone number"),max_length=15, blank=True)
     cif = models.CharField(_("Tax number"),max_length=15, unique=True)
     saves_paper = models.BooleanField(
@@ -20,6 +19,11 @@ class Customer(models.Model):
         help_text=_("Desires to receive the receipts electronically"),
     )
 
+    def clean(self):
+        from django.core.exceptions import ValidationError  
+        if self.saves_paper and not self.email:
+            raise ValidationError({'email':(_('An email is required if electronic receipt is used'))})
+        
     def __str__(self):
         if self.first_name and self.last_name:
             return self.first_name+" "+self.last_name[0]+"."
@@ -28,6 +32,9 @@ class Customer(models.Model):
         else:
             return _("Customer ") + str(self.id) 
     
+    def toJSON(self):
+        return {'name':self.first_name,'surname':self.last_name,'email':self.email,'cif':self.cif}
+
     @staticmethod
     def find(data):
         customer=None

@@ -20,6 +20,7 @@ Entre sus funcionalidades actuales se encuentran:
 - El proceso de venta de los productos se calcula automáticamente en base a los márgenes deseados. Además, puede sobrescribirse manualmente.
 - Se pueden aplicar descuentos a los productos, lo que impacta en su precio de venta.
 - Control de niveles de stock con alertas si bajan del mínimo establecido.
+- Genera y envia facturas de forma automatica a los clientes adheridos a la factura electronica
 - Se pueden generar varios informes para obtener información sobre las ventas.
 
 ## Instalación

@@ -9,13 +9,33 @@ from django.contrib.auth import get_user_model
 User=get_user_model()
 import logging
 logger = logging.getLogger("celery")
+import os
 
 @shared_task(bind=False,name='ProductsAPP_send_email')
-def send_email(subject,message,from_email,recipient_list):
+def send_email(subject,message,recipient_list,attachments=None):
     if "gmail" in settings.EMAIL_HOST:
         from utils.googleGmail import googleGmail_handler
-        googleGmail_handler.sendMultipleEmails(subject=subject,attachments=None,recipients=recipient_list,html_content=message)
+        googleGmail_handler.sendMultipleEmails(subject=subject,attachments=attachments,recipients=recipient_list,html_content=message)
         logger.info("Email sent to " + str(recipient_list))
+
+@shared_task(bind=False,name='ProductsAPP_send_bill')
+def sendBillReceipt(billData):
+    from .models import BillAccount
+    if billData['status'] == BillAccount.STATUS_PAID and billData['customer'] and billData['customer']['email']:
+        from utils.pdfConverter import PrintedBill
+        bill = PrintedBill(billData=billData,commerceData={'name':"Pattas S.L.",
+                                                            'address1':"Avda Gipuzkoa 4",
+                                                            'address2':'31187 Tolosa',
+                                                            'cif':"97245623",
+                                                            'phone':"944525656",
+                                                            'web':'www.pattas.es'})
+        with open(billData["code"]+".pdf", "wb") as binary_file:
+            binary_file.write(bill.pdf)
+        if "gmail" in settings.EMAIL_HOST:
+            from utils.googleGmail import googleGmail_handler
+            googleGmail_handler.sendEmail(subject='Invoice test',attachments=[billData["code"]+".pdf",],recipient=billData['customer']['email'],
+                                          html_content='Hello darling')
+        os.remove(billData["code"]+".pdf")
 
 @shared_task(bind=False,name='ProductsAPP_monthly_results')
 def monthly_results():
@@ -29,7 +49,6 @@ def monthly_results():
     else:
         month-=1
     
-
     subject=_('[MONTHLY_RESULTS] Results of the month ' + str(month) + ' of ' + str(year))
     consumibles = Consumible.objects.all()
     

@@ -8,7 +8,7 @@ from django.contrib import admin
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
 import datetime
-from .tasks import send_email
+from .tasks import send_email, sendBillReceipt
 
 import os
 FILE_DIR = os.path.join(settings.MEDIA_ROOT)
@@ -77,7 +77,6 @@ class Consumible(models.Model):
                     send_email.delay(
                             subject=_('[STOCK_WARNING] Product below the minimum stock level'),
                             message=_('The consumable ' + str(self)+' has reached an stock level below its minimum.\n Now its stock is '+str(self.stock)),
-                            from_email=settings.EMAIL_HOST_USER,
                             recipient_list=recipients)
                 
             self.save(update_fields=['stock',])
@@ -301,9 +300,13 @@ class BillAccount(models.Model):
             self.total = self.getPVP()
             self.status = BillAccount.STATUS_PAID
             self.save(update_fields=['status','total'])
+            if self.owner and self.owner.saves_paper:
+                sendBillReceipt.delay(billData=self.toJSON())
+
 
     def toJSON(self):
-        value = {'date':self.createdOn,'total':self.getPVP(),'positions':[]}
+        value = {'code':self.code,'customer':self.owner.toJSON() if self.owner else {},
+                 'date':self.createdOn,'status':self.status,'total':self.getPVP(),'positions':[]}
         for component in self.bill_positions.all():
             value['positions'].append({'quantity':component.quantity,'product':str(component.product),
                                        'pvp':component.pvp,'subtotal':component.quantity*component.pvp})
