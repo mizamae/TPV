@@ -128,16 +128,16 @@ class PrintedBill(object):
         # Escribimos los datos del cliente
         fontSize=10
         self.pdf.setFont(self.fontName, fontSize)
-        text = "Date: " + self.billData['date'].strftime("%d/%m/%Y, %H:%M:%S")
+        text = _("Date: ") + self.billData['date'].strftime("%d/%m/%Y, %H:%M:%S")
         string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
         self.pdf.drawString(self.minX, self.currentY, text)
         self.nextRow(1)
         if self.billData['customer']:
-            text = "Customer name: " + self.billData['customer']['name'] + " " +self.billData['customer']['surname']
+            text = _("Customer name: ") + self.billData['customer']['name'] + " " +self.billData['customer']['surname']
             string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
             self.pdf.drawString(self.minX, self.currentY, text)
             self.nextRow(1)
-            text = "Customer CIF: " + self.billData['customer']['cif']
+            text = _("Customer Tax number: ") + self.billData['customer']['cif']
             string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
             self.pdf.drawString(self.minX, self.currentY, text)
             self.nextRow(5)       
@@ -145,7 +145,7 @@ class PrintedBill(object):
         fontSize=18
         self.pdf.setFont(self.fontName, fontSize)
 
-        text = u"Resumen de factura"
+        text = _("Bill summary")
         string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
         self.pdf.drawString(self.minX+(self.maxX-self.minX-string_width)/2, self.currentY, text)
         
@@ -155,11 +155,11 @@ class PrintedBill(object):
         
 
         if len(self.billData['positions'])<=rowsPerPage:
-            self.__table__(y=None,header=[('Quant.'),('Product'), ('Unit price'), ('Subtotal')],
+            self.__table__(y=None,header=[_('Quant.'),_('Product'), _('Unit price'), _('Subtotal')],
                                     rows=tableRows)
         else:
             for i in range(0,len(self.billData['positions']),rowsPerPage):
-                self.__table__(y=None,header=[('Quant.'),('Product'), ('Unit price'), ('Subtotal')],
+                self.__table__(y=None,header=[_('Quant.'),_('Product'),_('Unit price'), _('Subtotal')],
                                     rows=tableRows[i:i+rowsPerPage])
                 if i+rowsPerPage < len(self.billData['positions']):
                     self.nextPage()
@@ -168,13 +168,13 @@ class PrintedBill(object):
         self.nextRow(1.5)
         fontSize=10
         self.pdf.setFont(self.fontName, fontSize)
-        text = "VAT: ........................" + str(round(self.billData['vat'],2))+"€"
+        text = _("VAT") +": ........................" + str(round(self.billData['vat'],2))+"€"
         string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
         self.pdf.drawString(self.maxX-string_width, self.currentY, text)
         self.nextRow(2)
         fontSize=12
         self.pdf.setFont(self.fontName, fontSize)
-        text = "TOTAL: ......................." + str(round(self.billData['total']+self.billData['vat'],2))+"€"
+        text = _("TOTAL")+": ......................." + str(round(self.billData['total']+self.billData['vat'],2))+"€"
         string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
         self.pdf.drawString(self.maxX-string_width, self.currentY, text)
 

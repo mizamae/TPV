@@ -108,7 +108,9 @@ INSTALLED_APPS = [
 
     'myTPV',
     'UsersAPP',
-    'ProductsAPP'
+    'ProductsAPP',
+
+    'utils'
 ]
 
 MIDDLEWARE = [
