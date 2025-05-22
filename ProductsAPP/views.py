@@ -66,8 +66,7 @@ def assign_customer(request,code):
             data = form.cleaned_data['data']
             customer = Customer.find(data=data)
             if customer:
-                bill.owner = customer
-                bill.save(update_fields=['owner',])
+                bill.setOwner(customer)
             else:
                 messages.info(request, _("No customer found "))
                     
@@ -127,16 +126,16 @@ def print_bill(request,code):
 def close_bill(request,code):
     bill=BillAccount.objects.get(code=code)
     if request.method == 'POST':
-        paymentForm = paymentMethodsForm(request.POST,instance=bill)
-        if paymentForm.is_valid():
-            paymentForm.save()
-            if bill.bill_positions.all().count() > 0:
-                bill.close()
+        if bill.bill_positions.all().count() > 0:
+            paymentForm = paymentMethodsForm(request.POST,instance=bill)
+            if paymentForm.is_valid():
+                paymentForm.save()
+                bill.close()                
             else:
-                bill.delete()
+                messages.error(request, _("The payment method should be defined"))
+                return redirect('MaterialsAPP_resume_bill',code = bill.code)
         else:
-            messages.error(request, _("The payment method should be defined"))
-            return redirect('MaterialsAPP_resume_bill',code = bill.code)
+            bill.delete()
 
     return redirect('home')
 

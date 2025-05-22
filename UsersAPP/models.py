@@ -8,6 +8,10 @@ from django.utils import timezone
 from .managers import CustomUserManager
 
 class Customer(models.Model):
+    class Meta:
+        verbose_name = _('Customer')
+        verbose_name_plural = _('Customers')
+
     first_name = models.CharField(_("Name"), max_length=150)
     last_name = models.CharField(_("Surname"), max_length=150, blank=True)
     email = models.EmailField(_("Email address"), blank=True, null=True)
@@ -53,6 +57,10 @@ class Customer(models.Model):
         return customer
 
 class User(AbstractBaseUser,PermissionsMixin):
+    class Meta:
+        verbose_name = _('User')
+        verbose_name_plural = _('Users')
+
     TYPE_CASHIER=0
     TYPE_MANAGER=10
 

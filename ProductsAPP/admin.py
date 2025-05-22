@@ -1,7 +1,13 @@
 from django.contrib import admin
-from .models import ProductFamily, Consumible, CombinationPosition, Product, BillAccount, ProductDiscount
+from .models import VATValue, ProductFamily, Consumible, CombinationPosition, Product, BillAccount, ProductDiscount
 
 # Register your models here.
+
+class VATValueAdmin(admin.ModelAdmin):
+    list_display = ("name","pc_value")
+    ordering = ('name',)
+    
+admin.site.register(VATValue, VATValueAdmin)
 
 class PRODUCT_FAMILYAdmin(admin.ModelAdmin):
     list_display = ("name","getNumberOfProducts")

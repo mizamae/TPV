@@ -34,8 +34,8 @@ class VATValue(models.Model):
 
 class ProductFamily(models.Model):
     class Meta:
-        verbose_name = _('Category')
-        verbose_name_plural = _('Categories')
+        verbose_name = _('Product family')
+        verbose_name_plural = _('Product families')
 
     picture = models.ImageField(_('Image'),null=True,blank=True,storage=IMAGES_FILESYSTEM)
     name = models.CharField(max_length=30, unique=True,verbose_name=_("Name"))
@@ -156,7 +156,7 @@ class Consumible(models.Model):
 def create_Product_onCreate(sender, instance, created, **kwargs):
     if created and instance.generates_product:
         product = Product.objects.create(picture=instance.picture,name=instance.name,barcode=instance.barcode,
-                            family=instance.family,single_ingredient=True) 
+                            family=instance.family,single_ingredient=True,vat=instance.vat) 
         CombinationPosition.objects.get_or_create(product=product,quantity=1,ingredient=instance)
 
 class Product(models.Model):
@@ -191,12 +191,15 @@ class Product(models.Model):
     def __str__(self) -> str:
         return self.name
     
-    @property
-    def VATvalue(self):
+    def getVATValue(self):
         if self.vat:
             return self.vat.pc_value
         else: # gets the standard value
             return VATValue.objects.get(id=1).pc_value
+    
+    def getVATAmount(self):
+        return round(self.price()*self.getVATValue()/100,2)
+
     @property
     def Ingredients(self):
         return CombinationPosition.objects.filter(product=self)
@@ -230,15 +233,15 @@ class Product(models.Model):
         else:
             factor = 1
 
-        vat = self.VATvalue/100
+        vat = self.getVATValue()/100
 
         if self.manual_price:
-            return round((factor+vat)*self.manual_price,2)
+            return round((1+vat)*factor*self.manual_price,2)
         else:
             pvp=0
             for comp in self.Ingredients:
                 pvp+=comp.quantity*comp.ingredient.price
-            return round((factor+vat)*pvp,2) 
+            return round((1+vat)*factor*pvp,2) 
     
     @property
     def stock(self):
@@ -350,9 +353,14 @@ class BillAccount(models.Model):
             self.vat_amount = self.getVATAmount()
             self.status = BillAccount.STATUS_PAID
             self.save(update_fields=['status','vat_amount','total'])
+            for position in self.bill_positions.all():
+                position.close()
             if self.owner and self.owner.saves_paper:
                 sendBillReceipt.delay(billData=self.toJSON())
 
+    def setOwner(self,customer):
+        self.owner = customer
+        self.save(update_fields=['owner',])
 
     def toJSON(self):
         value = {'code':self.code,'customer':self.owner.toJSON() if self.owner else {},
@@ -380,7 +388,7 @@ class BillAccount(models.Model):
     def getVATAmount(self,):
         total=0
         for component in self.bill_positions.all():
-            total+=component.quantity*(component.product.pvp-component.product.price())
+            total+=component.quantity*(component.product.getVATAmount())
         return round(total,2)
     
     @staticmethod
@@ -406,9 +414,12 @@ class BillPosition(models.Model):
     def save(self, *args, **kwargs):
         if self.id is None:
             self.position = self.getNextPosition()
-            self.pvp = self.product.pvp
         return super(BillPosition, self).save(*args, **kwargs)
     
+    def close(self,):
+        self.pvp = self.product.pvp
+        self.save(update_fields=['pvp',])
+
     def set_quantity(self,quantity):
         if quantity > self.quantity:
             self.product.reduce_stock(quantity=quantity-self.quantity)
