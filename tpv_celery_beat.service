@@ -1,0 +1,16 @@
+[Unit]
+Description=celery beat daemon for tinyTPV
+After=network.target
+
+[Service]
+User=mikelzabaleta
+Group=www-data
+Restart=always
+RestartSec=10
+StartLimitIntervalSec=0
+WorkingDirectory=/home/mikelzabaleta/Github/TPV/
+ExecStart= /home/mikelzabaleta/Github/TPV/env/bin/celery -A myTPV beat -l info
+
+
+[Install]
+WantedBy=multi-user.target

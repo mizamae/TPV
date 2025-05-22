@@ -1,0 +1,15 @@
+[Unit]
+Description=gunicorn daemon for tinyTPV
+After=network.target
+
+[Service]
+User=mikelzabaleta
+Group=www-data
+Restart=always
+RestartSec=2
+StartLimitIntervalSec=0
+WorkingDirectory=/home/mikelzabaleta/Github/TPV
+ExecStart= /home/mikelzabaleta/Github/TPV/env/bin/gunicorn --access-logfile - --error-logfile /home/mikelzabaleta/Github/TPV/logs/gunicorn-error.log --timeout 60 --workers 2 --preload --bind unix:/home/mikelzabaleta/Github/TPV/run/docapp.sock myTPV.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
