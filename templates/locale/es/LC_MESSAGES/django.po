@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-22 11:54+0200\n"
+"POT-Creation-Date: 2025-05-22 12:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,8 @@ msgstr "No estas logueado. Logueate antes de hacer nada..."
 msgid "Powered by "
 msgstr ""
 
-#: .\templates\bill.html:11 .\templates\bill_resume.html:8
+#: .\templates\bill.html:11 .\templates\bill_resume.html:9
+#: .\templates\bill_resume.html:15
 msgid " Bill "
 msgstr " Factura "
 
@@ -43,11 +44,11 @@ msgstr " del cliente "
 msgid " Assign customer to bill "
 msgstr " Asignar cliente "
 
-#: .\templates\bill.html:91 .\templates\bill_resume.html:35
+#: .\templates\bill.html:91 .\templates\bill_resume.html:39
 msgid "Units"
 msgstr "Uds"
 
-#: .\templates\bill.html:92 .\templates\bill_resume.html:36
+#: .\templates\bill.html:92 .\templates\bill_resume.html:40
 #: .\templates\products.html:20
 msgid "Product"
 msgstr "Producto"
@@ -56,7 +57,7 @@ msgstr "Producto"
 msgid "Price"
 msgstr "Precio"
 
-#: .\templates\bill.html:94 .\templates\bill_resume.html:38
+#: .\templates\bill.html:94 .\templates\bill_resume.html:42
 msgid "Subtotal"
 msgstr ""
 
@@ -64,11 +65,11 @@ msgstr ""
 msgid "X"
 msgstr ""
 
-#: .\templates\bill.html:113 .\templates\bill_resume.html:55
+#: .\templates\bill.html:113 .\templates\bill_resume.html:59
 msgid "VAT"
 msgstr "IVA"
 
-#: .\templates\bill.html:117 .\templates\bill_resume.html:63
+#: .\templates\bill.html:117 .\templates\bill_resume.html:67
 msgid "TOTAL"
 msgstr ""
 
@@ -80,23 +81,23 @@ msgstr " Cerrar cuenta"
 msgid "Set Value"
 msgstr "Fijar Uds"
 
-#: .\templates\bill_resume.html:8
+#: .\templates\bill_resume.html:9
 msgid " from user "
 msgstr " del cliente "
 
-#: .\templates\bill_resume.html:37
+#: .\templates\bill_resume.html:41
 msgid "Cost"
 msgstr "Precio"
 
-#: .\templates\bill_resume.html:75
+#: .\templates\bill_resume.html:79
 msgid "Details of the payment"
 msgstr "Detalles del pago"
 
-#: .\templates\bill_resume.html:108
+#: .\templates\bill_resume.html:112
 msgid " Exit"
 msgstr " Salir"
 
-#: .\templates\bill_resume.html:115
+#: .\templates\bill_resume.html:119
 msgid " Print"
 msgstr " Imprimir"
 

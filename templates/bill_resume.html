@@ -5,11 +5,15 @@
 {% load crispy_forms_tags %}
 
 {% block navbar-center %}
+{% if bill.owner %}
 <h3 class="text-center">{% trans " Bill " %} {{ bill.code }}  {% trans " from user " %} {{ bill.owner }}
 	{% if bill.owner.saves_paper %}
 	<img src="{% static 'site/ico/GreenLeaf.svg' %}" /> 
-{% endif%}
+	{% endif%}
 </h3>
+{% else %}
+<h3 class="text-center">{% trans " Bill " %} {{ bill.code }}</h3>
+{% endif %}
 
 {% endblock %}
 
