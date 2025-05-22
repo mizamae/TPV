@@ -7,4 +7,7 @@ class ProductsConfig(AppConfig):
 
     def ready(self):
         from .models import VATValue
-        default = VATValue.objects.get_or_create(**{"id":1,"name":"Standard","pc_value":21})
+        try:
+            default = VATValue.objects.get_or_create(**{"id":1,"name":"Standard","pc_value":21})
+        except Exception as exc:
+            pass
