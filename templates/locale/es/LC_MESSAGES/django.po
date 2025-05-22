@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-22 08:40+0200\n"
+"POT-Creation-Date: 2025-05-22 11:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,11 +64,11 @@ msgstr ""
 msgid "X"
 msgstr ""
 
-#: .\templates\bill.html:113 .\templates\bill_resume.html:51
+#: .\templates\bill.html:113 .\templates\bill_resume.html:55
 msgid "VAT"
 msgstr "IVA"
 
-#: .\templates\bill.html:117 .\templates\bill_resume.html:59
+#: .\templates\bill.html:117 .\templates\bill_resume.html:63
 msgid "TOTAL"
 msgstr ""
 
@@ -88,15 +88,15 @@ msgstr " del cliente "
 msgid "Cost"
 msgstr "Precio"
 
-#: .\templates\bill_resume.html:71
+#: .\templates\bill_resume.html:75
 msgid "Details of the payment"
 msgstr "Detalles del pago"
 
-#: .\templates\bill_resume.html:104
+#: .\templates\bill_resume.html:108
 msgid " Exit"
 msgstr " Salir"
 
-#: .\templates\bill_resume.html:111
+#: .\templates\bill_resume.html:115
 msgid " Print"
 msgstr " Imprimir"
 
@@ -104,7 +104,15 @@ msgstr " Imprimir"
 msgid " bills found"
 msgstr " facturas encontradas"
 
-#: .\templates\historicBills.html:22
+#: .\templates\historicBills.html:13
+msgid "Total amount "
+msgstr "Monto total"
+
+#: .\templates\historicBills.html:16
+msgid "Total VAT amount "
+msgstr "Monto de IVA"
+
+#: .\templates\historicBills.html:28
 msgid "No bills found"
 msgstr "No se han encontrado facturas"
 

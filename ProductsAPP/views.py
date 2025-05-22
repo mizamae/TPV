@@ -203,9 +203,11 @@ def historics_home(request):
             if info['code']:
                 bills = BillAccount.objects.filter(code=info['code']).annotate(order_positions = Count('positions'))
             else:
-                bills = BillAccount.objects.filter(createdOn__gt=info['from'],createdOn__lt=info['to']).annotate(order_positions = Count('positions'))
+                bills = BillAccount.objects.filter(createdOn__gt=info['from'],
+                                                   createdOn__lt=info['to']).annotate(order_positions = Count('positions'))
+                bill_totals = bills.aggregate(total=Sum('total'),total_vat=Sum('vat_amount'))
             
-            return render(request, 'historicBills.html', {'bills':bills,'number':bills.count()})
+            return render(request, 'historicBills.html', {'bills':bills,'number':bills.count(),'totals':bill_totals})
             
     else:
         form=billSearchForm()

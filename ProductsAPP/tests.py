@@ -18,7 +18,8 @@ def createProductFamilies():
 
 def createConsumables():
     consumables = [
-                    {"name":"Consumable "+str(i),"barcode":"456456465"+str(i),"family":ProductFamily.objects.get(id=i%4+1),"cost":100,"price":200,"order_quantity":10,"stock":100,"stock_min":10,"generates_product":True}
+                    {"name":"Consumable "+str(i),"barcode":"456456465"+str(i),"family":ProductFamily.objects.get(id=i%4+1),
+                     "cost":100,"price":200,"order_quantity":10,"stock":100,"stock_min":10,"generates_product":True}
                     for i in range (30)    
                 ]
     for consumable in consumables:
@@ -63,9 +64,11 @@ class CostPrices_tests(TestCase):
         print('## Checks the correct calculation of cost on Products ##')
         product1 = Product.objects.get(id=1)
         consumable1 = Consumible.objects.get(id=1)
+        self.assertEqual(product1.cost(),100)
         self.assertEqual(product1.cost(),consumable1.cost)
         print('## Checks the correct calculation of cost on compound Products ##')
         compoundProduct = Product.objects.get(barcode='45645000')
+        self.assertEqual(compoundProduct.cost(),300)
         self.assertEqual(compoundProduct.cost(),consumable1.cost+2*Consumible.objects.get(id=2).cost)
 
         print('## Checks the correct calculation of price on Products ##')
@@ -109,6 +112,7 @@ class Billing_tests(TestCase):
     Bill open
         - Bill creation and customer assignation
         - Append a position
+        - Stock of the product is reduced correctly
         - Price before VAT calculation
         - VAT amount calculation
         - TOTAL amount calculation
@@ -120,7 +124,10 @@ class Billing_tests(TestCase):
         - VAT amount calculation with 2 positions and discount
         - TOTAL amount calculation with 2 positions and discount
     Bill closed and paid
-
+        - Closes the bill
+        - total and vat_amount fields are filled with current values
+        - Positions also close fixing its pvp field
+        - Discount eliminated but positions retain its actual pvp value
     '''
     fixtures=[]
     
@@ -145,7 +152,11 @@ class Billing_tests(TestCase):
 
         print('## Append a position ##')
         product1 = Product.objects.get(id=1)
+        stock_prev = product1.stock
+        print('## Stock of the product is reduced correctly ##')
+        self.assertEqual(stock_prev,100)
         bill.add_bill_position(product=product1,quantity=1)
+        self.assertEqual(product1.stock,99)
         print('## Price before VAT calculation ##')
         self.assertEqual(bill.getTotalBeforeVAT(),200)
         self.assertEqual(product1.price(),bill.getTotalBeforeVAT())
@@ -185,4 +196,14 @@ class Billing_tests(TestCase):
         bill.paymenttype = BillAccount.PAYMENTTYPE_CASH
         bill.save(update_fields=['paymenttype',])
         bill.close()
+        print('## total and vat_amount fields are filled with current values  ##')
         self.assertEqual(bill.status,BillAccount.STATUS_PAID)
+        self.assertEqual(bill.total,bill.getTotalBeforeVAT())
+        self.assertEqual(bill.vat_amount,bill.getVATAmount())
+        print('## Positions also close fixing its pvp field ##')
+        product1.discount = None
+        product1.save()
+        print('## Discount eliminated but positions retain its actual pvp value ##')
+        positions = bill.bill_positions.all()
+        self.assertEqual(positions[0].pvp,round(positions[0].product.price()*0.9*1.21,2))
+        self.assertEqual(positions[1].pvp,round(positions[1].product.price()*1.21,2))

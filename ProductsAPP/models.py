@@ -365,9 +365,9 @@ class BillAccount(models.Model):
     def toJSON(self):
         value = {'code':self.code,'customer':self.owner.toJSON() if self.owner else {},
                  'date':self.createdOn,'status':self.status,'total':self.getTotalBeforeVAT(),"vat":self.getVATAmount(),'positions':[]}
-        for component in self.bill_positions.all():
-            value['positions'].append({'quantity':component.quantity,'product':str(component.product),
-                                       'pvp':component.pvp,'subtotal':component.quantity*component.pvp})
+        for position in self.bill_positions.all():
+            value['positions'].append({'quantity':position.quantity,'product':str(position.product),
+                                       'pvp':position.pvp,'subtotal':position.quantity*position.pvp})
         return value
 
     @admin.display(description=_("Total including VAT"))
@@ -380,15 +380,15 @@ class BillAccount(models.Model):
     @admin.display(description=_("Total before VAT"))
     def getTotalBeforeVAT(self,):
         total=0
-        for component in self.bill_positions.all():
-            total+=component.quantity*component.product.price()
+        for position in self.bill_positions.all():
+            total+=position.quantity*position.product.price()
         return round(total,2)
     
     @admin.display(description=_("VAT amount"))
     def getVATAmount(self,):
         total=0
-        for component in self.bill_positions.all():
-            total+=component.quantity*(component.product.getVATAmount())
+        for position in self.bill_positions.all():
+            total+=position.quantity*(position.product.getVATAmount())
         return round(total,2)
     
     @staticmethod
@@ -446,4 +446,7 @@ class BillPosition(models.Model):
         return BillPosition.objects.filter(bill=self.bill).count()+1
     
     def getsubtotal(self):
-        return round(self.quantity * self.pvp,2)
+        if self.pvp:
+            return round(self.quantity * self.pvp,2)
+        else:
+            return round(self.quantity * self.product.pvp,2)

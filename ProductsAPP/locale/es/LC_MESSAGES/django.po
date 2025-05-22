@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-22 08:59+0200\n"
+"POT-Creation-Date: 2025-05-22 11:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,7 +92,7 @@ msgstr "Imagen"
 msgid "Number of products"
 msgstr "Numero de productos"
 
-#: .\ProductsAPP\models.py:58 .\ProductsAPP\models.py:282
+#: .\ProductsAPP\models.py:58 .\ProductsAPP\models.py:285
 msgid "Consumable"
 msgstr "Consumible"
 
@@ -120,7 +120,7 @@ msgstr "Coste unitario"
 msgid "Cost of one unit excluding VAT"
 msgstr "El coste de una unidad excluyendo IVA"
 
-#: .\ProductsAPP\models.py:68 .\ProductsAPP\models.py:398
+#: .\ProductsAPP\models.py:68 .\ProductsAPP\models.py:406
 msgid "Selling price"
 msgstr "Precio de venta"
 
@@ -212,100 +212,102 @@ msgstr "Forzar precio de venta"
 msgid "Override automatic selling price of one unit"
 msgstr "Fuerza el precio de venta de una unidad"
 
-#: .\ProductsAPP\models.py:204
+#: .\ProductsAPP\models.py:207
 msgid "Cost"
 msgstr "Coste"
 
-#: .\ProductsAPP\models.py:211
+#: .\ProductsAPP\models.py:214
 #: .\ProductsAPP\templates\ProductsAPP\_product_card.html:24
 msgid "Sell price"
 msgstr "Precio de venta"
 
-#: .\ProductsAPP\models.py:262
+#: .\ProductsAPP\models.py:265
 msgid "Percentage over selling price"
 msgstr "Porcentaje sobre el precio de venta"
 
-#: .\ProductsAPP\models.py:267
+#: .\ProductsAPP\models.py:270
 msgid "Affected products"
 msgstr "Productos afectados"
 
-#: .\ProductsAPP\models.py:277
+#: .\ProductsAPP\models.py:280
 msgid "Combination of consumables"
 msgstr "Combinacion de consumibles"
 
-#: .\ProductsAPP\models.py:278
+#: .\ProductsAPP\models.py:281
 msgid "Combinations of consumables"
 msgstr "Combinaciones de consumibles"
 
-#: .\ProductsAPP\models.py:281 .\ProductsAPP\models.py:396
+#: .\ProductsAPP\models.py:284 .\ProductsAPP\models.py:404
 msgid "Quantity"
 msgstr "Cantidad"
 
-#: .\ProductsAPP\models.py:293
+#: .\ProductsAPP\models.py:296
 msgid "Open"
 msgstr "Abierto"
 
-#: .\ProductsAPP\models.py:294
+#: .\ProductsAPP\models.py:297
 msgid "Closed not Paid"
 msgstr "Cerrado sin cobro"
 
-#: .\ProductsAPP\models.py:295
+#: .\ProductsAPP\models.py:298
 msgid "Closed and Paid"
 msgstr "Cerrado y cobrado"
 
-#: .\ProductsAPP\models.py:302
+#: .\ProductsAPP\models.py:305
 msgid "On cash"
 msgstr "En efectivo"
 
-#: .\ProductsAPP\models.py:303
+#: .\ProductsAPP\models.py:306
 msgid "By credit card"
 msgstr "Con tarjeta de credito"
 
-#: .\ProductsAPP\models.py:309 .\ProductsAPP\templates\ProductsAPP\_list.html:9
+#: .\ProductsAPP\models.py:312 .\ProductsAPP\templates\ProductsAPP\_list.html:9
 msgid "Date and time"
 msgstr "Fecha y hora"
 
-#: .\ProductsAPP\models.py:311
+#: .\ProductsAPP\models.py:314
 msgid "Status"
 msgstr "Estado"
 
-#: .\ProductsAPP\models.py:315
+#: .\ProductsAPP\models.py:318
 msgid "Payment"
 msgstr "Pago"
 
-#: .\ProductsAPP\models.py:317
+#: .\ProductsAPP\models.py:320
 msgid "Total amount"
 msgstr "Importe total"
 
-#: .\ProductsAPP\models.py:317
+#: .\ProductsAPP\models.py:320
 msgid "Total cost of the invoice before VAT"
 msgstr "Importe total de la factura antes de IVA"
 
-#: .\ProductsAPP\models.py:318 .\ProductsAPP\models.py:379
+#: .\ProductsAPP\models.py:321 .\ProductsAPP\models.py:387
+#: .\ProductsAPP\templates\ProductsAPP\_list.html:11
 msgid "VAT amount"
 msgstr "Importe IVA"
 
-#: .\ProductsAPP\models.py:318
+#: .\ProductsAPP\models.py:321
 msgid "Total amount of the VAT"
 msgstr "Importe total de IVA"
 
-#: .\ProductsAPP\models.py:324
+#: .\ProductsAPP\models.py:327
 msgid " of customer "
 msgstr " del cliente "
 
-#: .\ProductsAPP\models.py:365
+#: .\ProductsAPP\models.py:373
 msgid "Total including VAT"
 msgstr "Total incluyendo IVA"
 
-#: .\ProductsAPP\models.py:372
+#: .\ProductsAPP\models.py:380
+#: .\ProductsAPP\templates\ProductsAPP\_list.html:10
 msgid "Total before VAT"
 msgstr "Total antes de IVA"
 
-#: .\ProductsAPP\models.py:394
+#: .\ProductsAPP\models.py:402
 msgid "Position"
 msgstr "Posicion"
 
-#: .\ProductsAPP\models.py:398
+#: .\ProductsAPP\models.py:406
 msgid "Selling price at the moment of the operation"
 msgstr "Precio de venta en el momento de la transaccion"
 
@@ -345,35 +347,31 @@ msgstr ""
 msgid "[STOCK_WARNING] List of the products with stock below its minimum"
 msgstr "[AVISO_STOCK] Listado de productos por debajo de su stock de seguridad"
 
-#: .\ProductsAPP\templates\ProductsAPP\_bill.html:23
+#: .\ProductsAPP\templates\ProductsAPP\_bill.html:29
 msgid " Close"
 msgstr " Cerrar"
 
-#: .\ProductsAPP\templates\ProductsAPP\_bill.html:36
+#: .\ProductsAPP\templates\ProductsAPP\_bill.html:42
 msgid " Edit"
 msgstr " Editar"
 
-#: .\ProductsAPP\templates\ProductsAPP\_bill.html:44
+#: .\ProductsAPP\templates\ProductsAPP\_bill.html:50
 msgid " View"
 msgstr " Ver"
 
-#: .\ProductsAPP\templates\ProductsAPP\_bill.html:54
+#: .\ProductsAPP\templates\ProductsAPP\_bill.html:60
 msgid " Delete"
 msgstr " Borrar"
 
-#: .\ProductsAPP\templates\ProductsAPP\_list.html:10
-msgid "Total"
-msgstr ""
-
-#: .\ProductsAPP\templates\ProductsAPP\_list.html:11
+#: .\ProductsAPP\templates\ProductsAPP\_list.html:12
 msgid "Customer"
 msgstr "Cliente"
 
-#: .\ProductsAPP\templates\ProductsAPP\_list.html:12
+#: .\ProductsAPP\templates\ProductsAPP\_list.html:13
 msgid "Positions"
 msgstr "Posiciones"
 
-#: .\ProductsAPP\templates\ProductsAPP\_list.html:13
+#: .\ProductsAPP\templates\ProductsAPP\_list.html:14
 msgid "Information"
 msgstr "Informacion"
 
@@ -394,27 +392,27 @@ msgid "There are no product families created. Need to create at least one"
 msgstr ""
 "No hay ninguna familia de producto creada. Se necesita crear al menos una"
 
-#: .\ProductsAPP\views.py:72
+#: .\ProductsAPP\views.py:71
 msgid "No customer found "
 msgstr "Cliente no encontrado"
 
-#: .\ProductsAPP\views.py:88
+#: .\ProductsAPP\views.py:87
 msgid "The barcode introduced is not registered"
 msgstr "Codigo de barras no registrado"
 
-#: .\ProductsAPP\views.py:138
+#: .\ProductsAPP\views.py:135
 msgid "The payment method should be defined"
 msgstr "El metodo de pago debe establecerse antes de cerrar"
 
-#: .\ProductsAPP\views.py:168
+#: .\ProductsAPP\views.py:167
 msgid "The stock has been updated"
 msgstr "El stock ha sido actualizado"
 
-#: .\ProductsAPP\views.py:186
+#: .\ProductsAPP\views.py:185
 msgid "Product prices have been updated"
 msgstr "Los precios de los productos han sido actualizados"
 
-#: .\ProductsAPP\views.py:215
+#: .\ProductsAPP\views.py:216
 msgid "Historic"
 msgstr "Historico"
 
