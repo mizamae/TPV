@@ -156,7 +156,7 @@ class Consumible(models.Model):
 def create_Product_onCreate(sender, instance, created, **kwargs):
     if created and instance.generates_product:
         product = Product.objects.create(picture=instance.picture,name=instance.name,barcode=instance.barcode,
-                            family=instance.family,single_ingredient=True,vat=instance.vat) 
+                            family=instance.family,single_ingredient=True,vat=instance.vat,details = instance.comments) 
         CombinationPosition.objects.get_or_create(product=product,quantity=1,ingredient=instance)
 
 class Product(models.Model):
