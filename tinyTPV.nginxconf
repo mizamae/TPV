@@ -16,7 +16,7 @@ server{
     }
     location /media/{
         autoindex on;
-        alias /home/mikelzabaleta/Github/tinyTPV/media/;
+        alias /home/mikelzabaleta/Github/TPV/media/;
     }
     location /{
         include proxy_params;
