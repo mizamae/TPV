@@ -20,7 +20,7 @@ def get_monthly_consumption(consumible,month,year):
 
 @register.simple_tag
 def get_monthly_ingress(consumible,month,year):
-    return round(consumible.get_monthly_consumption(month=month,year=year)*consumible.pvp,2)
+    return round(consumible.get_monthly_consumption(month=month,year=year)*consumible.price,2)
 
 @register.simple_tag
 def get_monthly_cost(consumible,month,year):

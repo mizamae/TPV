@@ -202,6 +202,7 @@ def historics_home(request):
             info['from'] = form.cleaned_data['_from'] if form.cleaned_data['_from'] else info['to']-datetime.timedelta(days=365)
             if info['code']:
                 bills = BillAccount.objects.filter(code=info['code']).annotate(order_positions = Count('positions'))
+                bill_totals=None
             else:
                 bills = BillAccount.objects.filter(createdOn__gt=info['from'],
                                                    createdOn__lt=info['to']).annotate(order_positions = Count('positions'))

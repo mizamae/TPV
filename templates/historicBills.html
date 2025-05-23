@@ -9,12 +9,14 @@
         <div class='col-3'> 
             <p class="h4">{{ number }}{% trans " bills found" %}</p>
         </div>
+        {% if totals %}
         <div class='col-3'> 
             <p class="h4">{% trans "Total amount " %}{{ totals.total|floatformat:2 }}€</p>
         </div>
         <div class='col-3'> 
             <p class="h4">{% trans "Total VAT amount " %}{{ totals.total_vat|floatformat:2 }}€</p>
         </div>
+        {% endif %}
     </div>
 
     <div class='row px-5'> 

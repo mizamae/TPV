@@ -6,7 +6,7 @@ from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from django.contrib import admin
 from django.utils import timezone
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from django.core.validators import MinValueValidator, MaxValueValidator
 import datetime
@@ -397,7 +397,13 @@ class BillAccount(models.Model):
         instance.createdBy = createdBy
         instance.save()
         return instance
-        
+
+@receiver(pre_delete, sender=BillAccount, dispatch_uid="restoreStock_onDelete")
+def restoreStock_onDelete(sender, instance, **kwargs):
+    for position in instance.bill_positions.all():
+        position.reduce_quantity(quantity=position.quantity)
+
+
 class BillPosition(models.Model):
     position = models.SmallIntegerField(verbose_name=_("Position"),null=True,blank=True,editable = True)
     bill = models.ForeignKey(BillAccount, on_delete=models.CASCADE, related_name='bill_positions')
@@ -428,12 +434,12 @@ class BillPosition(models.Model):
         self.update(quantity=quantity)
 
     def increase_quantity(self,quantity):
-        self.update(quantity=self.quantity+quantity)
         self.product.reduce_stock(quantity=quantity)
-    
+        self.update(quantity=self.quantity+quantity)
+        
     def reduce_quantity(self, quantity):
-        self.update(quantity=self.quantity-quantity)
         self.product.increase_stock(quantity=quantity)
+        self.update(quantity=self.quantity-quantity)
 
     def update(self, quantity):
         if quantity > 0 :
