@@ -1,0 +1,158 @@
+[
+  {
+    "model": "UsersAPP.customer",
+    "pk": 1,
+    "fields": {
+      "first_name": "Juan",
+      "last_name": "Pérez",
+      "email": "juan.perez@example.com",
+      "phone": "123456789",
+      "cif": "CIF1230001",
+      "saves_paper": true
+    }
+  },
+  {
+    "model": "UsersAPP.customer",
+    "pk": 2,
+    "fields": {
+      "first_name": "María",
+      "last_name": "Gómez",
+      "email": "maria.gomez@example.com",
+      "phone": "987654321",
+      "cif": "CIF1230002",
+      "saves_paper": false
+    }
+  },
+  {
+    "model": "UsersAPP.customer",
+    "pk": 3,
+    "fields": {
+      "first_name": "Luis",
+      "last_name": "Martínez",
+      "email": "luis.martinez@example.com",
+      "phone": "456123789",
+      "cif": "CIF1230003",
+      "saves_paper": true
+    }
+  },
+  {
+    "model": "UsersAPP.customer",
+    "pk": 4,
+    "fields": {
+      "first_name": "Andrea",
+      "last_name": "Castro",
+      "email": "andrea.castro@example.com",
+      "phone": "123456700",
+      "cif": "CIF1230004",
+      "saves_paper": true
+    }
+  },
+  {
+    "model": "UsersAPP.customer",
+    "pk": 5,
+    "fields": {
+      "first_name": "David",
+      "last_name": "Gil",
+      "email": "david.gil@example.com",
+      "phone": "987654310",
+      "cif": "CIF1230005",
+      "saves_paper": false
+    }
+  },
+  {
+    "model": "UsersAPP.customer",
+    "pk": 6,
+    "fields": {
+      "first_name": "Sofía",
+      "last_name": "Martín",
+      "email": "sofia.martin@example.com",
+      "phone": "654321009",
+      "cif": "CIF1230006",
+      "saves_paper": true
+    }
+  },
+  {
+    "model": "UsersAPP.customer",
+    "pk": 7,
+    "fields": {
+      "first_name": "Pablo",
+      "last_name": "López",
+      "email": "pablo.lopez@example.com",
+      "phone": "876543219",
+      "cif": "CIF1230007",
+      "saves_paper": false
+    }
+  },
+  {
+    "model": "UsersAPP.customer",
+    "pk": 8,
+    "fields": {
+      "first_name": "Florencia",
+      "last_name": "Romero",
+      "email": "florencia.romero@example.com",
+      "phone": "543210876",
+      "cif": "CIF1230008",
+      "saves_paper": true
+    }
+  },
+  {
+    "model": "UsersAPP.customer",
+    "pk": 9,
+    "fields": {
+      "first_name": "Fernando",
+      "last_name": "Morales",
+      "email": "fernando.morales@example.com",
+      "phone": "765432198",
+      "cif": "CIF1230009",
+      "saves_paper": false
+    }
+  },
+  {
+    "model": "UsersAPP.customer",
+    "pk": 10,
+    "fields": {
+      "first_name": "Valeria",
+      "last_name": "Herrera",
+      "email": "valeria.herrera@example.com",
+      "phone": "432109876",
+      "cif": "CIF1230010",
+      "saves_paper": true
+    }
+  },
+  {
+    "model": "UsersAPP.customer",
+    "pk": 11,
+    "fields": {
+      "first_name": "Emilio",
+      "last_name": "Vargas",
+      "email": "emilio.vargas@example.com",
+      "phone": "123098765",
+      "cif": "CIF1230011",
+      "saves_paper": false
+    }
+  },
+  {
+    "model": "UsersAPP.customer",
+    "pk": 12,
+    "fields": {
+      "first_name": "Camila",
+      "last_name": "Domínguez",
+      "email": "camila.dominguez@example.com",
+      "phone": "987120345",
+      "cif": "CIF1230012",
+      "saves_paper": true
+    }
+  },
+  {
+    "model": "UsersAPP.customer",
+    "pk": 13,
+    "fields": {
+      "first_name": "Javier",
+      "last_name": "Alonso",
+      "email": "javier.alonso@example.com",
+      "phone": "876543123",
+      "cif": "CIF1230013",
+      "saves_paper": false
+    }
+  }
+]

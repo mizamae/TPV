@@ -75,6 +75,7 @@ class findCustomerForm(forms.Form):
             else:
                 self.fields[field].widget.attrs.update({'class':'form-control'})
         
+        self.fields['data'].widget.attrs.update({'id':'id_customer_data'})
         self.helper.layout = Layout(
                                     Field('data',type=''),
                                 )

@@ -107,11 +107,11 @@ msgstr " facturas encontradas"
 
 #: .\templates\historicBills.html:14
 msgid "Total amount "
-msgstr "Monto total"
+msgstr "Monto total "
 
 #: .\templates\historicBills.html:17
 msgid "Total VAT amount "
-msgstr "Monto de IVA"
+msgstr "Monto de IVA "
 
 #: .\templates\historicBills.html:30
 msgid "No bills found"

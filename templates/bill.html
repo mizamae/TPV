@@ -54,17 +54,17 @@
 						{% endfor %}
 					</div>
 					<div class="card-group">
-						{% for product in tab.items|slice:"6:11" %}	
+						{% for product in tab.items|slice:"6:12" %}	
 						{% include "ProductsAPP/_product_card.html" %}			
 						{% endfor %}
 					</div>
 					<div class="card-group">
-						{% for product in tab.items|slice:"12:17" %}	
+						{% for product in tab.items|slice:"12:18" %}	
 						{% include "ProductsAPP/_product_card.html" %}			
 						{% endfor %}
 					</div>
 					<div class="card-group">
-						{% for product in tab.items|slice:"18:23" %}	
+						{% for product in tab.items|slice:"18:24" %}	
 						{% include "ProductsAPP/_product_card.html" %}			
 						{% endfor %}
 					</div>
@@ -83,7 +83,10 @@
 				</form>
 			</div>
 			<script>
-				document.getElementById("id_barcode").focus();
+				setInterval(function(){
+					const activeElement = document.activeElement;
+					if (activeElement != document.getElementById("id_customer_data")){document.getElementById("id_barcode").focus();}
+				}, 1000);				
 			</script>
 			<table class="table table-dark" id="bill_table">
 				<thead>

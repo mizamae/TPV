@@ -73,21 +73,21 @@
     "model": "ProductsAPP.manufacturer",
     "pk": 1,
     "fields": {
-      "name": "Purina"
+      "name": "Manufacturer 1"
     }
   },
   {
     "model": "ProductsAPP.manufacturer",
     "pk": 2,
     "fields": {
-      "name": "Kong"
+      "name": "Manufacturer 2"
     }
   },
   {
     "model": "ProductsAPP.manufacturer",
     "pk": 3,
     "fields": {
-      "name": "Tidy Cats"
+      "name": "Manufacturer 3"
     }
   },
   {

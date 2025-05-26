@@ -1,0 +1,717 @@
+[
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 1,
+    "fields": {
+      "code": "2025-1",
+      "owner": 3,
+      "createdBy": null,
+      "createdOn": "2025-01-01T12:00:00",
+      "status": 2,
+      "paymenttype": 1,
+      "total": 350.75,
+      "vat_amount": 73.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 1,
+    "fields": {
+      "position": 1,
+      "bill": 1,
+      "quantity": 3,
+      "product": 18,
+      "pvp": 40.50
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 2,
+    "fields": {
+      "position": 2,
+      "bill": 1,
+      "quantity": 2,
+      "product": 22,
+      "pvp": 45.25
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 3,
+    "fields": {
+      "position": 3,
+      "bill": 1,
+      "quantity": 1,
+      "product": 89,
+      "pvp": 120.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 2,
+    "fields": {
+      "code": "2025-2",
+      "owner": 7,
+      "createdBy": null,
+      "createdOn": "2025-01-05T16:30:00",
+      "status": 2,
+      "paymenttype": 0,
+      "total": 215.00,
+      "vat_amount": 45.15
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 4,
+    "fields": {
+      "position": 1,
+      "bill": 2,
+      "quantity": 5,
+      "product": 45,
+      "pvp": 30.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 5,
+    "fields": {
+      "position": 2,
+      "bill": 2,
+      "quantity": 3,
+      "product": 105,
+      "pvp": 25.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 3,
+    "fields": {
+      "code": "2025-3",
+      "owner": 2,
+      "createdBy": null,
+      "createdOn": "2025-01-10T09:45:00",
+      "status": 2,
+      "paymenttype": 2,
+      "total": 175.30,
+      "vat_amount": 36.81
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 6,
+    "fields": {
+      "position": 1,
+      "bill": 3,
+      "quantity": 2,
+      "product": 11,
+      "pvp": 60.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 7,
+    "fields": {
+      "position": 2,
+      "bill": 3,
+      "quantity": 6,
+      "product": 32,
+      "pvp": 6.55
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 8,
+    "fields": {
+      "position": 3,
+      "bill": 3,
+      "quantity": 1,
+      "product": 45,
+      "pvp": 70.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 4,
+    "fields": {
+      "code": "2025-4",
+      "owner": 5,
+      "createdBy": null,
+      "createdOn": "2025-01-15T13:00:00",
+      "status": 2,
+      "paymenttype": 1,
+      "total": 89.50,
+      "vat_amount": 17.90
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 9,
+    "fields": {
+      "position": 1,
+      "bill": 4,
+      "quantity": 3,
+      "product": 101,
+      "pvp": 29.25
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 10,
+    "fields": {
+      "position": 2,
+      "bill": 4,
+      "quantity": 2,
+      "product": 76,
+      "pvp": 15.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 5,
+    "fields": {
+      "code": "2025-5",
+      "owner": 8,
+      "createdBy": null,
+      "createdOn": "2025-02-01T21:30:00",
+      "status": 2,
+      "paymenttype": 0,
+      "total": 305.25,
+      "vat_amount": 64.92
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 11,
+    "fields": {
+      "position": 1,
+      "bill": 5,
+      "quantity": 1,
+      "product": 134,
+      "pvp": 150.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 12,
+    "fields": {
+      "position": 2,
+      "bill": 5,
+      "quantity": 4,
+      "product": 95,
+      "pvp": 38.25
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 6,
+    "fields": {
+      "code": "2025-6",
+      "owner": null,
+      "createdBy": null,
+      "createdOn": "2025-02-10T11:15:00",
+      "status": 2,
+      "paymenttype": 2,
+      "total": 112.40,
+      "vat_amount": 23.60
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 13,
+    "fields": {
+      "position": 1,
+      "bill": 6,
+      "quantity": 7,
+      "product": 99,
+      "pvp": 16.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 14,
+    "fields": {
+      "position": 2,
+      "bill": 6,
+      "quantity": 2,
+      "product": 16,
+      "pvp": 20.20
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 11,
+    "fields": {
+      "code": "2025-11",
+      "owner": 1,
+      "createdBy": null,
+      "createdOn": "2025-02-15T14:30:00",
+      "status": 2,
+      "paymenttype": 1,
+      "total": 250.00,
+      "vat_amount": 52.50
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 21,
+    "fields": {
+      "position": 1,
+      "bill": 11,
+      "quantity": 3,
+      "product": 34,
+      "pvp": 50.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 22,
+    "fields": {
+      "position": 2,
+      "bill": 11,
+      "quantity": 1,
+      "product": 58,
+      "pvp": 100.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 12,
+    "fields": {
+      "code": "2025-12",
+      "owner": 6,
+      "createdBy": null,
+      "createdOn": "2025-02-20T10:15:00",
+      "status": 2,
+      "paymenttype": 2,
+      "total": 560.00,
+      "vat_amount": 117.60
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 23,
+    "fields": {
+      "position": 1,
+      "bill": 12,
+      "quantity": 2,
+      "product": 21,
+      "pvp": 200.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 24,
+    "fields": {
+      "position": 2,
+      "bill": 12,
+      "quantity": 3,
+      "product": 125,
+      "pvp": 40.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 13,
+    "fields": {
+      "code": "2025-13",
+      "owner": null,
+      "createdBy": null,
+      "createdOn": "2025-02-25T12:00:00",
+      "status": 2,
+      "paymenttype": 0,
+      "total": 300.00,
+      "vat_amount": 63.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 25,
+    "fields": {
+      "position": 1,
+      "bill": 13,
+      "quantity": 4,
+      "product": 77,
+      "pvp": 60.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 14,
+    "fields": {
+      "code": "2025-14",
+      "owner": 2,
+      "createdBy": null,
+      "createdOn": "2025-03-01T09:30:00",
+      "status": 2,
+      "paymenttype": 1,
+      "total": 420.00,
+      "vat_amount": 88.20
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 26,
+    "fields": {
+      "position": 1,
+      "bill": 14,
+      "quantity": 1,
+      "product": 99,
+      "pvp": 420.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 15,
+    "fields": {
+      "code": "2025-15",
+      "owner": null,
+      "createdBy": null,
+      "createdOn": "2025-03-05T18:00:00",
+      "status": 2,
+      "paymenttype": 2,
+      "total": 150.00,
+      "vat_amount": 31.50
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 27,
+    "fields": {
+      "position": 1,
+      "bill": 15,
+      "quantity": 5,
+      "product": 12,
+      "pvp": 30.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 16,
+    "fields": {
+      "code": "2025-16",
+      "owner": 4,
+      "createdBy": null,
+      "createdOn": "2025-03-10T15:00:00",
+      "status": 2,
+      "paymenttype": 1,
+      "total": 330.00,
+      "vat_amount": 69.30
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 28,
+    "fields": {
+      "position": 1,
+      "bill": 16,
+      "quantity": 3,
+      "product": 54,
+      "pvp": 110.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 17,
+    "fields": {
+      "code": "2025-17",
+      "owner": 5,
+      "createdBy": null,
+      "createdOn": "2025-03-15T13:45:00",
+      "status": 2,
+      "paymenttype": 2,
+      "total": 260.00,
+      "vat_amount": 54.60
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 29,
+    "fields": {
+      "position": 1,
+      "bill": 17,
+      "quantity": 2,
+      "product": 11,
+      "pvp": 130.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 18,
+    "fields": {
+      "code": "2025-18",
+      "owner": null,
+      "createdBy": null,
+      "createdOn": "2025-03-20T11:00:00",
+      "status": 2,
+      "paymenttype": 0,
+      "total": 95.00,
+      "vat_amount": 19.95
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 30,
+    "fields": {
+      "position": 1,
+      "bill": 18,
+      "quantity": 1,
+      "product": 65,
+      "pvp": 95.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 19,
+    "fields": {
+      "code": "2025-19",
+      "owner": 8,
+      "createdBy": null,
+      "createdOn": "2025-03-25T17:00:00",
+      "status": 2,
+      "paymenttype": 1,
+      "total": 500.00,
+      "vat_amount": 105.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 31,
+    "fields": {
+      "position": 1,
+      "bill": 19,
+      "quantity": 5,
+      "product": 37,
+      "pvp": 100.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 20,
+    "fields": {
+      "code": "2025-20",
+      "owner": null,
+      "createdBy": null,
+      "createdOn": "2025-03-30T19:30:00",
+      "status": 2,
+      "paymenttype": 2,
+      "total": 280.00,
+      "vat_amount": 58.80
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 32,
+    "fields": {
+      "position": 1,
+      "bill": 20,
+      "quantity": 7,
+      "product": 71,
+      "pvp": 40.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 21,
+    "fields": {
+      "code": "2025-21",
+      "owner": null,
+      "createdBy": null,
+      "createdOn": "2025-03-31T12:00:00",
+      "status": 2,
+      "paymenttype": 1,
+      "total": 220.00,
+      "vat_amount": 46.20
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 33,
+    "fields": {
+      "position": 1,
+      "bill": 21,
+      "quantity": 2,
+      "product": 57,
+      "pvp": 110.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 34,
+    "fields": {
+      "position": 2,
+      "bill": 21,
+      "quantity": 3,
+      "product": 23,
+      "pvp": 36.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 22,
+    "fields": {
+      "code": "2025-22",
+      "owner": 6,
+      "createdBy": null,
+      "createdOn": "2025-04-01T10:00:00",
+      "status": 2,
+      "paymenttype": 0,
+      "total": 185.00,
+      "vat_amount": 38.85
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 35,
+    "fields": {
+      "position": 1,
+      "bill": 22,
+      "quantity": 1,
+      "product": 104,
+      "pvp": 150.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 36,
+    "fields": {
+      "position": 2,
+      "bill": 22,
+      "quantity": 2,
+      "product": 9,
+      "pvp": 17.50
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 23,
+    "fields": {
+      "code": "2025-23",
+      "owner": null,
+      "createdBy": null,
+      "createdOn": "2025-04-02T09:30:00",
+      "status": 2,
+      "paymenttype": 2,
+      "total": 390.00,
+      "vat_amount": 81.90
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 37,
+    "fields": {
+      "position": 1,
+      "bill": 23,
+      "quantity": 4,
+      "product": 35,
+      "pvp": 82.50
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 38,
+    "fields": {
+      "position": 2,
+      "bill": 23,
+      "quantity": 6,
+      "product": 140,
+      "pvp": 37.50
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 24,
+    "fields": {
+      "code": "2025-24",
+      "owner": 8,
+      "createdBy": null,
+      "createdOn": "2025-04-03T14:15:00",
+      "status": 2,
+      "paymenttype": 1,
+      "total": 70.00,
+      "vat_amount": 14.70
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 39,
+    "fields": {
+      "position": 1,
+      "bill": 24,
+      "quantity": 1,
+      "product": 87,
+      "pvp": 70.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 25,
+    "fields": {
+      "code": "2025-25",
+      "owner": null,
+      "createdBy": null,
+      "createdOn": "2025-04-04T08:30:00",
+      "status": 2,
+      "paymenttype": 2,
+      "total": 110.00,
+      "vat_amount": 23.10
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 40,
+    "fields": {
+      "position": 1,
+      "bill": 25,
+      "quantity": 6,
+      "product": 67,
+      "pvp": 15.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 41,
+    "fields": {
+      "position": 2,
+      "bill": 25,
+      "quantity": 2,
+      "product": 43,
+      "pvp": 25.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billaccount",
+    "pk": 26,
+    "fields": {
+      "code": "2025-26",
+      "owner": 2,
+      "createdBy": null,
+      "createdOn": "2025-04-05T20:45:00",
+      "status": 2,
+      "paymenttype": 1,
+      "total": 280.00,
+      "vat_amount": 58.80
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 42,
+    "fields": {
+      "position": 1,
+      "bill": 26,
+      "quantity": 5,
+      "product": 98,
+      "pvp": 56.00
+    }
+  },
+  {
+    "model": "ProductsAPP.billposition",
+    "pk": 43,
+    "fields": {
+      "position": 2,
+      "bill": 26,
+      "quantity": 3,
+      "product": 111,
+      "pvp": 22.00
+    }
+  }
+]
