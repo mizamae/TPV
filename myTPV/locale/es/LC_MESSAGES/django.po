@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-19 17:17+0200\n"
+"POT-Creation-Date: 2025-05-26 12:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
-#: .\myTPV\forms.py:18 .\myTPV\views.py:40
+
+#: .\myTPV\forms.py:18 .\myTPV\views.py:47
 msgid "Sales report"
 msgstr "Informe de ventas"
 
-#: .\myTPV\forms.py:19 .\myTPV\views.py:44
+#: .\myTPV\forms.py:19 .\myTPV\views.py:51
 msgid "Products report"
 msgstr "Informe de productos"
 
@@ -70,7 +71,9 @@ msgstr "Actualizaciones automaticas"
 msgid ""
 "Allows to automatically update the software from official repository "
 "(requires internet access)"
-msgstr "Activa las actualizaciones automaticas del repositorio oficial (requiere conexion a internet)"
+msgstr ""
+"Activa las actualizaciones automaticas del repositorio oficial (requiere "
+"conexion a internet)"
 
 #: .\myTPV\models.py:45
 msgid "Code of the current version"
@@ -82,7 +85,8 @@ msgstr "Segundos para logout"
 
 #: .\myTPV\models.py:51
 msgid "Seconds after when, the user would need to login again"
-msgstr "Segundos de inactividad tras los cuales, el usuario debera loggearse de nuevo"
+msgstr ""
+"Segundos de inactividad tras los cuales, el usuario debera loggearse de nuevo"
 
 #: .\myTPV\models.py:53
 msgid "VAT"
@@ -92,10 +96,26 @@ msgstr "IVA"
 msgid "Percentage of the cost added as a tax"
 msgstr "Porcentage del coste que se añade como impuesto"
 
-#: .\myTPV\views.py:51
+#: .\myTPV\views.py:26
+msgid " customers"
+msgstr " clientes"
+
+#: .\myTPV\views.py:27
+msgid " references"
+msgstr " referencias"
+
+#: .\myTPV\views.py:28
+msgid " products"
+msgstr " productos"
+
+#: .\myTPV\views.py:30
+msgid " bills"
+msgstr " facturas"
+
+#: .\myTPV\views.py:58
 msgid "View report"
 msgstr "Ver informe"
 
-#: .\myTPV\views.py:61
+#: .\myTPV\views.py:68
 msgid "Site settings"
 msgstr "Configuracion"

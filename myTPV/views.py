@@ -13,7 +13,8 @@ User=get_user_model()
 from ProductsAPP.models import BillAccount
 from .forms import reportForm, REPORT_TYPE_SALES, REPORT_TYPE_PRODUCTS, siteSettingsForm
 from .models import SiteSettings
-
+from UsersAPP.models import Customer
+from ProductsAPP.models import Consumible, Product, BillAccount
 def home(request):
     now = datetime.datetime.now()
     start_datetime = datetime.datetime(now.year, now.month, now.day)
@@ -21,9 +22,15 @@ def home(request):
     todays_income=0
     for bill in todays_bills.filter(status = BillAccount.STATUS_PAID):
         todays_income += bill.getTotal()
-
+    badge={}
+    badge["customers"]=str(Customer.objects.count()) + _(" customers")
+    badge["stock"]=str(Consumible.objects.count()) + _(" references")
+    badge["prices"]=str(Product.objects.count()) + _(" products")
+    badge["reports"]=""
+    badge["historic"]=str(BillAccount.objects.count()) + _(" bills")
     return render(request, 'home.html',{'todays_bills':todays_bills,
-                                        'todays_income':round(todays_income,2)})
+                                        'todays_income':round(todays_income,2),
+                                        'badge':badge})
 
 def reports_home(request):
     if request.method == "POST":

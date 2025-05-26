@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-22 11:54+0200\n"
+"POT-Creation-Date: 2025-05-26 12:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -120,7 +120,7 @@ msgstr "Coste unitario"
 msgid "Cost of one unit excluding VAT"
 msgstr "El coste de una unidad excluyendo IVA"
 
-#: .\ProductsAPP\models.py:68 .\ProductsAPP\models.py:406
+#: .\ProductsAPP\models.py:68 .\ProductsAPP\models.py:414
 msgid "Selling price"
 msgstr "Precio de venta"
 
@@ -237,7 +237,7 @@ msgstr "Combinacion de consumibles"
 msgid "Combinations of consumables"
 msgstr "Combinaciones de consumibles"
 
-#: .\ProductsAPP\models.py:284 .\ProductsAPP\models.py:404
+#: .\ProductsAPP\models.py:284 .\ProductsAPP\models.py:412
 msgid "Quantity"
 msgstr "Cantidad"
 
@@ -253,61 +253,65 @@ msgstr "Cerrado sin cobro"
 msgid "Closed and Paid"
 msgstr "Cerrado y cobrado"
 
-#: .\ProductsAPP\models.py:305
+#: .\ProductsAPP\models.py:306
 msgid "On cash"
 msgstr "En efectivo"
 
-#: .\ProductsAPP\models.py:306
+#: .\ProductsAPP\models.py:307
 msgid "By credit card"
 msgstr "Con tarjeta de credito"
 
-#: .\ProductsAPP\models.py:312 .\ProductsAPP\templates\ProductsAPP\_list.html:9
+#: .\ProductsAPP\models.py:308
+msgid "By Bizum"
+msgstr "Mediante Bizum"
+
+#: .\ProductsAPP\models.py:314 .\ProductsAPP\templates\ProductsAPP\_list.html:9
 msgid "Date and time"
 msgstr "Fecha y hora"
 
-#: .\ProductsAPP\models.py:314
+#: .\ProductsAPP\models.py:316
 msgid "Status"
 msgstr "Estado"
 
-#: .\ProductsAPP\models.py:318
+#: .\ProductsAPP\models.py:320
 msgid "Payment"
 msgstr "Pago"
 
-#: .\ProductsAPP\models.py:320
+#: .\ProductsAPP\models.py:322
 msgid "Total amount"
 msgstr "Importe total"
 
-#: .\ProductsAPP\models.py:320
+#: .\ProductsAPP\models.py:322
 msgid "Total cost of the invoice before VAT"
 msgstr "Importe total de la factura antes de IVA"
 
-#: .\ProductsAPP\models.py:321 .\ProductsAPP\models.py:387
+#: .\ProductsAPP\models.py:323 .\ProductsAPP\models.py:389
 #: .\ProductsAPP\templates\ProductsAPP\_list.html:11
 msgid "VAT amount"
 msgstr "Importe IVA"
 
-#: .\ProductsAPP\models.py:321
+#: .\ProductsAPP\models.py:323
 msgid "Total amount of the VAT"
 msgstr "Importe total de IVA"
 
-#: .\ProductsAPP\models.py:327
+#: .\ProductsAPP\models.py:329
 msgid " of customer "
 msgstr " del cliente "
 
-#: .\ProductsAPP\models.py:373
+#: .\ProductsAPP\models.py:375
 msgid "Total including VAT"
 msgstr "Total incluyendo IVA"
 
-#: .\ProductsAPP\models.py:380
+#: .\ProductsAPP\models.py:382
 #: .\ProductsAPP\templates\ProductsAPP\_list.html:10
 msgid "Total before VAT"
 msgstr "Total antes de IVA"
 
-#: .\ProductsAPP\models.py:402
+#: .\ProductsAPP\models.py:410
 msgid "Position"
 msgstr "Posicion"
 
-#: .\ProductsAPP\models.py:406
+#: .\ProductsAPP\models.py:414
 msgid "Selling price at the moment of the operation"
 msgstr "Precio de venta en el momento de la transaccion"
 
@@ -412,7 +416,7 @@ msgstr "El stock ha sido actualizado"
 msgid "Product prices have been updated"
 msgstr "Los precios de los productos han sido actualizados"
 
-#: .\ProductsAPP\views.py:216
+#: .\ProductsAPP\views.py:217
 msgid "Historic"
 msgstr "Historico"
 

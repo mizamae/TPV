@@ -7,37 +7,37 @@
 <div class="row px-5">
     <div class = "col-sm-1">
         {% trans "NEW BILL" as header %}
-        {% with permission_OK=perms.UsersAPP.can_add_billaccount link_to='MaterialsAPP_create_bill' icon='ProductsAPP/newBill.svg'	%}
+        {% with permission_OK=perms.UsersAPP.can_add_billaccount link_to='MaterialsAPP_create_bill' icon='ProductsAPP/newBill.svg' badge=''	%}
         {% include "_app_card.html" %}
         {% endwith %}
     </div>
     <div class = "col-sm-1">
         {% trans "NEW CUSTOMER" as header %}
-        {% with permission_OK=perms.UsersAPP.can_add_customer link_to='UsersAPP_create_customer' icon='UsersAPP/newCustomer.svg'	%}
+        {% with permission_OK=perms.UsersAPP.can_add_customer link_to='UsersAPP_create_customer' icon='UsersAPP/newCustomer.svg' badge=badge.customers	%}
         {% include "_app_card.html" %}
         {% endwith %}
     </div>
     <div class = "col-sm-1">
         {% trans "STOCK" as header %}
-        {% with permission_OK=perms.UsersAPP.can_edit_stock link_to='MaterialsAPP_check_stocks' icon='ProductsAPP/stock.svg'	%}
+        {% with permission_OK=perms.UsersAPP.can_edit_stock link_to='MaterialsAPP_check_stocks' icon='ProductsAPP/stock.svg' badge=badge.stock	%}
         {% include "_app_card.html" %}
         {% endwith %}
     </div>
     <div class = "col-sm-1">
         {% trans "PRICES" as header %}
-        {% with permission_OK=perms.UsersAPP.can_edit_prices link_to='MaterialsAPP_check_products' icon='ProductsAPP/products.svg'	%}
+        {% with permission_OK=perms.UsersAPP.can_edit_prices link_to='MaterialsAPP_check_products' icon='ProductsAPP/products.svg' badge=badge.prices	%}
         {% include "_app_card.html" %}
         {% endwith %}
     </div>
     <div class = "col-sm-1">
         {% trans "REPORTS" as header %}
-        {% with permission_OK=perms.UsersAPP.can_view_reports link_to='MyTPV_reports_home' icon='site/ico/reports.svg'	%}
+        {% with permission_OK=perms.UsersAPP.can_view_reports link_to='MyTPV_reports_home' icon='site/ico/reports.svg' badge=badge.reports	%}
         {% include "_app_card.html" %}
         {% endwith %}
     </div>
     <div class = "col-sm-1">
         {% trans "HISTORICS" as header %}
-        {% with permission_OK=perms.UsersAPP.can_see_historics link_to='MaterialsAPP_historics_home' icon='site/ico/historicBills.svg'	%}
+        {% with permission_OK=perms.UsersAPP.can_see_historics link_to='MaterialsAPP_historics_home' icon='site/ico/historicBills.svg' badge=badge.historic	%}
         {% include "_app_card.html" %}
         {% endwith %}
     </div>
