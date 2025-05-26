@@ -1,0 +1,2643 @@
+[
+  {
+    "model": "ProductsAPP.productfamily",
+    "pk": 1,
+    "fields": {
+      "name": "Familia 1"
+    }
+  },
+  {
+    "model": "ProductsAPP.productfamily",
+    "pk": 2,
+    "fields": {
+      "name": "Familia 2"
+    }
+  },
+  {
+    "model": "ProductsAPP.productfamily",
+    "pk": 3,
+    "fields": {
+      "name": "Familia 3"
+    }
+  },
+  {
+    "model": "ProductsAPP.productfamily",
+    "pk": 4,
+    "fields": {
+      "name": "Familia 4"
+    }
+  },
+  {
+    "model": "ProductsAPP.productfamily",
+    "pk": 5,
+    "fields": {
+      "name": "Familia 5"
+    }
+  },
+  {
+    "model": "ProductsAPP.productfamily",
+    "pk": 6,
+    "fields": {
+      "name": "Familia 6"
+    }
+  },
+  {
+    "model": "ProductsAPP.productfamily",
+    "pk": 7,
+    "fields": {
+      "name": "Familia 7"
+    }
+  },
+  {
+    "model": "ProductsAPP.productfamily",
+    "pk": 8,
+    "fields": {
+      "name": "Familia 8"
+    }
+  },
+  {
+    "model": "ProductsAPP.productfamily",
+    "pk": 9,
+    "fields": {
+      "name": "Familia 9"
+    }
+  },
+  {
+    "model": "ProductsAPP.productfamily",
+    "pk": 10,
+    "fields": {
+      "name": "Familia 10"
+    }
+  },
+  {
+    "model": "ProductsAPP.manufacturer",
+    "pk": 1,
+    "fields": {
+      "name": "Purina"
+    }
+  },
+  {
+    "model": "ProductsAPP.manufacturer",
+    "pk": 2,
+    "fields": {
+      "name": "Kong"
+    }
+  },
+  {
+    "model": "ProductsAPP.manufacturer",
+    "pk": 3,
+    "fields": {
+      "name": "Tidy Cats"
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 1,
+    "fields": {
+      "name": "Familia 1 Producto 1",
+      "barcode": "20000000001001",
+      "comments": "Descripción de Familia 1 producto 1",
+      "family": 1,
+      "manufacturer": 2,
+      "cost": 5.0,
+      "price": 8.0,
+      "order_quantity": 10,
+      "stock": 50,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 2,
+    "fields": {
+      "name": "Familia 1 Producto 2",
+      "barcode": "20000000001002",
+      "comments": "Descripción de Familia 1 producto 2",
+      "family": 1,
+      "manufacturer": 3,
+      "cost": 5.5,
+      "price": 8.7,
+      "order_quantity": 10,
+      "stock": 49,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 3,
+    "fields": {
+      "name": "Familia 1 Producto 3",
+      "barcode": "20000000001003",
+      "comments": "Descripción de Familia 1 producto 3",
+      "family": 1,
+      "manufacturer": 1,
+      "cost": 6.0,
+      "price": 9.4,
+      "order_quantity": 10,
+      "stock": 48,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 4,
+    "fields": {
+      "name": "Familia 1 Producto 4",
+      "barcode": "20000000001004",
+      "comments": "Descripción de Familia 1 producto 4",
+      "family": 1,
+      "manufacturer": 2,
+      "cost": 6.5,
+      "price": 10.1,
+      "order_quantity": 10,
+      "stock": 47,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 5,
+    "fields": {
+      "name": "Familia 1 Producto 5",
+      "barcode": "20000000001005",
+      "comments": "Descripción de Familia 1 producto 5",
+      "family": 1,
+      "manufacturer": 3,
+      "cost": 7.0,
+      "price": 10.8,
+      "order_quantity": 10,
+      "stock": 46,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 6,
+    "fields": {
+      "name": "Familia 1 Producto 6",
+      "barcode": "20000000001006",
+      "comments": "Descripción de Familia 1 producto 6",
+      "family": 1,
+      "manufacturer": 1,
+      "cost": 7.5,
+      "price": 11.5,
+      "order_quantity": 10,
+      "stock": 45,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 7,
+    "fields": {
+      "name": "Familia 1 Producto 7",
+      "barcode": "20000000001007",
+      "comments": "Descripción de Familia 1 producto 7",
+      "family": 1,
+      "manufacturer": 2,
+      "cost": 8.0,
+      "price": 12.2,
+      "order_quantity": 10,
+      "stock": 44,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 8,
+    "fields": {
+      "name": "Familia 1 Producto 8",
+      "barcode": "20000000001008",
+      "comments": "Descripción de Familia 1 producto 8",
+      "family": 1,
+      "manufacturer": 3,
+      "cost": 8.5,
+      "price": 12.9,
+      "order_quantity": 10,
+      "stock": 43,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 9,
+    "fields": {
+      "name": "Familia 1 Producto 9",
+      "barcode": "20000000001009",
+      "comments": "Descripción de Familia 1 producto 9",
+      "family": 1,
+      "manufacturer": 1,
+      "cost": 9.0,
+      "price": 13.6,
+      "order_quantity": 10,
+      "stock": 42,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 10,
+    "fields": {
+      "name": "Familia 1 Producto 10",
+      "barcode": "20000000001010",
+      "comments": "Descripción de Familia 1 producto 10",
+      "family": 1,
+      "manufacturer": 2,
+      "cost": 9.5,
+      "price": 14.3,
+      "order_quantity": 10,
+      "stock": 41,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 11,
+    "fields": {
+      "name": "Familia 1 Producto 11",
+      "barcode": "20000000001011",
+      "comments": "Descripción de Familia 1 producto 11",
+      "family": 1,
+      "manufacturer": 3,
+      "cost": 10.0,
+      "price": 15.0,
+      "order_quantity": 10,
+      "stock": 40,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 12,
+    "fields": {
+      "name": "Familia 1 Producto 12",
+      "barcode": "20000000001012",
+      "comments": "Descripción de Familia 1 producto 12",
+      "family": 1,
+      "manufacturer": 1,
+      "cost": 10.5,
+      "price": 15.7,
+      "order_quantity": 10,
+      "stock": 39,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 13,
+    "fields": {
+      "name": "Familia 1 Producto 13",
+      "barcode": "20000000001013",
+      "comments": "Descripción de Familia 1 producto 13",
+      "family": 1,
+      "manufacturer": 2,
+      "cost": 11.0,
+      "price": 16.4,
+      "order_quantity": 10,
+      "stock": 38,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 14,
+    "fields": {
+      "name": "Familia 1 Producto 14",
+      "barcode": "20000000001014",
+      "comments": "Descripción de Familia 1 producto 14",
+      "family": 1,
+      "manufacturer": 3,
+      "cost": 11.5,
+      "price": 17.1,
+      "order_quantity": 10,
+      "stock": 37,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 15,
+    "fields": {
+      "name": "Familia 1 Producto 15",
+      "barcode": "20000000001015",
+      "comments": "Descripción de Familia 1 producto 15",
+      "family": 1,
+      "manufacturer": 1,
+      "cost": 12.0,
+      "price": 17.8,
+      "order_quantity": 10,
+      "stock": 36,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 16,
+    "fields": {
+      "name": "Familia 2 Producto 1",
+      "barcode": "20000000002001",
+      "comments": "Descripción de Familia 2 producto 1",
+      "family": 2,
+      "manufacturer": 3,
+      "cost": 5.0,
+      "price": 8.0,
+      "order_quantity": 10,
+      "stock": 50,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 17,
+    "fields": {
+      "name": "Familia 2 Producto 2",
+      "barcode": "20000000002002",
+      "comments": "Descripción de Familia 2 producto 2",
+      "family": 2,
+      "manufacturer": 1,
+      "cost": 5.5,
+      "price": 8.7,
+      "order_quantity": 10,
+      "stock": 49,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 18,
+    "fields": {
+      "name": "Familia 2 Producto 3",
+      "barcode": "20000000002003",
+      "comments": "Descripción de Familia 2 producto 3",
+      "family": 2,
+      "manufacturer": 2,
+      "cost": 6.0,
+      "price": 9.4,
+      "order_quantity": 10,
+      "stock": 48,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 19,
+    "fields": {
+      "name": "Familia 2 Producto 4",
+      "barcode": "20000000002004",
+      "comments": "Descripción de Familia 2 producto 4",
+      "family": 2,
+      "manufacturer": 3,
+      "cost": 6.5,
+      "price": 10.1,
+      "order_quantity": 10,
+      "stock": 47,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 20,
+    "fields": {
+      "name": "Familia 2 Producto 5",
+      "barcode": "20000000002005",
+      "comments": "Descripción de Familia 2 producto 5",
+      "family": 2,
+      "manufacturer": 1,
+      "cost": 7.0,
+      "price": 10.8,
+      "order_quantity": 10,
+      "stock": 46,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 21,
+    "fields": {
+      "name": "Familia 2 Producto 6",
+      "barcode": "20000000002006",
+      "comments": "Descripción de Familia 2 producto 6",
+      "family": 2,
+      "manufacturer": 2,
+      "cost": 7.5,
+      "price": 11.5,
+      "order_quantity": 10,
+      "stock": 45,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 22,
+    "fields": {
+      "name": "Familia 2 Producto 7",
+      "barcode": "20000000002007",
+      "comments": "Descripción de Familia 2 producto 7",
+      "family": 2,
+      "manufacturer": 3,
+      "cost": 8.0,
+      "price": 12.2,
+      "order_quantity": 10,
+      "stock": 44,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 23,
+    "fields": {
+      "name": "Familia 2 Producto 8",
+      "barcode": "20000000002008",
+      "comments": "Descripción de Familia 2 producto 8",
+      "family": 2,
+      "manufacturer": 1,
+      "cost": 8.5,
+      "price": 12.9,
+      "order_quantity": 10,
+      "stock": 43,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 24,
+    "fields": {
+      "name": "Familia 2 Producto 9",
+      "barcode": "20000000002009",
+      "comments": "Descripción de Familia 2 producto 9",
+      "family": 2,
+      "manufacturer": 2,
+      "cost": 9.0,
+      "price": 13.6,
+      "order_quantity": 10,
+      "stock": 42,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 25,
+    "fields": {
+      "name": "Familia 2 Producto 10",
+      "barcode": "20000000002010",
+      "comments": "Descripción de Familia 2 producto 10",
+      "family": 2,
+      "manufacturer": 3,
+      "cost": 9.5,
+      "price": 14.3,
+      "order_quantity": 10,
+      "stock": 41,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 26,
+    "fields": {
+      "name": "Familia 2 Producto 11",
+      "barcode": "20000000002011",
+      "comments": "Descripción de Familia 2 producto 11",
+      "family": 2,
+      "manufacturer": 1,
+      "cost": 10.0,
+      "price": 15.0,
+      "order_quantity": 10,
+      "stock": 40,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 27,
+    "fields": {
+      "name": "Familia 2 Producto 12",
+      "barcode": "20000000002012",
+      "comments": "Descripción de Familia 2 producto 12",
+      "family": 2,
+      "manufacturer": 2,
+      "cost": 10.5,
+      "price": 15.7,
+      "order_quantity": 10,
+      "stock": 39,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 28,
+    "fields": {
+      "name": "Familia 2 Producto 13",
+      "barcode": "20000000002013",
+      "comments": "Descripción de Familia 2 producto 13",
+      "family": 2,
+      "manufacturer": 3,
+      "cost": 11.0,
+      "price": 16.4,
+      "order_quantity": 10,
+      "stock": 38,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 29,
+    "fields": {
+      "name": "Familia 2 Producto 14",
+      "barcode": "20000000002014",
+      "comments": "Descripción de Familia 2 producto 14",
+      "family": 2,
+      "manufacturer": 1,
+      "cost": 11.5,
+      "price": 17.1,
+      "order_quantity": 10,
+      "stock": 37,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 30,
+    "fields": {
+      "name": "Familia 2 Producto 15",
+      "barcode": "20000000002015",
+      "comments": "Descripción de Familia 2 producto 15",
+      "family": 2,
+      "manufacturer": 2,
+      "cost": 12.0,
+      "price": 17.8,
+      "order_quantity": 10,
+      "stock": 36,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 31,
+    "fields": {
+      "name": "Familia 3 Producto 1",
+      "barcode": "20000000003001",
+      "comments": "Descripción de Familia 3 producto 1",
+      "family": 3,
+      "manufacturer": 1,
+      "cost": 5.0,
+      "price": 8.0,
+      "order_quantity": 10,
+      "stock": 50,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 32,
+    "fields": {
+      "name": "Familia 3 Producto 2",
+      "barcode": "20000000003002",
+      "comments": "Descripción de Familia 3 producto 2",
+      "family": 3,
+      "manufacturer": 2,
+      "cost": 5.5,
+      "price": 8.7,
+      "order_quantity": 10,
+      "stock": 49,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 33,
+    "fields": {
+      "name": "Familia 3 Producto 3",
+      "barcode": "20000000003003",
+      "comments": "Descripción de Familia 3 producto 3",
+      "family": 3,
+      "manufacturer": 3,
+      "cost": 6.0,
+      "price": 9.4,
+      "order_quantity": 10,
+      "stock": 48,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 34,
+    "fields": {
+      "name": "Familia 3 Producto 4",
+      "barcode": "20000000003004",
+      "comments": "Descripción de Familia 3 producto 4",
+      "family": 3,
+      "manufacturer": 1,
+      "cost": 6.5,
+      "price": 10.1,
+      "order_quantity": 10,
+      "stock": 47,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 35,
+    "fields": {
+      "name": "Familia 3 Producto 5",
+      "barcode": "20000000003005",
+      "comments": "Descripción de Familia 3 producto 5",
+      "family": 3,
+      "manufacturer": 2,
+      "cost": 7.0,
+      "price": 10.8,
+      "order_quantity": 10,
+      "stock": 46,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 36,
+    "fields": {
+      "name": "Familia 3 Producto 6",
+      "barcode": "20000000003006",
+      "comments": "Descripción de Familia 3 producto 6",
+      "family": 3,
+      "manufacturer": 3,
+      "cost": 7.5,
+      "price": 11.5,
+      "order_quantity": 10,
+      "stock": 45,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 37,
+    "fields": {
+      "name": "Familia 3 Producto 7",
+      "barcode": "20000000003007",
+      "comments": "Descripción de Familia 3 producto 7",
+      "family": 3,
+      "manufacturer": 1,
+      "cost": 8.0,
+      "price": 12.2,
+      "order_quantity": 10,
+      "stock": 44,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 38,
+    "fields": {
+      "name": "Familia 3 Producto 8",
+      "barcode": "20000000003008",
+      "comments": "Descripción de Familia 3 producto 8",
+      "family": 3,
+      "manufacturer": 2,
+      "cost": 8.5,
+      "price": 12.9,
+      "order_quantity": 10,
+      "stock": 43,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 39,
+    "fields": {
+      "name": "Familia 3 Producto 9",
+      "barcode": "20000000003009",
+      "comments": "Descripción de Familia 3 producto 9",
+      "family": 3,
+      "manufacturer": 3,
+      "cost": 9.0,
+      "price": 13.6,
+      "order_quantity": 10,
+      "stock": 42,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 40,
+    "fields": {
+      "name": "Familia 3 Producto 10",
+      "barcode": "20000000003010",
+      "comments": "Descripción de Familia 3 producto 10",
+      "family": 3,
+      "manufacturer": 1,
+      "cost": 9.5,
+      "price": 14.3,
+      "order_quantity": 10,
+      "stock": 41,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 41,
+    "fields": {
+      "name": "Familia 3 Producto 11",
+      "barcode": "20000000003011",
+      "comments": "Descripción de Familia 3 producto 11",
+      "family": 3,
+      "manufacturer": 2,
+      "cost": 10.0,
+      "price": 15.0,
+      "order_quantity": 10,
+      "stock": 40,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 42,
+    "fields": {
+      "name": "Familia 3 Producto 12",
+      "barcode": "20000000003012",
+      "comments": "Descripción de Familia 3 producto 12",
+      "family": 3,
+      "manufacturer": 3,
+      "cost": 10.5,
+      "price": 15.7,
+      "order_quantity": 10,
+      "stock": 39,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 43,
+    "fields": {
+      "name": "Familia 3 Producto 13",
+      "barcode": "20000000003013",
+      "comments": "Descripción de Familia 3 producto 13",
+      "family": 3,
+      "manufacturer": 1,
+      "cost": 11.0,
+      "price": 16.4,
+      "order_quantity": 10,
+      "stock": 38,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 44,
+    "fields": {
+      "name": "Familia 3 Producto 14",
+      "barcode": "20000000003014",
+      "comments": "Descripción de Familia 3 producto 14",
+      "family": 3,
+      "manufacturer": 2,
+      "cost": 11.5,
+      "price": 17.1,
+      "order_quantity": 10,
+      "stock": 37,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 45,
+    "fields": {
+      "name": "Familia 3 Producto 15",
+      "barcode": "20000000003015",
+      "comments": "Descripción de Familia 3 producto 15",
+      "family": 3,
+      "manufacturer": 3,
+      "cost": 12.0,
+      "price": 17.8,
+      "order_quantity": 10,
+      "stock": 36,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 46,
+    "fields": {
+      "name": "Familia 4 Producto 1",
+      "barcode": "20000000004001",
+      "comments": "Descripción de Familia 4 producto 1",
+      "family": 4,
+      "manufacturer": 2,
+      "cost": 5.0,
+      "price": 8.0,
+      "order_quantity": 10,
+      "stock": 50,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 47,
+    "fields": {
+      "name": "Familia 4 Producto 2",
+      "barcode": "20000000004002",
+      "comments": "Descripción de Familia 4 producto 2",
+      "family": 4,
+      "manufacturer": 3,
+      "cost": 5.5,
+      "price": 8.7,
+      "order_quantity": 10,
+      "stock": 49,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 48,
+    "fields": {
+      "name": "Familia 4 Producto 3",
+      "barcode": "20000000004003",
+      "comments": "Descripción de Familia 4 producto 3",
+      "family": 4,
+      "manufacturer": 1,
+      "cost": 6.0,
+      "price": 9.4,
+      "order_quantity": 10,
+      "stock": 48,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 49,
+    "fields": {
+      "name": "Familia 4 Producto 4",
+      "barcode": "20000000004004",
+      "comments": "Descripción de Familia 4 producto 4",
+      "family": 4,
+      "manufacturer": 2,
+      "cost": 6.5,
+      "price": 10.1,
+      "order_quantity": 10,
+      "stock": 47,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 50,
+    "fields": {
+      "name": "Familia 4 Producto 5",
+      "barcode": "20000000004005",
+      "comments": "Descripción de Familia 4 producto 5",
+      "family": 4,
+      "manufacturer": 3,
+      "cost": 7.0,
+      "price": 10.8,
+      "order_quantity": 10,
+      "stock": 46,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 51,
+    "fields": {
+      "name": "Familia 4 Producto 6",
+      "barcode": "20000000004006",
+      "comments": "Descripción de Familia 4 producto 6",
+      "family": 4,
+      "manufacturer": 1,
+      "cost": 7.5,
+      "price": 11.5,
+      "order_quantity": 10,
+      "stock": 45,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 52,
+    "fields": {
+      "name": "Familia 4 Producto 7",
+      "barcode": "20000000004007",
+      "comments": "Descripción de Familia 4 producto 7",
+      "family": 4,
+      "manufacturer": 2,
+      "cost": 8.0,
+      "price": 12.2,
+      "order_quantity": 10,
+      "stock": 44,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 53,
+    "fields": {
+      "name": "Familia 4 Producto 8",
+      "barcode": "20000000004008",
+      "comments": "Descripción de Familia 4 producto 8",
+      "family": 4,
+      "manufacturer": 3,
+      "cost": 8.5,
+      "price": 12.9,
+      "order_quantity": 10,
+      "stock": 43,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 54,
+    "fields": {
+      "name": "Familia 4 Producto 9",
+      "barcode": "20000000004009",
+      "comments": "Descripción de Familia 4 producto 9",
+      "family": 4,
+      "manufacturer": 1,
+      "cost": 9.0,
+      "price": 13.6,
+      "order_quantity": 10,
+      "stock": 42,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 55,
+    "fields": {
+      "name": "Familia 4 Producto 10",
+      "barcode": "20000000004010",
+      "comments": "Descripción de Familia 4 producto 10",
+      "family": 4,
+      "manufacturer": 2,
+      "cost": 9.5,
+      "price": 14.3,
+      "order_quantity": 10,
+      "stock": 41,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 56,
+    "fields": {
+      "name": "Familia 4 Producto 11",
+      "barcode": "20000000004011",
+      "comments": "Descripción de Familia 4 producto 11",
+      "family": 4,
+      "manufacturer": 3,
+      "cost": 10.0,
+      "price": 15.0,
+      "order_quantity": 10,
+      "stock": 40,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 57,
+    "fields": {
+      "name": "Familia 4 Producto 12",
+      "barcode": "20000000004012",
+      "comments": "Descripción de Familia 4 producto 12",
+      "family": 4,
+      "manufacturer": 1,
+      "cost": 10.5,
+      "price": 15.7,
+      "order_quantity": 10,
+      "stock": 39,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 58,
+    "fields": {
+      "name": "Familia 4 Producto 13",
+      "barcode": "20000000004013",
+      "comments": "Descripción de Familia 4 producto 13",
+      "family": 4,
+      "manufacturer": 2,
+      "cost": 11.0,
+      "price": 16.4,
+      "order_quantity": 10,
+      "stock": 38,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 59,
+    "fields": {
+      "name": "Familia 4 Producto 14",
+      "barcode": "20000000004014",
+      "comments": "Descripción de Familia 4 producto 14",
+      "family": 4,
+      "manufacturer": 3,
+      "cost": 11.5,
+      "price": 17.1,
+      "order_quantity": 10,
+      "stock": 37,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 60,
+    "fields": {
+      "name": "Familia 4 Producto 15",
+      "barcode": "20000000004015",
+      "comments": "Descripción de Familia 4 producto 15",
+      "family": 4,
+      "manufacturer": 1,
+      "cost": 12.0,
+      "price": 17.8,
+      "order_quantity": 10,
+      "stock": 36,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 61,
+    "fields": {
+      "name": "Familia 5 Producto 1",
+      "barcode": "20000000005001",
+      "comments": "Descripción de Familia 5 producto 1",
+      "family": 5,
+      "manufacturer": 3,
+      "cost": 5.0,
+      "price": 8.0,
+      "order_quantity": 10,
+      "stock": 50,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 62,
+    "fields": {
+      "name": "Familia 5 Producto 2",
+      "barcode": "20000000005002",
+      "comments": "Descripción de Familia 5 producto 2",
+      "family": 5,
+      "manufacturer": 1,
+      "cost": 5.5,
+      "price": 8.7,
+      "order_quantity": 10,
+      "stock": 49,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 63,
+    "fields": {
+      "name": "Familia 5 Producto 3",
+      "barcode": "20000000005003",
+      "comments": "Descripción de Familia 5 producto 3",
+      "family": 5,
+      "manufacturer": 2,
+      "cost": 6.0,
+      "price": 9.4,
+      "order_quantity": 10,
+      "stock": 48,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 64,
+    "fields": {
+      "name": "Familia 5 Producto 4",
+      "barcode": "20000000005004",
+      "comments": "Descripción de Familia 5 producto 4",
+      "family": 5,
+      "manufacturer": 3,
+      "cost": 6.5,
+      "price": 10.1,
+      "order_quantity": 10,
+      "stock": 47,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 65,
+    "fields": {
+      "name": "Familia 5 Producto 5",
+      "barcode": "20000000005005",
+      "comments": "Descripción de Familia 5 producto 5",
+      "family": 5,
+      "manufacturer": 1,
+      "cost": 7.0,
+      "price": 10.8,
+      "order_quantity": 10,
+      "stock": 46,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 66,
+    "fields": {
+      "name": "Familia 5 Producto 6",
+      "barcode": "20000000005006",
+      "comments": "Descripción de Familia 5 producto 6",
+      "family": 5,
+      "manufacturer": 2,
+      "cost": 7.5,
+      "price": 11.5,
+      "order_quantity": 10,
+      "stock": 45,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 67,
+    "fields": {
+      "name": "Familia 5 Producto 7",
+      "barcode": "20000000005007",
+      "comments": "Descripción de Familia 5 producto 7",
+      "family": 5,
+      "manufacturer": 3,
+      "cost": 8.0,
+      "price": 12.2,
+      "order_quantity": 10,
+      "stock": 44,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 68,
+    "fields": {
+      "name": "Familia 5 Producto 8",
+      "barcode": "20000000005008",
+      "comments": "Descripción de Familia 5 producto 8",
+      "family": 5,
+      "manufacturer": 1,
+      "cost": 8.5,
+      "price": 12.9,
+      "order_quantity": 10,
+      "stock": 43,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 69,
+    "fields": {
+      "name": "Familia 5 Producto 9",
+      "barcode": "20000000005009",
+      "comments": "Descripción de Familia 5 producto 9",
+      "family": 5,
+      "manufacturer": 2,
+      "cost": 9.0,
+      "price": 13.6,
+      "order_quantity": 10,
+      "stock": 42,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 70,
+    "fields": {
+      "name": "Familia 5 Producto 10",
+      "barcode": "20000000005010",
+      "comments": "Descripción de Familia 5 producto 10",
+      "family": 5,
+      "manufacturer": 3,
+      "cost": 9.5,
+      "price": 14.3,
+      "order_quantity": 10,
+      "stock": 41,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 71,
+    "fields": {
+      "name": "Familia 5 Producto 11",
+      "barcode": "20000000005011",
+      "comments": "Descripción de Familia 5 producto 11",
+      "family": 5,
+      "manufacturer": 1,
+      "cost": 10.0,
+      "price": 15.0,
+      "order_quantity": 10,
+      "stock": 40,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 72,
+    "fields": {
+      "name": "Familia 5 Producto 12",
+      "barcode": "20000000005012",
+      "comments": "Descripción de Familia 5 producto 12",
+      "family": 5,
+      "manufacturer": 2,
+      "cost": 10.5,
+      "price": 15.7,
+      "order_quantity": 10,
+      "stock": 39,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 73,
+    "fields": {
+      "name": "Familia 5 Producto 13",
+      "barcode": "20000000005013",
+      "comments": "Descripción de Familia 5 producto 13",
+      "family": 5,
+      "manufacturer": 3,
+      "cost": 11.0,
+      "price": 16.4,
+      "order_quantity": 10,
+      "stock": 38,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 74,
+    "fields": {
+      "name": "Familia 5 Producto 14",
+      "barcode": "20000000005014",
+      "comments": "Descripción de Familia 5 producto 14",
+      "family": 5,
+      "manufacturer": 1,
+      "cost": 11.5,
+      "price": 17.1,
+      "order_quantity": 10,
+      "stock": 37,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 75,
+    "fields": {
+      "name": "Familia 5 Producto 15",
+      "barcode": "20000000005015",
+      "comments": "Descripción de Familia 5 producto 15",
+      "family": 5,
+      "manufacturer": 2,
+      "cost": 12.0,
+      "price": 17.8,
+      "order_quantity": 10,
+      "stock": 36,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 76,
+    "fields": {
+      "name": "Familia 6 Producto 1",
+      "barcode": "20000000006001",
+      "comments": "Descripción de Familia 6 producto 1",
+      "family": 6,
+      "manufacturer": 1,
+      "cost": 5.0,
+      "price": 8.0,
+      "order_quantity": 10,
+      "stock": 50,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 77,
+    "fields": {
+      "name": "Familia 6 Producto 2",
+      "barcode": "20000000006002",
+      "comments": "Descripción de Familia 6 producto 2",
+      "family": 6,
+      "manufacturer": 2,
+      "cost": 5.5,
+      "price": 8.7,
+      "order_quantity": 10,
+      "stock": 49,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 78,
+    "fields": {
+      "name": "Familia 6 Producto 3",
+      "barcode": "20000000006003",
+      "comments": "Descripción de Familia 6 producto 3",
+      "family": 6,
+      "manufacturer": 3,
+      "cost": 6.0,
+      "price": 9.4,
+      "order_quantity": 10,
+      "stock": 48,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 79,
+    "fields": {
+      "name": "Familia 6 Producto 4",
+      "barcode": "20000000006004",
+      "comments": "Descripción de Familia 6 producto 4",
+      "family": 6,
+      "manufacturer": 1,
+      "cost": 6.5,
+      "price": 10.1,
+      "order_quantity": 10,
+      "stock": 47,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 80,
+    "fields": {
+      "name": "Familia 6 Producto 5",
+      "barcode": "20000000006005",
+      "comments": "Descripción de Familia 6 producto 5",
+      "family": 6,
+      "manufacturer": 2,
+      "cost": 7.0,
+      "price": 10.8,
+      "order_quantity": 10,
+      "stock": 46,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 81,
+    "fields": {
+      "name": "Familia 6 Producto 6",
+      "barcode": "20000000006006",
+      "comments": "Descripción de Familia 6 producto 6",
+      "family": 6,
+      "manufacturer": 3,
+      "cost": 7.5,
+      "price": 11.5,
+      "order_quantity": 10,
+      "stock": 45,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 82,
+    "fields": {
+      "name": "Familia 6 Producto 7",
+      "barcode": "20000000006007",
+      "comments": "Descripción de Familia 6 producto 7",
+      "family": 6,
+      "manufacturer": 1,
+      "cost": 8.0,
+      "price": 12.2,
+      "order_quantity": 10,
+      "stock": 44,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 83,
+    "fields": {
+      "name": "Familia 6 Producto 8",
+      "barcode": "20000000006008",
+      "comments": "Descripción de Familia 6 producto 8",
+      "family": 6,
+      "manufacturer": 2,
+      "cost": 8.5,
+      "price": 12.9,
+      "order_quantity": 10,
+      "stock": 43,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 84,
+    "fields": {
+      "name": "Familia 6 Producto 9",
+      "barcode": "20000000006009",
+      "comments": "Descripción de Familia 6 producto 9",
+      "family": 6,
+      "manufacturer": 3,
+      "cost": 9.0,
+      "price": 13.6,
+      "order_quantity": 10,
+      "stock": 42,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 85,
+    "fields": {
+      "name": "Familia 6 Producto 10",
+      "barcode": "20000000006010",
+      "comments": "Descripción de Familia 6 producto 10",
+      "family": 6,
+      "manufacturer": 1,
+      "cost": 9.5,
+      "price": 14.3,
+      "order_quantity": 10,
+      "stock": 41,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 86,
+    "fields": {
+      "name": "Familia 6 Producto 11",
+      "barcode": "20000000006011",
+      "comments": "Descripción de Familia 6 producto 11",
+      "family": 6,
+      "manufacturer": 2,
+      "cost": 10.0,
+      "price": 15.0,
+      "order_quantity": 10,
+      "stock": 40,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 87,
+    "fields": {
+      "name": "Familia 6 Producto 12",
+      "barcode": "20000000006012",
+      "comments": "Descripción de Familia 6 producto 12",
+      "family": 6,
+      "manufacturer": 3,
+      "cost": 10.5,
+      "price": 15.7,
+      "order_quantity": 10,
+      "stock": 39,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 88,
+    "fields": {
+      "name": "Familia 6 Producto 13",
+      "barcode": "20000000006013",
+      "comments": "Descripción de Familia 6 producto 13",
+      "family": 6,
+      "manufacturer": 1,
+      "cost": 11.0,
+      "price": 16.4,
+      "order_quantity": 10,
+      "stock": 38,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 89,
+    "fields": {
+      "name": "Familia 6 Producto 14",
+      "barcode": "20000000006014",
+      "comments": "Descripción de Familia 6 producto 14",
+      "family": 6,
+      "manufacturer": 2,
+      "cost": 11.5,
+      "price": 17.1,
+      "order_quantity": 10,
+      "stock": 37,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 90,
+    "fields": {
+      "name": "Familia 6 Producto 15",
+      "barcode": "20000000006015",
+      "comments": "Descripción de Familia 6 producto 15",
+      "family": 6,
+      "manufacturer": 3,
+      "cost": 12.0,
+      "price": 17.8,
+      "order_quantity": 10,
+      "stock": 36,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 91,
+    "fields": {
+      "name": "Familia 7 Producto 1",
+      "barcode": "20000000007001",
+      "comments": "Descripción de Familia 7 producto 1",
+      "family": 7,
+      "manufacturer": 2,
+      "cost": 5.0,
+      "price": 8.0,
+      "order_quantity": 10,
+      "stock": 50,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 92,
+    "fields": {
+      "name": "Familia 7 Producto 2",
+      "barcode": "20000000007002",
+      "comments": "Descripción de Familia 7 producto 2",
+      "family": 7,
+      "manufacturer": 3,
+      "cost": 5.5,
+      "price": 8.7,
+      "order_quantity": 10,
+      "stock": 49,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 93,
+    "fields": {
+      "name": "Familia 7 Producto 3",
+      "barcode": "20000000007003",
+      "comments": "Descripción de Familia 7 producto 3",
+      "family": 7,
+      "manufacturer": 1,
+      "cost": 6.0,
+      "price": 9.4,
+      "order_quantity": 10,
+      "stock": 48,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 94,
+    "fields": {
+      "name": "Familia 7 Producto 4",
+      "barcode": "20000000007004",
+      "comments": "Descripción de Familia 7 producto 4",
+      "family": 7,
+      "manufacturer": 2,
+      "cost": 6.5,
+      "price": 10.1,
+      "order_quantity": 10,
+      "stock": 47,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 95,
+    "fields": {
+      "name": "Familia 7 Producto 5",
+      "barcode": "20000000007005",
+      "comments": "Descripción de Familia 7 producto 5",
+      "family": 7,
+      "manufacturer": 3,
+      "cost": 7.0,
+      "price": 10.8,
+      "order_quantity": 10,
+      "stock": 46,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 96,
+    "fields": {
+      "name": "Familia 7 Producto 6",
+      "barcode": "20000000007006",
+      "comments": "Descripción de Familia 7 producto 6",
+      "family": 7,
+      "manufacturer": 1,
+      "cost": 7.5,
+      "price": 11.5,
+      "order_quantity": 10,
+      "stock": 45,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 97,
+    "fields": {
+      "name": "Familia 7 Producto 7",
+      "barcode": "20000000007007",
+      "comments": "Descripción de Familia 7 producto 7",
+      "family": 7,
+      "manufacturer": 2,
+      "cost": 8.0,
+      "price": 12.2,
+      "order_quantity": 10,
+      "stock": 44,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 98,
+    "fields": {
+      "name": "Familia 7 Producto 8",
+      "barcode": "20000000007008",
+      "comments": "Descripción de Familia 7 producto 8",
+      "family": 7,
+      "manufacturer": 3,
+      "cost": 8.5,
+      "price": 12.9,
+      "order_quantity": 10,
+      "stock": 43,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 99,
+    "fields": {
+      "name": "Familia 7 Producto 9",
+      "barcode": "20000000007009",
+      "comments": "Descripción de Familia 7 producto 9",
+      "family": 7,
+      "manufacturer": 1,
+      "cost": 9.0,
+      "price": 13.6,
+      "order_quantity": 10,
+      "stock": 42,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 100,
+    "fields": {
+      "name": "Familia 7 Producto 10",
+      "barcode": "20000000007010",
+      "comments": "Descripción de Familia 7 producto 10",
+      "family": 7,
+      "manufacturer": 2,
+      "cost": 9.5,
+      "price": 14.3,
+      "order_quantity": 10,
+      "stock": 41,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 101,
+    "fields": {
+      "name": "Familia 7 Producto 11",
+      "barcode": "20000000007011",
+      "comments": "Descripción de Familia 7 producto 11",
+      "family": 7,
+      "manufacturer": 3,
+      "cost": 10.0,
+      "price": 15.0,
+      "order_quantity": 10,
+      "stock": 40,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 102,
+    "fields": {
+      "name": "Familia 7 Producto 12",
+      "barcode": "20000000007012",
+      "comments": "Descripción de Familia 7 producto 12",
+      "family": 7,
+      "manufacturer": 1,
+      "cost": 10.5,
+      "price": 15.7,
+      "order_quantity": 10,
+      "stock": 39,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 103,
+    "fields": {
+      "name": "Familia 7 Producto 13",
+      "barcode": "20000000007013",
+      "comments": "Descripción de Familia 7 producto 13",
+      "family": 7,
+      "manufacturer": 2,
+      "cost": 11.0,
+      "price": 16.4,
+      "order_quantity": 10,
+      "stock": 38,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 104,
+    "fields": {
+      "name": "Familia 7 Producto 14",
+      "barcode": "20000000007014",
+      "comments": "Descripción de Familia 7 producto 14",
+      "family": 7,
+      "manufacturer": 3,
+      "cost": 11.5,
+      "price": 17.1,
+      "order_quantity": 10,
+      "stock": 37,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 105,
+    "fields": {
+      "name": "Familia 7 Producto 15",
+      "barcode": "20000000007015",
+      "comments": "Descripción de Familia 7 producto 15",
+      "family": 7,
+      "manufacturer": 1,
+      "cost": 12.0,
+      "price": 17.8,
+      "order_quantity": 10,
+      "stock": 36,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 106,
+    "fields": {
+      "name": "Familia 8 Producto 1",
+      "barcode": "20000000008001",
+      "comments": "Descripción de Familia 8 producto 1",
+      "family": 8,
+      "manufacturer": 3,
+      "cost": 5.0,
+      "price": 8.0,
+      "order_quantity": 10,
+      "stock": 50,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 107,
+    "fields": {
+      "name": "Familia 8 Producto 2",
+      "barcode": "20000000008002",
+      "comments": "Descripción de Familia 8 producto 2",
+      "family": 8,
+      "manufacturer": 1,
+      "cost": 5.5,
+      "price": 8.7,
+      "order_quantity": 10,
+      "stock": 49,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 108,
+    "fields": {
+      "name": "Familia 8 Producto 3",
+      "barcode": "20000000008003",
+      "comments": "Descripción de Familia 8 producto 3",
+      "family": 8,
+      "manufacturer": 2,
+      "cost": 6.0,
+      "price": 9.4,
+      "order_quantity": 10,
+      "stock": 48,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 109,
+    "fields": {
+      "name": "Familia 8 Producto 4",
+      "barcode": "20000000008004",
+      "comments": "Descripción de Familia 8 producto 4",
+      "family": 8,
+      "manufacturer": 3,
+      "cost": 6.5,
+      "price": 10.1,
+      "order_quantity": 10,
+      "stock": 47,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 110,
+    "fields": {
+      "name": "Familia 8 Producto 5",
+      "barcode": "20000000008005",
+      "comments": "Descripción de Familia 8 producto 5",
+      "family": 8,
+      "manufacturer": 1,
+      "cost": 7.0,
+      "price": 10.8,
+      "order_quantity": 10,
+      "stock": 46,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 111,
+    "fields": {
+      "name": "Familia 8 Producto 6",
+      "barcode": "20000000008006",
+      "comments": "Descripción de Familia 8 producto 6",
+      "family": 8,
+      "manufacturer": 2,
+      "cost": 7.5,
+      "price": 11.5,
+      "order_quantity": 10,
+      "stock": 45,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 112,
+    "fields": {
+      "name": "Familia 8 Producto 7",
+      "barcode": "20000000008007",
+      "comments": "Descripción de Familia 8 producto 7",
+      "family": 8,
+      "manufacturer": 3,
+      "cost": 8.0,
+      "price": 12.2,
+      "order_quantity": 10,
+      "stock": 44,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 113,
+    "fields": {
+      "name": "Familia 8 Producto 8",
+      "barcode": "20000000008008",
+      "comments": "Descripción de Familia 8 producto 8",
+      "family": 8,
+      "manufacturer": 1,
+      "cost": 8.5,
+      "price": 12.9,
+      "order_quantity": 10,
+      "stock": 43,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 114,
+    "fields": {
+      "name": "Familia 8 Producto 9",
+      "barcode": "20000000008009",
+      "comments": "Descripción de Familia 8 producto 9",
+      "family": 8,
+      "manufacturer": 2,
+      "cost": 9.0,
+      "price": 13.6,
+      "order_quantity": 10,
+      "stock": 42,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 115,
+    "fields": {
+      "name": "Familia 8 Producto 10",
+      "barcode": "20000000008010",
+      "comments": "Descripción de Familia 8 producto 10",
+      "family": 8,
+      "manufacturer": 3,
+      "cost": 9.5,
+      "price": 14.3,
+      "order_quantity": 10,
+      "stock": 41,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 116,
+    "fields": {
+      "name": "Familia 8 Producto 11",
+      "barcode": "20000000008011",
+      "comments": "Descripción de Familia 8 producto 11",
+      "family": 8,
+      "manufacturer": 1,
+      "cost": 10.0,
+      "price": 15.0,
+      "order_quantity": 10,
+      "stock": 40,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 117,
+    "fields": {
+      "name": "Familia 8 Producto 12",
+      "barcode": "20000000008012",
+      "comments": "Descripción de Familia 8 producto 12",
+      "family": 8,
+      "manufacturer": 2,
+      "cost": 10.5,
+      "price": 15.7,
+      "order_quantity": 10,
+      "stock": 39,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 118,
+    "fields": {
+      "name": "Familia 8 Producto 13",
+      "barcode": "20000000008013",
+      "comments": "Descripción de Familia 8 producto 13",
+      "family": 8,
+      "manufacturer": 3,
+      "cost": 11.0,
+      "price": 16.4,
+      "order_quantity": 10,
+      "stock": 38,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 119,
+    "fields": {
+      "name": "Familia 8 Producto 14",
+      "barcode": "20000000008014",
+      "comments": "Descripción de Familia 8 producto 14",
+      "family": 8,
+      "manufacturer": 1,
+      "cost": 11.5,
+      "price": 17.1,
+      "order_quantity": 10,
+      "stock": 37,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 120,
+    "fields": {
+      "name": "Familia 8 Producto 15",
+      "barcode": "20000000008015",
+      "comments": "Descripción de Familia 8 producto 15",
+      "family": 8,
+      "manufacturer": 2,
+      "cost": 12.0,
+      "price": 17.8,
+      "order_quantity": 10,
+      "stock": 36,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 121,
+    "fields": {
+      "name": "Familia 9 Producto 1",
+      "barcode": "20000000009001",
+      "comments": "Descripción de Familia 9 producto 1",
+      "family": 9,
+      "manufacturer": 1,
+      "cost": 5.0,
+      "price": 8.0,
+      "order_quantity": 10,
+      "stock": 50,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 122,
+    "fields": {
+      "name": "Familia 9 Producto 2",
+      "barcode": "20000000009002",
+      "comments": "Descripción de Familia 9 producto 2",
+      "family": 9,
+      "manufacturer": 2,
+      "cost": 5.5,
+      "price": 8.7,
+      "order_quantity": 10,
+      "stock": 49,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 123,
+    "fields": {
+      "name": "Familia 9 Producto 3",
+      "barcode": "20000000009003",
+      "comments": "Descripción de Familia 9 producto 3",
+      "family": 9,
+      "manufacturer": 3,
+      "cost": 6.0,
+      "price": 9.4,
+      "order_quantity": 10,
+      "stock": 48,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 124,
+    "fields": {
+      "name": "Familia 9 Producto 4",
+      "barcode": "20000000009004",
+      "comments": "Descripción de Familia 9 producto 4",
+      "family": 9,
+      "manufacturer": 1,
+      "cost": 6.5,
+      "price": 10.1,
+      "order_quantity": 10,
+      "stock": 47,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 125,
+    "fields": {
+      "name": "Familia 9 Producto 5",
+      "barcode": "20000000009005",
+      "comments": "Descripción de Familia 9 producto 5",
+      "family": 9,
+      "manufacturer": 2,
+      "cost": 7.0,
+      "price": 10.8,
+      "order_quantity": 10,
+      "stock": 46,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 126,
+    "fields": {
+      "name": "Familia 9 Producto 6",
+      "barcode": "20000000009006",
+      "comments": "Descripción de Familia 9 producto 6",
+      "family": 9,
+      "manufacturer": 3,
+      "cost": 7.5,
+      "price": 11.5,
+      "order_quantity": 10,
+      "stock": 45,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 127,
+    "fields": {
+      "name": "Familia 9 Producto 7",
+      "barcode": "20000000009007",
+      "comments": "Descripción de Familia 9 producto 7",
+      "family": 9,
+      "manufacturer": 1,
+      "cost": 8.0,
+      "price": 12.2,
+      "order_quantity": 10,
+      "stock": 44,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 128,
+    "fields": {
+      "name": "Familia 9 Producto 8",
+      "barcode": "20000000009008",
+      "comments": "Descripción de Familia 9 producto 8",
+      "family": 9,
+      "manufacturer": 2,
+      "cost": 8.5,
+      "price": 12.9,
+      "order_quantity": 10,
+      "stock": 43,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 129,
+    "fields": {
+      "name": "Familia 9 Producto 9",
+      "barcode": "20000000009009",
+      "comments": "Descripción de Familia 9 producto 9",
+      "family": 9,
+      "manufacturer": 3,
+      "cost": 9.0,
+      "price": 13.6,
+      "order_quantity": 10,
+      "stock": 42,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 130,
+    "fields": {
+      "name": "Familia 9 Producto 10",
+      "barcode": "20000000009010",
+      "comments": "Descripción de Familia 9 producto 10",
+      "family": 9,
+      "manufacturer": 1,
+      "cost": 9.5,
+      "price": 14.3,
+      "order_quantity": 10,
+      "stock": 41,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 131,
+    "fields": {
+      "name": "Familia 9 Producto 11",
+      "barcode": "20000000009011",
+      "comments": "Descripción de Familia 9 producto 11",
+      "family": 9,
+      "manufacturer": 2,
+      "cost": 10.0,
+      "price": 15.0,
+      "order_quantity": 10,
+      "stock": 40,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 132,
+    "fields": {
+      "name": "Familia 9 Producto 12",
+      "barcode": "20000000009012",
+      "comments": "Descripción de Familia 9 producto 12",
+      "family": 9,
+      "manufacturer": 3,
+      "cost": 10.5,
+      "price": 15.7,
+      "order_quantity": 10,
+      "stock": 39,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 133,
+    "fields": {
+      "name": "Familia 9 Producto 13",
+      "barcode": "20000000009013",
+      "comments": "Descripción de Familia 9 producto 13",
+      "family": 9,
+      "manufacturer": 1,
+      "cost": 11.0,
+      "price": 16.4,
+      "order_quantity": 10,
+      "stock": 38,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 134,
+    "fields": {
+      "name": "Familia 9 Producto 14",
+      "barcode": "20000000009014",
+      "comments": "Descripción de Familia 9 producto 14",
+      "family": 9,
+      "manufacturer": 2,
+      "cost": 11.5,
+      "price": 17.1,
+      "order_quantity": 10,
+      "stock": 37,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 135,
+    "fields": {
+      "name": "Familia 9 Producto 15",
+      "barcode": "20000000009015",
+      "comments": "Descripción de Familia 9 producto 15",
+      "family": 9,
+      "manufacturer": 3,
+      "cost": 12.0,
+      "price": 17.8,
+      "order_quantity": 10,
+      "stock": 36,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 136,
+    "fields": {
+      "name": "Familia 10 Producto 1",
+      "barcode": "20000000010001",
+      "comments": "Descripción de Familia 10 producto 1",
+      "family": 10,
+      "manufacturer": 2,
+      "cost": 5.0,
+      "price": 8.0,
+      "order_quantity": 10,
+      "stock": 50,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 137,
+    "fields": {
+      "name": "Familia 10 Producto 2",
+      "barcode": "20000000010002",
+      "comments": "Descripción de Familia 10 producto 2",
+      "family": 10,
+      "manufacturer": 3,
+      "cost": 5.5,
+      "price": 8.7,
+      "order_quantity": 10,
+      "stock": 49,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 138,
+    "fields": {
+      "name": "Familia 10 Producto 3",
+      "barcode": "20000000010003",
+      "comments": "Descripción de Familia 10 producto 3",
+      "family": 10,
+      "manufacturer": 1,
+      "cost": 6.0,
+      "price": 9.4,
+      "order_quantity": 10,
+      "stock": 48,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 139,
+    "fields": {
+      "name": "Familia 10 Producto 4",
+      "barcode": "20000000010004",
+      "comments": "Descripción de Familia 10 producto 4",
+      "family": 10,
+      "manufacturer": 2,
+      "cost": 6.5,
+      "price": 10.1,
+      "order_quantity": 10,
+      "stock": 47,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 140,
+    "fields": {
+      "name": "Familia 10 Producto 5",
+      "barcode": "20000000010005",
+      "comments": "Descripción de Familia 10 producto 5",
+      "family": 10,
+      "manufacturer": 3,
+      "cost": 7.0,
+      "price": 10.8,
+      "order_quantity": 10,
+      "stock": 46,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 141,
+    "fields": {
+      "name": "Familia 10 Producto 6",
+      "barcode": "20000000010006",
+      "comments": "Descripción de Familia 10 producto 6",
+      "family": 10,
+      "manufacturer": 1,
+      "cost": 7.5,
+      "price": 11.5,
+      "order_quantity": 10,
+      "stock": 45,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 142,
+    "fields": {
+      "name": "Familia 10 Producto 7",
+      "barcode": "20000000010007",
+      "comments": "Descripción de Familia 10 producto 7",
+      "family": 10,
+      "manufacturer": 2,
+      "cost": 8.0,
+      "price": 12.2,
+      "order_quantity": 10,
+      "stock": 44,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 143,
+    "fields": {
+      "name": "Familia 10 Producto 8",
+      "barcode": "20000000010008",
+      "comments": "Descripción de Familia 10 producto 8",
+      "family": 10,
+      "manufacturer": 3,
+      "cost": 8.5,
+      "price": 12.9,
+      "order_quantity": 10,
+      "stock": 43,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 144,
+    "fields": {
+      "name": "Familia 10 Producto 9",
+      "barcode": "20000000010009",
+      "comments": "Descripción de Familia 10 producto 9",
+      "family": 10,
+      "manufacturer": 1,
+      "cost": 9.0,
+      "price": 13.6,
+      "order_quantity": 10,
+      "stock": 42,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 145,
+    "fields": {
+      "name": "Familia 10 Producto 10",
+      "barcode": "20000000010010",
+      "comments": "Descripción de Familia 10 producto 10",
+      "family": 10,
+      "manufacturer": 2,
+      "cost": 9.5,
+      "price": 14.3,
+      "order_quantity": 10,
+      "stock": 41,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 146,
+    "fields": {
+      "name": "Familia 10 Producto 11",
+      "barcode": "20000000010011",
+      "comments": "Descripción de Familia 10 producto 11",
+      "family": 10,
+      "manufacturer": 3,
+      "cost": 10.0,
+      "price": 15.0,
+      "order_quantity": 10,
+      "stock": 40,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 147,
+    "fields": {
+      "name": "Familia 10 Producto 12",
+      "barcode": "20000000010012",
+      "comments": "Descripción de Familia 10 producto 12",
+      "family": 10,
+      "manufacturer": 1,
+      "cost": 10.5,
+      "price": 15.7,
+      "order_quantity": 10,
+      "stock": 39,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 148,
+    "fields": {
+      "name": "Familia 10 Producto 13",
+      "barcode": "20000000010013",
+      "comments": "Descripción de Familia 10 producto 13",
+      "family": 10,
+      "manufacturer": 2,
+      "cost": 11.0,
+      "price": 16.4,
+      "order_quantity": 10,
+      "stock": 38,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 149,
+    "fields": {
+      "name": "Familia 10 Producto 14",
+      "barcode": "20000000010014",
+      "comments": "Descripción de Familia 10 producto 14",
+      "family": 10,
+      "manufacturer": 3,
+      "cost": 11.5,
+      "price": 17.1,
+      "order_quantity": 10,
+      "stock": 37,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  },
+  {
+    "model": "ProductsAPP.consumible",
+    "pk": 150,
+    "fields": {
+      "name": "Familia 10 Producto 15",
+      "barcode": "20000000010015",
+      "comments": "Descripción de Familia 10 producto 15",
+      "family": 10,
+      "manufacturer": 1,
+      "cost": 12.0,
+      "price": 17.8,
+      "order_quantity": 10,
+      "stock": 36,
+      "stock_min": 5,
+      "generates_product": true
+    }
+  }
+]
