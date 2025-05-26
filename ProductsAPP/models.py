@@ -53,17 +53,41 @@ class ProductFamily(models.Model):
     def clean_name(self):
         self.name=self.name.strip().upper()
 
+class Manufacturer(models.Model):
+    class Meta:
+        verbose_name = _('Manufacturer')
+        verbose_name_plural = _('Manufacturers')
+
+    name = models.CharField(max_length=50, unique=True,verbose_name=_("Name"))
+    
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self) -> str:
+        return self.name
+    
+    @admin.display(description=_("Number of products"))
+    def getNumberOfProducts(self,):
+        return self.consumibles.count()
+        
+    def clean_name(self):
+        self.name=self.name.strip().upper()
+
 class Consumible(models.Model):
     class Meta:
         verbose_name = _('Consumable')
         verbose_name_plural = _('Consumables')
+        unique_together=(('name','manufacturer'))
 
     picture = models.ImageField(_('Image'),null=True,blank=True,storage=IMAGES_FILESYSTEM)
-    name = models.CharField(max_length=150, unique=True,verbose_name=_("Name"))
+    name = models.CharField(max_length=150, verbose_name=_("Name"))
+
     barcode = models.CharField(max_length=150, unique=True,verbose_name=_("Barcode"),blank=True,null=True)
 
     comments = models.TextField(_('Comments'),blank=True,null=True)
     family = models.ForeignKey(ProductFamily,verbose_name=_("Family"), on_delete=models.CASCADE, related_name='consumibles')
+    manufacturer = models.ForeignKey(Manufacturer,verbose_name=_("Manufacturer"), on_delete=models.CASCADE, related_name='consumibles')
+
     cost = models.FloatField(verbose_name=_("Unitary cost"),help_text=_("Cost of one unit excluding VAT"))
     price = models.FloatField(verbose_name=_("Selling price"),help_text=_("Selling price of one unit excluding VAT"))
     order_quantity = models.FloatField(verbose_name=_("Minimum order quantity"),default=10,
@@ -156,7 +180,7 @@ class Consumible(models.Model):
 def create_Product_onCreate(sender, instance, created, **kwargs):
     if created and instance.generates_product:
         product = Product.objects.create(picture=instance.picture,name=instance.name,barcode=instance.barcode,
-                            family=instance.family,single_ingredient=True,vat=instance.vat,details = instance.comments) 
+                            family=instance.family,manufacturer=instance.manufacturer,single_ingredient=True,vat=instance.vat,details = instance.comments) 
         CombinationPosition.objects.get_or_create(product=product,quantity=1,ingredient=instance)
 
 class Product(models.Model):
@@ -166,9 +190,10 @@ class Product(models.Model):
 
     picture = models.ImageField(verbose_name=_('Image of the product'),null=True,blank=True,storage=IMAGES_FILESYSTEM)
     barcode = models.CharField(max_length=150, unique=True,verbose_name=_("Barcode"))
-    name = models.CharField(max_length=150, unique=True,verbose_name=_("Name of the product"))
+    name = models.CharField(max_length=150, verbose_name=_("Name of the product"))
     details = models.TextField(_('Details'),blank=True,null=True)
     family = models.ForeignKey(ProductFamily, on_delete=models.CASCADE, related_name='products')    
+    manufacturer = models.ForeignKey(Manufacturer,verbose_name=_("Manufacturer"), on_delete=models.CASCADE, related_name='products')
 
     single_ingredient = models.BooleanField(verbose_name=_("Direct from consumable"),default=False)
     ingredients = models.ManyToManyField(Consumible,blank=True,through='CombinationPosition')

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import VATValue, ProductFamily, Consumible, CombinationPosition, Product, BillAccount, ProductDiscount
+from .models import VATValue, ProductFamily, Manufacturer, Consumible, CombinationPosition, Product, BillAccount, ProductDiscount
 
 # Register your models here.
 
@@ -14,6 +14,12 @@ class PRODUCT_FAMILYAdmin(admin.ModelAdmin):
     ordering = ('name',)
     
 admin.site.register(ProductFamily, PRODUCT_FAMILYAdmin)
+
+class MANUFACTURERAdmin(admin.ModelAdmin):
+    list_display = ("name","getNumberOfProducts")
+    ordering = ('name',)
+    
+admin.site.register(Manufacturer, MANUFACTURERAdmin)
 
 class CONSUMIBLEAdmin(admin.ModelAdmin):
     list_display = ("name","family","stock")
