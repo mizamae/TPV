@@ -114,10 +114,10 @@
 				{% endblock %}
 			{% else %}
 				{% block login %}
-				<div class="alert alert-danger" role="alert">
-					{% trans "You are not logged in. Try logging in to start working..." %}
+				<div class="row px-5">
+					<p class="alert alert-danger">{% trans "You are not logged in. Try logging in to start working..." %}</p>
 				</div>
-				<div class="d-grid gap-2 col-6 mx-auto">
+				<div class="d-grid gap-2 col-3 mx-auto">
 					<a class="btn btn-primary btn-lg" href="{% url 'login' %}">Login</a>
 				</div>
 				{% endblock login %}

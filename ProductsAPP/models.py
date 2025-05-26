@@ -63,7 +63,7 @@ class Consumible(models.Model):
     barcode = models.CharField(max_length=150, unique=True,verbose_name=_("Barcode"),blank=True,null=True)
 
     comments = models.TextField(_('Comments'),blank=True,null=True)
-    family = models.ForeignKey(ProductFamily,verbose_name=_("Family"), on_delete=models.CASCADE, related_name='consumible_family')
+    family = models.ForeignKey(ProductFamily,verbose_name=_("Family"), on_delete=models.CASCADE, related_name='consumibles')
     cost = models.FloatField(verbose_name=_("Unitary cost"),help_text=_("Cost of one unit excluding VAT"))
     price = models.FloatField(verbose_name=_("Selling price"),help_text=_("Selling price of one unit excluding VAT"))
     order_quantity = models.FloatField(verbose_name=_("Minimum order quantity"),default=10,
@@ -168,14 +168,14 @@ class Product(models.Model):
     barcode = models.CharField(max_length=150, unique=True,verbose_name=_("Barcode"))
     name = models.CharField(max_length=150, unique=True,verbose_name=_("Name of the product"))
     details = models.TextField(_('Details'),blank=True,null=True)
-    family = models.ForeignKey(ProductFamily, on_delete=models.CASCADE, related_name='family')    
+    family = models.ForeignKey(ProductFamily, on_delete=models.CASCADE, related_name='products')    
 
     single_ingredient = models.BooleanField(verbose_name=_("Direct from consumable"),default=False)
     ingredients = models.ManyToManyField(Consumible,blank=True,through='CombinationPosition')
 
     manual_price = models.FloatField(verbose_name=_("Override selling price"),help_text=_("Override automatic selling price of one unit"),blank=True,null=True)
 
-    discount = models.ForeignKey('ProductDiscount', on_delete=models.SET_NULL, related_name='products_affected',blank=True,null=True)
+    discount = models.ForeignKey('ProductDiscount', on_delete=models.SET_NULL, related_name='products',blank=True,null=True)
 
     vat = models.ForeignKey(VATValue,verbose_name=_("Applicable VAT"), on_delete=models.SET_NULL, related_name='products',null=True)
 
@@ -282,7 +282,7 @@ class CombinationPosition(models.Model):
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='resultant_product')
     quantity = models.FloatField(default=1,verbose_name=_("Quantity"))
-    ingredient = models.ForeignKey(Consumible, on_delete=models.CASCADE, related_name='ingredient',verbose_name=_("Consumable"))
+    ingredient = models.ForeignKey(Consumible, on_delete=models.CASCADE, related_name='isUsedIn',verbose_name=_("Consumable"))
 
     def __str__(self) -> str:
         return str(self.ingredient)
@@ -300,10 +300,12 @@ class BillAccount(models.Model):
 
     PAYMENTTYPE_CASH=0
     PAYMENTTYPE_CREDITCARD=1
+    PAYMENTTYPE_BIZUM=2
 
     PAYMENT_TYPES = (
         (PAYMENTTYPE_CASH, _("On cash")),
-        (PAYMENTTYPE_CREDITCARD, _("By credit card")),        
+        (PAYMENTTYPE_CREDITCARD, _("By credit card")),  
+        (PAYMENTTYPE_BIZUM, _("By Bizum")),        
     )
 
     code = models.CharField(max_length=20,editable=False)

@@ -3,3 +3,6 @@
 /media
 *.pyc
 *.log
+ProductsAPP/models.py
+myTPV/local.env
+myTPV/__pycache__/**

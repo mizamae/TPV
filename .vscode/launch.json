@@ -40,7 +40,6 @@
             "request": "launch",
             "args": [
                 "makemigrations",
-                "myTPV"
             ],
             "django": true,
             "autoStartBrowser": false,
