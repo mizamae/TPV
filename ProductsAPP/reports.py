@@ -1,7 +1,7 @@
 
 from django.utils.translation import gettext as _
 import pandas as pd
-from .models import BillAccount, BillPosition, Product
+from .models import BillAccount, BillPosition, Product, ProductFamily
 from django.conf import settings
 import plotly.graph_objects as go
 from plotly.offline import plot
@@ -10,10 +10,13 @@ from plotly.subplots import make_subplots
 def ProductsReport(_from,_to):
     figures = []
     titles=[]
-    totalBillPos = BillPosition.objects.filter(bill__createdOn__gte=_from,bill__createdOn__lte=_to,bill__status=BillAccount.STATUS_PAID).values()
+    totalBillPos = BillPosition.objects.select_related('products').filter(bill__createdOn__gte=_from,bill__createdOn__lte=_to,bill__status=BillAccount.STATUS_PAID).values()
     df = pd.DataFrame(totalBillPos)
     products = [Product.objects.get(id=id) for id in df['product_id'].values]
+    families = [product.family for product in products]
     if not df.empty and products:
+        df['family_name'] =list(map(str,families))
+        families = df['family_name'].unique()
         df['product_name'] =list(map(str,products))
         df['product_cost'] = [product.cost() for product in products]
         df['position_revenue'] = df['quantity']*(df['pvp']-df['product_cost'])
@@ -51,6 +54,22 @@ def ProductsReport(_from,_to):
         figures.append(plot({'data': fig}, output_type='div'))
         titles.append(_("Total revenue per product"))
 
+        # units sold figure
+        df_fig13 = df.groupby('family_name')['quantity'].sum()
+        df_fig13 = df_fig13.rename('Units sold')
+        df_fig13.sort_values(ascending=False,inplace=True)
+
+        fig = make_subplots(rows=1,specs=[[{"secondary_y": False}]])
+        fig.update_yaxes(title_text="Units sold", secondary_y=False)
+    
+        fig.add_trace(go.Bar(x=df_fig13.index.values, y=df_fig13.values,name='Units sold',offsetgroup=1),secondary_y=False,)
+        fig.update_layout(
+            barmode='group',
+            bargap=0.0, # gap between bars of adjacent location coordinates.
+            bargroupgap=0, # gap between bars of the same location coordinate.
+            )
+        figures.append(plot({'data': fig}, output_type='div'))
+        titles.append(_("Units sold per family"))
     else:
         pass
     return titles,figures
@@ -82,16 +101,16 @@ def SalesReport(_from,_to):
 
         fig.update_xaxes(
                     showgrid=True,
-                    rangeslider_visible=True,
-                    rangeselector=dict(
-                        buttons=list([
-                            dict(count=1, label="1m", step="month", stepmode="backward"),
-                            dict(count=6, label="6m", step="month", stepmode="backward"),
-                            dict(count=1, label="YTD", step="year", stepmode="todate"),
-                            dict(count=1, label="1y", step="year", stepmode="backward"),
-                            dict(step="all")
-                        ])
-                    ),
+                    # rangeslider_visible=True,
+                    # rangeselector=dict(
+                    #     buttons=list([
+                    #         dict(count=1, label="1m", step="month", stepmode="backward"),
+                    #         dict(count=6, label="6m", step="month", stepmode="backward"),
+                    #         dict(count=1, label="YTD", step="year", stepmode="todate"),
+                    #         dict(count=1, label="1y", step="year", stepmode="backward"),
+                    #         dict(step="all")
+                    #     ])
+                    # ),
                     minor=dict(ticks="inside", showgrid=True),
                     tickformat="%b %e (%a)")
         figures.append(plot({'data': fig}, output_type='div'))

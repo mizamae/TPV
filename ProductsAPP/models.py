@@ -353,12 +353,7 @@ class BillAccount(models.Model):
     def __str__(self) -> str:
         return self.code + _(" of customer ")+ str(self.owner)
     
-    def save(self,*args,**kwargs):
-        create = self.id is None
-        if create:
-            date = timezone.now()
-            number = BillAccount.objects.filter(createdOn__date__year = date.year).count()
-            self.code = str(date.year) + "-" + str(number+1)
+    def save(self,*args,**kwargs):            
         super(BillAccount,self).save(*args,**kwargs)
     
     # def bill_positions(self):
@@ -422,6 +417,10 @@ class BillAccount(models.Model):
     def create(createdBy):
         instance = BillAccount()
         instance.createdBy = createdBy
+        date = timezone.now().replace(microsecond=0)
+        instance.createdOn = date
+        number = BillAccount.objects.filter(createdOn__date__year = date.year).count()
+        instance.code = str(date.year) + "-" + str(number+1)
         instance.save()
         return instance
 
