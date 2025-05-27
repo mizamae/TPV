@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-22 08:59+0200\n"
+"POT-Creation-Date: 2025-05-27 10:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: .\UsersAPP\forms.py:39 .\UsersAPP\forms.py:108
+#: .\UsersAPP\forms.py:39 .\UsersAPP\forms.py:109
 msgid "Create"
 msgstr "Crear"
 
-#: .\UsersAPP\forms.py:40 .\UsersAPP\forms.py:109
+#: .\UsersAPP\forms.py:40 .\UsersAPP\forms.py:110
 msgid "Cancel"
 msgstr "Cancelar"
 

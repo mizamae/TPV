@@ -180,7 +180,7 @@ class Consumible(models.Model):
 def create_Product_onCreate(sender, instance, created, **kwargs):
     if created and instance.generates_product:
         product = Product.objects.create(picture=instance.picture,name=instance.name,barcode=instance.barcode,
-                            family=instance.family,manufacturer=instance.manufacturer,single_ingredient=True,vat=instance.vat,details = instance.comments) 
+                            family=instance.family,single_ingredient=True,vat=instance.vat,details = instance.comments) 
         CombinationPosition.objects.get_or_create(product=product,quantity=1,ingredient=instance)
 
 class Product(models.Model):
@@ -193,7 +193,6 @@ class Product(models.Model):
     name = models.CharField(max_length=150, verbose_name=_("Name of the product"))
     details = models.TextField(_('Details'),blank=True,null=True)
     family = models.ForeignKey(ProductFamily, on_delete=models.CASCADE, related_name='products')    
-    manufacturer = models.ForeignKey(Manufacturer,verbose_name=_("Manufacturer"), on_delete=models.CASCADE, related_name='products')
 
     single_ingredient = models.BooleanField(verbose_name=_("Direct from consumable"),default=False)
     ingredients = models.ManyToManyField(Consumible,blank=True,through='CombinationPosition')
@@ -201,6 +200,7 @@ class Product(models.Model):
     manual_price = models.FloatField(verbose_name=_("Override selling price"),help_text=_("Override automatic selling price of one unit"),blank=True,null=True)
 
     discount = models.ForeignKey('ProductDiscount', on_delete=models.SET_NULL, related_name='products',blank=True,null=True)
+    promotion = models.ForeignKey('ProductPromotion', on_delete=models.SET_NULL, related_name='products',blank=True,null=True)
 
     vat = models.ForeignKey(VATValue,verbose_name=_("Applicable VAT"), on_delete=models.SET_NULL, related_name='products',null=True)
 
@@ -223,7 +223,15 @@ class Product(models.Model):
             return VATValue.objects.get(id=1).pc_value
     
     def getVATAmount(self):
-        return round(self.price()*self.getVATValue()/100,2)
+        if self.discount:
+            factor = (100-self.discount.percent)/100
+        else:
+            factor = 1
+        return round(factor*self.price()*self.getVATValue()/100,2)
+
+    @property
+    def manufacturer(self):
+        return self.Ingredients.first().manufacturer if self.single_ingredient else None
 
     @property
     def Ingredients(self):
@@ -238,10 +246,11 @@ class Product(models.Model):
     
     @admin.display(description=_("Sell price"))
     def price(self,):
-        if self.discount:
-            factor = (100-self.discount.percent)/100
-        else:
-            factor = 1
+        # if self.discount:
+        #     factor = (100-self.discount.percent)/100
+        # else:
+        #     factor = 1
+        factor =1
 
         if self.manual_price:
             return round(factor*self.manual_price,2)
@@ -253,11 +262,11 @@ class Product(models.Model):
         
     @property
     def pvp(self):
-        if self.discount:
-            factor = (100-self.discount.percent)/100
-        else:
-            factor = 1
-
+        # if self.discount:
+        #     factor = (100-self.discount.percent)/100
+        # else:
+        #     factor = 1
+        factor = 1
         vat = self.getVATValue()/100
 
         if self.manual_price:
@@ -283,6 +292,17 @@ class Product(models.Model):
         for comp in self.Ingredients:
             comp.ingredient.increment_stock(quantity = quantity*comp.quantity )
 
+class ProductPromotion(models.Model):
+    units_pay = models.SmallIntegerField(name=_("Units to pay"))
+    units_take = models.SmallIntegerField(name=_("Units to take"))
+
+    def __str__(self):
+        return str(self.units_take) +"x"+ str(self.units_pay)
+    
+    def clean(self,):
+        from django.core.exceptions import ValidationError  
+        if self.units_pay >= self.units_take:
+            raise ValidationError({'units_take':(_('The units taken by customer should be greater than the units paid to be a promotion'))})
 
 class ProductDiscount(models.Model):
     PERCENTAGE_VALIDATOR = [MinValueValidator(0), MaxValueValidator(100)]
@@ -298,7 +318,13 @@ class ProductDiscount(models.Model):
     
     @property
     def affectedProducts(self):
-        return self.products_affected.all()
+        return self.products.all()
+    
+    def subtotalReduction(self,product,quantity):
+        if product in self.affectedProducts:
+            return round(product.price()*quantity*self.percent/100,2)
+        else:
+            return 0
 
 class CombinationPosition(models.Model):
     class Meta:
@@ -346,6 +372,7 @@ class BillAccount(models.Model):
 
     total = models.FloatField(verbose_name=_("Total amount"),help_text=_("Total cost of the invoice before VAT"),blank=True,null=True)
     vat_amount = models.FloatField(verbose_name=_("VAT amount"),help_text=_("Total amount of the VAT"),blank=True,null=True)
+    save_amount = models.FloatField(verbose_name=_("Save amount"),help_text=_("Total amount saved by discounts/promotions"),blank=True,null=True)
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -360,21 +387,21 @@ class BillAccount(models.Model):
     #     return BillPosition.objects.filter(bill=self).order_by("product__name")
     
     def add_bill_position(self,product,quantity=1):
-        instance,created=BillPosition.objects.get_or_create(bill=self,product=product)
+        position,created=BillPosition.objects.get_or_create(bill=self,product=product)
         if created:
-            instance.quantity=quantity
+            position.update(quantity)
+            position.product.reduce_stock(quantity=quantity)
         else:
-            instance.quantity+=quantity
-        product.reduce_stock(quantity=quantity)
-        instance.save()
-        return instance
+            position.set_quantity(quantity=position.quantity+quantity)
+        return position
 
     def close(self):
         if self.paymenttype is not None:
             self.total = self.getTotalBeforeVAT()
             self.vat_amount = self.getVATAmount()
+            self.save_amount = self.getSaveAmount()
             self.status = BillAccount.STATUS_PAID
-            self.save(update_fields=['status','vat_amount','total'])
+            self.save(update_fields=['status','vat_amount','total','save_amount'])
             for position in self.bill_positions.all():
                 position.close()
             if self.owner and self.owner.saves_paper:
@@ -389,29 +416,45 @@ class BillAccount(models.Model):
                  'date':self.createdOn,'status':self.status,'total':self.getTotalBeforeVAT(),"vat":self.getVATAmount(),'positions':[]}
         for position in self.bill_positions.all():
             value['positions'].append({'quantity':position.quantity,'product':str(position.product),
-                                       'pvp':position.pvp,'subtotal':position.quantity*position.pvp})
+                                       'pvp':position.pvp,'subtotal':position.getsubtotal()})
         return value
 
     @admin.display(description=_("Total including VAT"))
     def getTotal(self,):
         if self.status!=BillAccount.STATUS_PAID:
-            return round(self.getTotalBeforeVAT()+self.getVATAmount(),2)
+            return round(self.getTotalBeforeVAT()+self.getVATAmount()-self.getSaveAmount(),2)
         else:
-            return round(self.total+self.vat_amount,2)
+            return round(self.total+self.vat_amount-self.save_amount,2)
     
     @admin.display(description=_("Total before VAT"))
     def getTotalBeforeVAT(self,):
-        total=0
-        for position in self.bill_positions.all():
-            total+=position.quantity*position.product.price()
-        return round(total,2)
+        if self.status!=BillAccount.STATUS_PAID:
+            total=0
+            for position in self.bill_positions.all():
+                total+=position.quantity*position.product.price()
+            return round(total,2)
+        else:
+            return round(self.total,2)
     
     @admin.display(description=_("VAT amount"))
     def getVATAmount(self,):
-        total=0
-        for position in self.bill_positions.all():
-            total+=position.quantity*(position.product.getVATAmount())
-        return round(total,2)
+        if self.status!=BillAccount.STATUS_PAID:
+            total=0
+            for position in self.bill_positions.all():
+                total+=position.quantity*(position.product.getVATAmount())
+            return round(total,2)
+        else:
+            return round(self.vat_amount,2)
+    
+    @admin.display(description=_("Save amount"))
+    def getSaveAmount(self,):
+        if self.status!=BillAccount.STATUS_PAID:
+            total=0
+            for position in self.bill_positions.all():
+                total+=position.reduce_subtotal if position.reduce_subtotal else 0
+            return round(total,2)
+        else:
+            return round(self.save_amount,2)
     
     @staticmethod
     def create(createdBy):
@@ -436,6 +479,9 @@ class BillPosition(models.Model):
     quantity = models.PositiveSmallIntegerField(default=1,verbose_name=_("Quantity"))
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='bill_positions')
     pvp = models.FloatField(verbose_name=_("Selling price"),help_text=_("Selling price at the moment of the operation"),blank=True,null=True)
+
+    reduce_subtotal = models.FloatField(editable=False,blank=True,null=True) # reduction on the position subtotal due to product discounts or promotions
+    reduce_concept = models.CharField(max_length=20,editable=False,blank=True,null=True)
 
     class Meta:
         unique_together = ['bill','product']
@@ -469,8 +515,14 @@ class BillPosition(models.Model):
 
     def update(self, quantity):
         if quantity > 0 :
+            if self.product.discount:
+                self.reduce_subtotal = self.product.discount.subtotalReduction(product=self.product,quantity=quantity)
+                self.reduce_concept =  _("Discount of ") + str(self.product.discount)
+            else:
+                self.reduce_subtotal = None
+                self.reduce_concept = None
             self.quantity=quantity
-            self.save(update_fields=['quantity',])
+            self.save(update_fields=['quantity','reduce_subtotal','reduce_concept'])
         else:
             self.delete()
     
