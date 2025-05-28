@@ -4,12 +4,17 @@ from django.utils import timezone
 from django.core.cache import cache
 from django.forms import ValidationError
 import copy
-from .models import VATValue, ProductFamily, Consumible, Product, CombinationPosition, ProductDiscount, BillAccount
+from .models import VATValue, Manufacturer, ProductFamily, Consumible, Product, CombinationPosition, ProductDiscount, BillAccount
 from UsersAPP.models import Customer, User
 
 print('######################################')
 print('# TESTING OF ProductsAPP MODEL FUNCTIONS #')
 print('######################################')
+
+def createManufacturers():
+    names = ["Manufacturer 1","Manufacturer 2","Manufacturer 3","Manufacturer 4"]
+    for name in names:
+        Manufacturer.objects.create(name=name)
 
 def createProductFamilies():
     names = ["Comida perros","Comida gatos","Comida pajaros","Comida peces"]
@@ -19,6 +24,7 @@ def createProductFamilies():
 def createConsumables():
     consumables = [
                     {"name":"Consumable "+str(i),"barcode":"456456465"+str(i),"family":ProductFamily.objects.get(id=i%4+1),
+                     "manufacturer":Manufacturer.objects.get(id=i%4+1),
                      "cost":100,"price":200,"order_quantity":10,"stock":100,"stock_min":10,"generates_product":True}
                     for i in range (30)    
                 ]
@@ -41,14 +47,13 @@ class CostPrices_tests(TestCase):
         - Checks the correct calculation of price on compound Products
         - Checks the correct calculation of pvp on Products
         - Checks the correct calculation of pvp on compound Products
-        - Checks the correct calculation of pvp on Products with discount
-        - Checks the correct calculation of pvp on compound Products with discount
     '''
     fixtures=[]
     
     def setUp(self):
         self.defaultVAT, _ = VATValue.objects.get_or_create(**{"id":1,"name":"Standard","pc_value":21})
         self.discount10pc = ProductDiscount.objects.create(percent=10)
+        createManufacturers()
         createProductFamilies()
         createConsumables()
         createCompoundProducts()
@@ -91,20 +96,6 @@ class CostPrices_tests(TestCase):
         self.assertEqual(compoundProduct.pvp,round(600*1.21,2))
         self.assertEqual(compoundProduct.pvp,(consumable1.price+2*Consumible.objects.get(id=2).price)*(1+self.defaultVAT.pc_value/100))
 
-        print('## Checks the correct calculation of pvp on Products with discount ##')
-        product1.discount = self.discount10pc 
-        product1.save()
-        consumable1 = Consumible.objects.get(id=1)
-        self.assertEqual(product1.pvp,round(200*1.21*0.9,2))
-        value = consumable1.price*(1-product1.discount.percent/100)*(1+self.defaultVAT.pc_value/100)
-        self.assertEqual(product1.pvp,round(value,2))
-        print('## Checks the correct calculation of pvp on compound Products with discount ##')
-        compoundProduct = Product.objects.get(barcode='45645000')
-        compoundProduct.discount = self.discount10pc 
-        compoundProduct.save()
-        self.assertEqual(compoundProduct.pvp,round(600*0.9*1.21,2))
-        value = (consumable1.price+2*Consumible.objects.get(id=2).price)*(1-product1.discount.percent/100)*(1+self.defaultVAT.pc_value/100)
-        self.assertEqual(compoundProduct.pvp,round(value,2))
 
 @tag('Bills')
 class Billing_tests(TestCase):
@@ -134,6 +125,7 @@ class Billing_tests(TestCase):
     def setUp(self):
         self.defaultVAT, _ = VATValue.objects.get_or_create(**{"id":1,"name":"Standard","pc_value":21})
         self.discount10pc = ProductDiscount.objects.create(percent=10)
+        createManufacturers()
         createProductFamilies()
         createConsumables()
         createCompoundProducts()
@@ -163,6 +155,8 @@ class Billing_tests(TestCase):
         print('## VAT amount calculation ##')
         self.assertEqual(bill.getVATAmount(),round(200*0.21,2))
         self.assertEqual(product1.getVATAmount(),bill.getVATAmount())
+        print('## Save amount calculation ##')
+        self.assertEqual(bill.getSaveAmount(),0)
         print('## TOTAL amount calculation ##')
         self.assertEqual(bill.getTotal(),round(200*1.21,2))
         self.assertEqual(product1.pvp,bill.getTotal())
@@ -182,15 +176,16 @@ class Billing_tests(TestCase):
 
         product1.discount = self.discount10pc
         product1.save()
+        bill.bill_positions.first().set_quantity(quantity=1) # to update the discount
         print('## Price before VAT calculation with 2 positions and discount ##')
-        self.assertEqual(bill.getTotalBeforeVAT(),580)
+        self.assertEqual(bill.getTotalBeforeVAT(),600)
         self.assertEqual(product1.price()+2*product2.price(),bill.getTotalBeforeVAT())
         print('## VAT amount calculation with 2 positions and discount ##')
         self.assertEqual(bill.getVATAmount(),round(580*0.21,2))
         self.assertEqual(product1.getVATAmount()+2*product2.getVATAmount(),bill.getVATAmount())
         print('## TOTAL amount calculation with 2 positions and discount ##')
         self.assertEqual(bill.getTotal(),round(580*1.21,2))
-        self.assertEqual(product1.pvp+2*product2.pvp,bill.getTotal())
+        self.assertEqual(product1.pvp+2*product2.pvp-bill.getSaveAmount(),bill.getTotal())
 
         print('## Closes the bill ##')
         bill.paymenttype = BillAccount.PAYMENTTYPE_CASH
@@ -205,5 +200,5 @@ class Billing_tests(TestCase):
         product1.save()
         print('## Discount eliminated but positions retain its actual pvp value ##')
         positions = bill.bill_positions.all()
-        self.assertEqual(positions[0].pvp,round(positions[0].product.price()*0.9*1.21,2))
+        self.assertEqual(positions[0].pvp,round(0.9*positions[0].product.price()*1.21,2))
         self.assertEqual(positions[1].pvp,round(positions[1].product.price()*1.21,2))

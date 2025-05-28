@@ -262,20 +262,7 @@ class Product(models.Model):
         
     @property
     def pvp(self):
-        # if self.discount:
-        #     factor = (100-self.discount.percent)/100
-        # else:
-        #     factor = 1
-        factor = 1
-        vat = self.getVATValue()/100
-
-        if self.manual_price:
-            return round((1+vat)*factor*self.manual_price,2)
-        else:
-            pvp=0
-            for comp in self.Ingredients:
-                pvp+=comp.quantity*comp.ingredient.price
-            return round((1+vat)*factor*pvp,2) 
+        return round(self.price()+self.getVATAmount(),2)
     
     @property
     def stock(self):
@@ -419,7 +406,7 @@ class BillAccount(models.Model):
                                        'pvp':position.pvp,'subtotal':position.getsubtotal()})
         return value
 
-    @admin.display(description=_("Total including VAT"))
+    @admin.display(description=_("Total including VAT and discounts"))
     def getTotal(self,):
         if self.status!=BillAccount.STATUS_PAID:
             return round(self.getTotalBeforeVAT()+self.getVATAmount()-self.getSaveAmount(),2)
@@ -495,7 +482,11 @@ class BillPosition(models.Model):
         return super(BillPosition, self).save(*args, **kwargs)
     
     def close(self,):
-        self.pvp = self.product.pvp
+        if self.product.discount:
+            factor = (100-self.product.discount.percent)/100
+        else:
+            factor = 1
+        self.pvp = factor*self.product.price()+self.product.getVATAmount()
         self.save(update_fields=['pvp',])
 
     def set_quantity(self,quantity):
