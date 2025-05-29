@@ -9,13 +9,8 @@
 {% endif %}
     <td>{{ row.code }}</td>
     <td>{{ row.createdOn }}</td>
-    {% if row.total %}
     <td scope="col">{{ row.total|floatformat:2 }} €</td>
-    <td scope="col">{{ row.vat_amount|floatformat:2 }} €</td>
-    {% else %}
-    <td scope="col">{{ row.getTotalBeforeVAT }} €</td>
     <td scope="col">{{ row.getVATAmount }} €</td>
-    {% endif %}
     <td>{{ row.owner.cif }}</td>
     <td>{{ row.order_positions }}</td>
     <td>

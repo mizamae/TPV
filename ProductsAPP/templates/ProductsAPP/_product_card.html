@@ -35,15 +35,18 @@
                 <h6 class="card-title">{{ product.stock }}</h5>
             </div>  
         </div>
-        <div class='row'>
-            {% if product.discount %}
-            <div class='col-7 alerts alert-success'>
-                <h6 class="card-title text-center">{% trans "Discount" %}</h5>
+        <div class='row' style="min-height:25px">
+            <div class='col-3'>
+                {% if product.discount %}
+                <span class="badge rounded-pill bg-success">-{{ product.discount }}</span>
+                {% endif %}
             </div>
-            <div class='col-5 alerts alert-success'>
-                <h6 class="card-title">{{ product.discount }}</h5>
+            <div class='col-3'>
+
             </div>
-            {% endif %}
+            <div class='col-3'>
+
+            </div>
         </div>
     </div>
 </div>

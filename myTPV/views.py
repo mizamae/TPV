@@ -21,7 +21,7 @@ def home(request):
     todays_bills = BillAccount.objects.filter(createdOn__gt=start_datetime).annotate(order_positions = Count('positions'))
     todays_income=0
     for bill in todays_bills.filter(status = BillAccount.STATUS_PAID):
-        todays_income += bill.getTotal()
+        todays_income += bill.total
     badge={}
     badge["customers"]=str(Customer.objects.count()) + _(" customers")
     badge["stock"]=str(Consumible.objects.count()) + _(" references")

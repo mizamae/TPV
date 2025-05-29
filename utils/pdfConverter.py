@@ -151,7 +151,7 @@ class PrintedBill(object):
         
         self.nextRow(2)
 
-        tableRows = [(row['quantity'],row['product'],str(row['pvp'])+'€',str(row['subtotal'])+'€') for row in self.billData['positions']]
+        tableRows = [(row['quantity'],row['product'],str(round(row['subtotal']/row['quantity'],2))+'€',str(row['subtotal'])+'€') for row in self.billData['positions']]
         
 
         if len(self.billData['positions'])<=rowsPerPage:
@@ -168,13 +168,16 @@ class PrintedBill(object):
         self.nextRow(1.5)
         fontSize=10
         self.pdf.setFont(self.fontName, fontSize)
-        text = _("VAT") +": ........................" + str(round(self.billData['vat'],2))+"€"
+        vat_amount=0
+        for row in self.billData['positions']:
+            vat_amount += row['vat_amount']
+        text = _("VAT") +": ........................" + str(round(vat_amount,2))+"€"
         string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
         self.pdf.drawString(self.maxX-string_width, self.currentY, text)
         self.nextRow(2)
         fontSize=12
         self.pdf.setFont(self.fontName, fontSize)
-        text = _("TOTAL")+": ......................." + str(round(self.billData['total']+self.billData['vat'],2))+"€"
+        text = _("TOTAL")+": ......................." + str(round(self.billData['total'],2))+"€"
         string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
         self.pdf.drawString(self.maxX-string_width, self.currentY, text)
 
@@ -239,7 +242,7 @@ if __name__ == '__main__':
                                    'total':56.23,
                                    'vat':12.03,
                                    'positions':[
-                                       {'quantity':2,'product':"Product "+str(i),'pvp':10,'subtotal':20} for i in range(26) 
+                                       {'quantity':2,'product':"Product "+str(i),'vat_amount':21,'subtotal':100,'reduce_concept':'none'} for i in range(26) 
                                    ]
                                    },
                         commerceData={'name':"Pattas S.L.",

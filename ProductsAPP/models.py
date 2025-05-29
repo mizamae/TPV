@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 User=get_user_model()
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
+from django.core.cache import cache
 from django.contrib import admin
 from django.utils import timezone
 from django.db.models.signals import post_save, pre_delete
@@ -223,11 +224,7 @@ class Product(models.Model):
             return VATValue.objects.get(id=1).pc_value
     
     def getVATAmount(self):
-        if self.discount:
-            factor = (100-self.discount.percent)/100
-        else:
-            factor = 1
-        return round(factor*self.price()*self.getVATValue()/100,2)
+        return round(self.price*self.getVATValue()/100,2)
 
     @property
     def manufacturer(self):
@@ -237,6 +234,7 @@ class Product(models.Model):
     def Ingredients(self):
         return CombinationPosition.objects.filter(product=self)
     
+    @property
     @admin.display(description=_("Cost"))
     def cost(self,):
         cost=0
@@ -244,13 +242,13 @@ class Product(models.Model):
             cost+=comp.quantity*comp.ingredient.cost
         return round(cost,2)
     
+    @property
     @admin.display(description=_("Sell price"))
     def price(self,):
-        # if self.discount:
-        #     factor = (100-self.discount.percent)/100
-        # else:
-        #     factor = 1
-        factor =1
+        if self.discount:
+            factor = (100-self.discount.percent)/100
+        else:
+            factor = 1
 
         if self.manual_price:
             return round(factor*self.manual_price,2)
@@ -259,10 +257,10 @@ class Product(models.Model):
             for comp in self.Ingredients:
                 price+=comp.quantity*comp.ingredient.price
             return round(factor*price,2)
-        
+
     @property
     def pvp(self):
-        return round(self.price()+self.getVATAmount(),2)
+        return round(self.price+self.getVATAmount(),2)
     
     @property
     def stock(self):
@@ -307,11 +305,6 @@ class ProductDiscount(models.Model):
     def affectedProducts(self):
         return self.products.all()
     
-    def subtotalReduction(self,product,quantity):
-        if product in self.affectedProducts:
-            return round(product.price()*quantity*self.percent/100,2)
-        else:
-            return 0
 
 class CombinationPosition(models.Model):
     class Meta:
@@ -357,10 +350,6 @@ class BillAccount(models.Model):
 
     paymenttype = models.PositiveSmallIntegerField(verbose_name=_("Payment"),blank=False,null=True,choices=PAYMENT_TYPES)
 
-    total = models.FloatField(verbose_name=_("Total amount"),help_text=_("Total cost of the invoice before VAT"),blank=True,null=True)
-    vat_amount = models.FloatField(verbose_name=_("VAT amount"),help_text=_("Total amount of the VAT"),blank=True,null=True)
-    save_amount = models.FloatField(verbose_name=_("Save amount"),help_text=_("Total amount saved by discounts/promotions"),blank=True,null=True)
-
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
@@ -369,9 +358,6 @@ class BillAccount(models.Model):
     
     def save(self,*args,**kwargs):            
         super(BillAccount,self).save(*args,**kwargs)
-    
-    # def bill_positions(self):
-    #     return BillPosition.objects.filter(bill=self).order_by("product__name")
     
     def add_bill_position(self,product,quantity=1):
         position,created=BillPosition.objects.get_or_create(bill=self,product=product)
@@ -384,11 +370,11 @@ class BillAccount(models.Model):
 
     def close(self):
         if self.paymenttype is not None:
-            self.total = self.getTotalBeforeVAT()
-            self.vat_amount = self.getVATAmount()
-            self.save_amount = self.getSaveAmount()
+            # self.total = self.getTotalBeforeVAT()
+            # self.vat_amount = self.getVATAmount()
+            # self.save_amount = self.getSaveAmount()
             self.status = BillAccount.STATUS_PAID
-            self.save(update_fields=['status','vat_amount','total','save_amount'])
+            self.save(update_fields=['status',]) #'vat_amount','total','save_amount'])
             for position in self.bill_positions.all():
                 position.close()
             if self.owner and self.owner.saves_paper:
@@ -400,49 +386,27 @@ class BillAccount(models.Model):
 
     def toJSON(self):
         value = {'code':self.code,'customer':self.owner.toJSON() if self.owner else {},
-                 'date':self.createdOn,'status':self.status,'total':self.getTotalBeforeVAT(),"vat":self.getVATAmount(),'positions':[]}
+                 'date':self.createdOn,'status':self.status,'total':self.total,"vat":self.getVATAmount(),'positions':[]}
         for position in self.bill_positions.all():
             value['positions'].append({'quantity':position.quantity,'product':str(position.product),
-                                       'pvp':position.pvp,'subtotal':position.getsubtotal()})
+                                       'vat_amount':position.getVATAmount(),'subtotal':position.getSubtotal(),'reduce_concept':position.reduce_concept})
         return value
 
+    @property
     @admin.display(description=_("Total including VAT and discounts"))
-    def getTotal(self,):
-        if self.status!=BillAccount.STATUS_PAID:
-            return round(self.getTotalBeforeVAT()+self.getVATAmount()-self.getSaveAmount(),2)
-        else:
-            return round(self.total+self.vat_amount-self.save_amount,2)
-    
-    @admin.display(description=_("Total before VAT"))
-    def getTotalBeforeVAT(self,):
-        if self.status!=BillAccount.STATUS_PAID:
-            total=0
-            for position in self.bill_positions.all():
-                total+=position.quantity*position.product.price()
-            return round(total,2)
-        else:
-            return round(self.total,2)
+    def total(self,):
+        total=0
+        for position in self.bill_positions.all():
+            total+=position.getSubtotal()
+        return round(total,2)
     
     @admin.display(description=_("VAT amount"))
     def getVATAmount(self,):
-        if self.status!=BillAccount.STATUS_PAID:
-            total=0
-            for position in self.bill_positions.all():
-                total+=position.quantity*(position.product.getVATAmount())
-            return round(total,2)
-        else:
-            return round(self.vat_amount,2)
-    
-    @admin.display(description=_("Save amount"))
-    def getSaveAmount(self,):
-        if self.status!=BillAccount.STATUS_PAID:
-            total=0
-            for position in self.bill_positions.all():
-                total+=position.reduce_subtotal if position.reduce_subtotal else 0
-            return round(total,2)
-        else:
-            return round(self.save_amount,2)
-    
+        total=0
+        for position in self.bill_positions.all():
+            total+=position.getVATAmount()
+        return round(total,2)
+        
     @staticmethod
     def create(createdBy):
         instance = BillAccount()
@@ -465,9 +429,10 @@ class BillPosition(models.Model):
     bill = models.ForeignKey(BillAccount, on_delete=models.CASCADE, related_name='bill_positions')
     quantity = models.PositiveSmallIntegerField(default=1,verbose_name=_("Quantity"))
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='bill_positions')
-    pvp = models.FloatField(verbose_name=_("Selling price"),help_text=_("Selling price at the moment of the operation"),blank=True,null=True)
+    
+    subtotal = models.FloatField(verbose_name=_("Subtotal"),help_text=_("Selling price at the moment of the operation"),blank=True,null=True)
+    vat_amount = models.FloatField(verbose_name=_("VAT amount"),help_text=_("VAT amount at the moment of the operation"),blank=True,null=True)
 
-    reduce_subtotal = models.FloatField(editable=False,blank=True,null=True) # reduction on the position subtotal due to product discounts or promotions
     reduce_concept = models.CharField(max_length=20,editable=False,blank=True,null=True)
 
     class Meta:
@@ -482,12 +447,9 @@ class BillPosition(models.Model):
         return super(BillPosition, self).save(*args, **kwargs)
     
     def close(self,):
-        if self.product.discount:
-            factor = (100-self.product.discount.percent)/100
-        else:
-            factor = 1
-        self.pvp = factor*self.product.price()+self.product.getVATAmount()
-        self.save(update_fields=['pvp',])
+        self.subtotal = round(self.quantity*self.product.pvp,2)
+        self.vat_amount = round(self.quantity*self.product.getVATAmount(),2)
+        self.save(update_fields=['subtotal','vat_amount'])
 
     def set_quantity(self,quantity):
         if quantity > self.quantity:
@@ -507,21 +469,28 @@ class BillPosition(models.Model):
     def update(self, quantity):
         if quantity > 0 :
             if self.product.discount:
-                self.reduce_subtotal = self.product.discount.subtotalReduction(product=self.product,quantity=quantity)
                 self.reduce_concept =  _("Discount of ") + str(self.product.discount)
             else:
-                self.reduce_subtotal = None
                 self.reduce_concept = None
             self.quantity=quantity
-            self.save(update_fields=['quantity','reduce_subtotal','reduce_concept'])
+            self.save(update_fields=['quantity','reduce_concept'])
         else:
             self.delete()
     
     def getNextPosition(self):
         return BillPosition.objects.filter(bill=self.bill).count()+1
     
-    def getsubtotal(self):
-        if self.pvp:
-            return round(self.quantity * self.pvp,2)
+    def getVATAmount(self):
+        if self.vat_amount:
+            return self.vat_amount
         else:
-            return round(self.quantity * self.product.pvp,2)
+            return round(self.quantity*self.product.getVATAmount(),2)
+        
+    def getSubtotal(self):
+        if self.subtotal:
+            return self.subtotal
+        else:
+            return round(self.quantity*self.product.pvp,2)
+    
+    def getUnitPVP(self):
+        return round(self.getSubtotal()/self.quantity,2)

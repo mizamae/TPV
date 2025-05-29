@@ -102,23 +102,15 @@
 					{% for row in bill.bill_positions.all %}
 					<tr> 
 						<td>{{ row.quantity }}</td>
-						<td>{{ row.product }}</td>
-						<td>{{ row.product.pvp }} €</td>
-						<td>{{ row.getsubtotal }} €</td>
+						<td>{{ row.product }} <br> {% if row.reduce_concept %}{{ row.reduce_concept }} {% endif %} </td>
+						<td>{{ row.product.price }} €</td>
+						<td>{{ row.getSubtotal }} €</td>
 						<td>
 							<a type="button" class="btn btn-primary col-12" href={% url 'MaterialsAPP_reduce_bill_position' id=row.id %}>
 								-
 							</a>
 						</td>
 					</tr>
-					{% if row.reduce_subtotal %}
-					<tr> 
-						<td ></td>
-						<td colspan=2>{{ row.reduce_concept }}</td>
-						<td >-{{ row.reduce_subtotal }} €</td>
-						<td ></td>
-					</tr> 
-					{% endif %}
 					{% endfor %}
 					<tr> 
 						<td colspan=3><h5>{% trans "VAT" %}</h5></td>
@@ -126,7 +118,7 @@
 					</tr>
 					<tr> 
 						<td colspan=3><h4>{% trans "TOTAL" %}</h4></td>
-						<td scope="col"><h4>{{ bill.getTotal }} €</h4></td>
+						<td scope="col"><h4>{{ bill.total }} €</h4></td>
 					</tr>
 					<tr>
 						<a type="button" class="btn btn-success col-12" href={% url 'MaterialsAPP_resume_bill' code=bill.code %} >

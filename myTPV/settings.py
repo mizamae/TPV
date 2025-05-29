@@ -80,6 +80,13 @@ CELERY_TASK_SOFT_TIME_LIMIT = 25*60
 CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_RESULT_EXTENDED = True
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+    }
+}
+
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
         messages.DEBUG: 'alert-secondary',
