@@ -51,12 +51,26 @@ class CostPrices_tests(TestCase):
     fixtures=[]
     
     def setUp(self):
+        cache.clear()
         self.defaultVAT, _ = VATValue.objects.get_or_create(**{"id":1,"name":"Standard","pc_value":21})
         self.discount10pc = ProductDiscount.objects.create(percent=10)
         createManufacturers()
         createProductFamilies()
         createConsumables()
         createCompoundProducts()
+
+        default,_ = VATValue.objects.get_or_create(**{"id":1,"name":"Standard","pc_value":21})
+        cache.set("DefaultVAT",default.pc_value,None)
+
+        products_info={}
+        for product in Product.objects.all():
+            products_info[product.id]={"pvp":product.pvp,'stock':product.stock}
+        cache.set("products_info",products_info,None)
+
+        consumable_info={}
+        for consumable in Consumible.objects.all():
+            consumable_info[consumable.id]={'stock':consumable.stock}
+        cache.set("consumable_info",consumable_info,None)
 
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
@@ -122,6 +136,7 @@ class Billing_tests(TestCase):
     fixtures=[]
     
     def setUp(self):
+        cache.clear()
         self.defaultVAT, _ = VATValue.objects.get_or_create(**{"id":1,"name":"Standard","pc_value":21})
         self.discount10pc = ProductDiscount.objects.create(percent=10)
         createManufacturers()
@@ -132,6 +147,19 @@ class Billing_tests(TestCase):
         self.green_customer = Customer.objects.create(**{'first_name':'customers name','last_name':'customers lastname',
                                                    'email':'customers@customers.com','cif':'A2345456','saves_paper':True})
 
+        default,_ = VATValue.objects.get_or_create(**{"id":1,"name":"Standard","pc_value":21})
+        cache.set("DefaultVAT",default.pc_value,None)
+
+        products_info={}
+        for product in Product.objects.all():
+            products_info[product.id]={"pvp":product.pvp,'stock':product.stock}
+        cache.set("products_info",products_info,None)
+
+        consumable_info={}
+        for consumable in Consumible.objects.all():
+            consumable_info[consumable.id]={'stock':consumable.stock}
+        cache.set("consumable_info",consumable_info,None)
+        
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
              

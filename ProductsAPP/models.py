@@ -112,8 +112,13 @@ class Consumible(models.Model):
 
     def reduce_stock(self,quantity):
         if not self.infinite:
+            cached = cache.get("consumable_info")
             self.stock -= quantity
             self.stock = round(self.stock,2)
+            if cached:
+                cached[self.id]['stock'] = self.stock
+                cache.set("consumable_info",cached,None)
+
             if self.stock <= self.stock_min:
                 recipients=User.getStaffEmails()
                 if recipients!=[]:
@@ -127,6 +132,10 @@ class Consumible(models.Model):
     def increment_stock(self,quantity):
         if not self.infinite:
             self.stock += quantity
+            cached = cache.get("consumable_info")
+            if cached:
+                cached[self.id]['stock'] = self.stock
+                cache.set("consumable_info",cached,None)
             self.save(update_fields=['stock',])
     
     def getProductsWhereUsed(self):
@@ -260,22 +269,47 @@ class Product(models.Model):
 
     @property
     def pvp(self):
+        cached = cache.get("products_info")
+        if cached:
+            return round(cached[self.id]['pvp'],2)
         return round(self.price+self.getVATAmount(),2)
     
     @property
     def stock(self):
+        cached = cache.get("products_info")
+        if cached:
+            return cached[self.id]['stock']
+        
         stock_value = 1e6
         for comp in self.Ingredients:
             stock_value = min(stock_value,comp.ingredient.stock/comp.quantity)
         return round(stock_value)
 
     def reduce_stock(self,quantity):
+        cached = cache.get("products_info")
+        if cached:
+            cached[self.id]['stock'] -= quantity
+            cache.set("products_info",cached,None)
+
         for comp in self.Ingredients:
-            comp.ingredient.reduce_stock(quantity = quantity*comp.quantity )    
+            comp.ingredient.reduce_stock(quantity = quantity*comp.quantity )
+            
     
     def increase_stock(self,quantity):
+        cached = cache.get("products_info")
+        if cached:
+            cached[self.id]['stock'] += quantity
+            cache.set("products_info",cached,None)
+
         for comp in self.Ingredients:
             comp.ingredient.increment_stock(quantity = quantity*comp.quantity )
+
+@receiver(post_save, sender=Product, dispatch_uid="updateProductsCache")
+def updateProductsCache(sender, instance, **kwargs):
+    cached = cache.get("products_info")
+    if cached:
+        cached[instance.id]['pvp']=round(instance.price+instance.getVATAmount(),2)
+        cache.set("products_info",cached,None)
 
 class ProductPromotion(models.Model):
     units_pay = models.SmallIntegerField(name=_("Units to pay"))
