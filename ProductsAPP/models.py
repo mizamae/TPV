@@ -221,7 +221,7 @@ class Product(models.Model):
         if self.vat:
             return self.vat.pc_value
         else: # gets the standard value
-            return VATValue.objects.get(id=1).pc_value
+            return cache.get("DefaultVAT")
     
     def getVATAmount(self):
         return round(self.price*self.getVATValue()/100,2)
