@@ -56,6 +56,10 @@ DEBUG = True
 ALLOWED_HOSTS = [s.strip() for s in env('ALLOWED_HOSTS').split(',')]
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1',]
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
 # EMAIL CONFIGURATION
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 #EMAIL_BACKEND = 'utils.googleGmail.EmailBackend'
@@ -113,6 +117,8 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "bootstrap_datepicker_plus",
 
+    "debug_toolbar",
+
     'myTPV',
     'UsersAPP',
     'ProductsAPP',
@@ -130,6 +136,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_plotly_dash.middleware.BaseMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'myTPV.urls'
