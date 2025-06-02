@@ -10,15 +10,10 @@ from plotly.subplots import make_subplots
 def ProductsReport(_from,_to):
     figures = []
     titles=[]
-    totalBillPos = BillPosition.objects.select_related('products').filter(bill__createdOn__gte=_from,bill__createdOn__lte=_to,bill__status=BillAccount.STATUS_PAID).values()
-    df = pd.DataFrame(totalBillPos)
-    products = [Product.objects.get(id=id) for id in df['product_id'].values]
-    families = [product.family for product in products]
-    if not df.empty and products:
-        df['family_name'] =list(map(str,families))
-        families = df['family_name'].unique()
-        df['product_name'] =list(map(str,products))
-        df['product_cost'] = [product.cost() for product in products]
+    totalBillPos = BillPosition.objects.select_related('product').filter(bill__createdOn__gte=_from,bill__createdOn__lte=_to,bill__status=BillAccount.STATUS_PAID)
+    df = pd.DataFrame([[billPos.product.family.name, billPos.product.name,billPos.quantity,billPos.product.cost,billPos.product.pvp] for billPos in totalBillPos],
+                      columns = ('family_name','product_name','quantity','product_cost','pvp'))
+    if not df.empty:
         df['position_revenue'] = df['quantity']*(df['pvp']-df['product_cost'])
 
         # units sold figure
@@ -77,8 +72,8 @@ def ProductsReport(_from,_to):
 def SalesReport(_from,_to):
     figures = []
     titles=[]
-    totalBills = BillAccount.objects.filter(createdOn__gte=_from,createdOn__lte=_to,status=BillAccount.STATUS_PAID).values()
-    df = pd.DataFrame(totalBills)
+    totalBills = BillAccount.objects.prefetch_related('positions').filter(createdOn__gte=_from,createdOn__lte=_to,status=BillAccount.STATUS_PAID)
+    df = pd.DataFrame([[bill.createdOn,bill.id,bill.total] for bill in totalBills],columns=('createdOn','id','total'))
     df.set_index('createdOn',inplace=True)
     df = df.tz_convert(settings.TIME_ZONE)
     if not df.empty:
