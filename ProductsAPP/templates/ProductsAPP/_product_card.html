@@ -42,7 +42,9 @@
                 {% endif %}
             </div>
             <div class='col-3'>
-
+                {% if product.promotion %}
+                <span class="badge rounded-pill bg-warning">{{ product.promotion }}</span>
+                {% endif %}
             </div>
             <div class='col-3'>
 

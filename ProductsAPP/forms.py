@@ -150,7 +150,7 @@ StockFormSet = forms.modelformset_factory(Consumible,form=ConsumibleInlineForm,
 class ProductInlineForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ["name","manual_price","discount"]
+        fields = ["name","manual_price","discount","promotion"]
         widgets = { # this is needed since the virtual keyboard only works with inputs type text, not number
             'manual_price': forms.TextInput(attrs={'type':'text','inputmode':"numeric"})
         }
@@ -179,6 +179,7 @@ class ProductInlineForm(forms.ModelForm):
                                     Field('name',type=''),
                                     Field('manual_price',type='text'),
                                     Field('discount',type=''),
+                                    Field('promotion',type=''),
                                 )
 
-ProductFormSet = forms.modelformset_factory(Product,form=ProductInlineForm,fields = ["name","manual_price","discount"],extra=0,can_delete=False,edit_only=True,)
+ProductFormSet = forms.modelformset_factory(Product,form=ProductInlineForm,fields = ["name","manual_price","discount","promotion"],extra=0,can_delete=False,edit_only=True,)

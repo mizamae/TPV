@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.core.cache import cache
 from django.forms import ValidationError
 import copy
-from .models import VATValue, Manufacturer, ProductFamily, Consumible, Product, CombinationPosition, ProductDiscount, BillAccount
+from .models import VATValue, Manufacturer, ProductFamily, Consumible, Product, CombinationPosition, ProductDiscount, ProductPromotion, BillAccount
 from UsersAPP.models import Customer, User
 
 print('######################################')
@@ -127,11 +127,17 @@ class Billing_tests(TestCase):
         - Price before VAT calculation with 2 positions and discount
         - VAT amount calculation with 2 positions and discount
         - TOTAL amount calculation with 2 positions and discount
+        - Append a position with promotion
+        - Total is correctly calculated with the units equal units_take of promotion
+        - Total is correctly calculated with the units bigger than units_take of promotion
+        - Total is correctly calculated with the units twice units_take of promotion
     Bill closed and paid
         - Closes the bill
-        - total and vat_amount fields are filled with current values
+        - total and vat_amount fields are filled with current values (with product discount)
         - Positions also close fixing its pvp field
         - Discount eliminated but positions retain its actual pvp value
+        - total and vat_amount fields are filled with current values (with product promotion)
+        
     '''
     fixtures=[]
     
@@ -139,6 +145,7 @@ class Billing_tests(TestCase):
         cache.clear()
         self.defaultVAT, _ = VATValue.objects.get_or_create(**{"id":1,"name":"Standard","pc_value":21})
         self.discount10pc = ProductDiscount.objects.create(percent=10)
+        self.promotion3x2 = ProductPromotion.objects.create(**{'units_take':3,'units_pay':2})
         createManufacturers()
         createProductFamilies()
         createConsumables()
@@ -159,7 +166,7 @@ class Billing_tests(TestCase):
         for consumable in Consumible.objects.all():
             consumable_info[consumable.id]={'stock':consumable.stock}
         cache.set("consumable_info",consumable_info,None)
-        
+
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
              
@@ -218,3 +225,37 @@ class Billing_tests(TestCase):
         positions = bill.bill_positions.all()
         self.assertEqual(positions[0].getSubtotal(),round(0.9*positions[0].product.pvp,2))
         self.assertEqual(positions[1].getSubtotal(),round(2*positions[1].product.pvp,2))
+
+    def test_2(self):
+        bill=BillAccount.create(createdBy=self.cashier)
+
+        print('## Append a position with promotion ##')
+        product1 = Product.objects.get(id=1)
+        product1.promotion = self.promotion3x2
+        product1.save()
+
+        print('## Total is correctly calculated with the units equal units_take of promotion ##')
+        bill.add_bill_position(product=product1,quantity=3)
+        self.assertEqual(bill.total,2*round(200*1.21,2))
+        self.assertEqual(2*product1.pvp,bill.total)
+
+        print('## Total is correctly calculated with the units bigger than units_take of promotion ##')
+        bill.add_bill_position(product=product1,quantity=2)
+        self.assertEqual(bill.total,4*round(200*1.21,2))
+        self.assertEqual(4*product1.pvp,bill.total)
+
+        print('## Total is correctly calculated with the units twice units_take of promotion ##')
+        bill.add_bill_position(product=product1,quantity=1)
+        self.assertEqual(bill.total,4*round(200*1.21,2))
+        self.assertEqual(4*product1.pvp,bill.total)
+
+        print('## Closes the bill ##')
+        bill.paymenttype = BillAccount.PAYMENTTYPE_CASH
+        bill.save(update_fields=['paymenttype',])
+        bill.close()
+
+        product1.promotion = None
+        product1.save()
+        print('## total and vat_amount fields are filled with current values  ##')
+        self.assertEqual(bill.total,4*round(200*1.21,2))
+        self.assertEqual(bill.total*100/121*0.21,bill.getVATAmount())

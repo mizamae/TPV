@@ -312,9 +312,10 @@ def updateProductsCache(sender, instance, **kwargs):
         cache.set("products_info",cached,None)
 
 class ProductPromotion(models.Model):
-    units_pay = models.SmallIntegerField(name=_("Units to pay"))
-    units_take = models.SmallIntegerField(name=_("Units to take"))
+    units_pay = models.SmallIntegerField(verbose_name=_("Units to pay"))
+    units_take = models.SmallIntegerField(verbose_name=_("Units to take"))
 
+    @admin.display(description=_("Description"))
     def __str__(self):
         return str(self.units_take) +"x"+ str(self.units_pay)
     
@@ -322,6 +323,20 @@ class ProductPromotion(models.Model):
         from django.core.exceptions import ValidationError  
         if self.units_pay >= self.units_take:
             raise ValidationError({'units_take':(_('The units taken by customer should be greater than the units paid to be a promotion'))})
+    
+    @admin.display(description=_("Affected products"))
+    def adminAffectedProducts(self,):
+        return list(map(str,self.affectedProducts))
+    
+    @property
+    def affectedProducts(self):
+        return self.products.all()
+    
+    def getEffectiveQuantity(self,quantity):
+        if quantity >= self.units_take:
+            return quantity - quantity // self.units_take
+        else:
+            return quantity
 
 class ProductDiscount(models.Model):
     PERCENTAGE_VALIDATOR = [MinValueValidator(0), MaxValueValidator(100)]
@@ -481,8 +496,8 @@ class BillPosition(models.Model):
         return super(BillPosition, self).save(*args, **kwargs)
     
     def close(self,):
-        self.subtotal = round(self.quantity*self.product.pvp,2)
-        self.vat_amount = round(self.quantity*self.product.getVATAmount(),2)
+        self.subtotal = self.getSubtotal()
+        self.vat_amount = self.getVATAmount()
         self.save(update_fields=['subtotal','vat_amount'])
 
     def set_quantity(self,quantity):
@@ -507,6 +522,21 @@ class BillPosition(models.Model):
             else:
                 self.reduce_concept = None
             self.quantity=quantity
+
+            if self.product.promotion:
+                if self.product.promotion.getEffectiveQuantity(quantity = self.quantity) != self.quantity:
+                    text = str(self.product.promotion)
+                else:
+                    text=""
+                if self.reduce_concept:
+                    if text:
+                        if not text in self.reduce_concept:
+                            self.reduce_concept += " " + text
+                    else:
+                        self.reduce_concept = self.reduce_concept.replace(str(self.product.promotion),"")
+                else:
+                    self.reduce_concept = text
+
             self.save(update_fields=['quantity','reduce_concept'])
         else:
             self.delete()
@@ -518,12 +548,18 @@ class BillPosition(models.Model):
         if self.vat_amount:
             return self.vat_amount
         else:
+            if self.product.promotion:
+                promotion_quantity = self.product.promotion.getEffectiveQuantity(quantity = self.quantity)
+                return round(promotion_quantity*self.product.getVATAmount(),2)
             return round(self.quantity*self.product.getVATAmount(),2)
         
     def getSubtotal(self):
         if self.subtotal:
             return self.subtotal
         else:
+            if self.product.promotion:
+                promotion_quantity = self.product.promotion.getEffectiveQuantity(quantity = self.quantity)
+                return round(promotion_quantity*self.product.pvp,2)
             return round(self.quantity*self.product.pvp,2)
     
     def getUnitPVP(self):

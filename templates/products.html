@@ -21,6 +21,7 @@
                     <th scope="col">{% trans "Sell price" %}</th>
                     <th scope="col">{% trans "Manual sell price" %}</th>
                     <th scope="col">{% trans "Active discount" %}</th>
+                    <th scope="col">{% trans "Active Promotion" %}</th>
                 </tr>
             </thead>
             <tbody>		
@@ -38,6 +39,7 @@
                                 <td class="col-1">{{ form.instance.pvp }}</td>
                                 <td class="col-1">{{ form.manual_price }}</td>
                                 <td class="col-2">{{ form.discount }}</td>
+                                <td class="col-2">{{ form.promotion }}</td>
                             </tr>
                         {% endfor %}
                         

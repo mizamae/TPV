@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import VATValue, ProductFamily, Manufacturer, Consumible, CombinationPosition, Product, BillAccount, ProductDiscount
+from .models import VATValue, ProductFamily, Manufacturer, Consumible, CombinationPosition, Product, BillAccount, ProductDiscount, ProductPromotion
 
 # Register your models here.
 
@@ -50,3 +50,10 @@ class ProductDiscountAdmin(admin.ModelAdmin):
     ordering = ('percent',)
     
 admin.site.register(ProductDiscount, ProductDiscountAdmin)
+
+class ProductPromotionAdmin(admin.ModelAdmin):
+    list_display = ("__str__","adminAffectedProducts")
+
+
+    
+admin.site.register(ProductPromotion, ProductPromotionAdmin)
