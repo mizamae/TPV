@@ -12,15 +12,15 @@ class ProductsConfig(AppConfig):
             default,_ = VATValue.objects.get_or_create(**{"id":1,"name":"Standard","pc_value":21})
             cache.set("DefaultVAT",default.pc_value,None)
 
-            products_info={}
-            for product in Product.objects.all():
-                products_info[product.id]={"pvp":product.pvp,'stock':product.stock}
-            cache.set("products_info",products_info,None)
+            # products_info={}
+            # for product in Product.objects.all():
+            #     products_info[product.id]={"pvp":product.pvp,'stock':product.stock}
+            # cache.set("products_info",products_info,None)
 
-            consumable_info={}
-            for consumable in Consumible.objects.all():
-                consumable_info[consumable.id]={'stock':consumable.stock}
-            cache.set("consumable_info",consumable_info,None)
+            # consumable_info={}
+            # for consumable in Consumible.objects.all():
+            #     consumable_info[consumable.id]={'stock':consumable.stock}
+            # cache.set("consumable_info",consumable_info,None)
 
         except Exception as exc:
             pass
