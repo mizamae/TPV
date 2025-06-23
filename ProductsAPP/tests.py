@@ -1,7 +1,9 @@
-from django.test import tag,TestCase,Client
+from django.test import tag,TestCase,Client, TransactionTestCase
 from time import sleep
 from django.utils import timezone
 from django.core.cache import cache
+from celery.contrib.testing.worker import start_worker
+from myTPV.celery import app
 from django.forms import ValidationError
 import copy
 from .models import VATValue, Manufacturer, ProductFamily, Consumible, Product, CombinationPosition, ProductDiscount, ProductPromotion, BillAccount
@@ -23,8 +25,8 @@ def createProductFamilies():
 
 def createConsumables():
     consumables = [
-                    {"name":"Consumable "+str(i),"barcode":"456456465"+str(i),"family":ProductFamily.objects.get(id=i%4+1),
-                     "manufacturer":Manufacturer.objects.get(id=i%4+1),
+                    {"name":"Consumable "+str(i),"barcode":"456456465"+str(i),"family":ProductFamily.objects.get(id=i%4+ProductFamily.objects.order_by('id').first().id),
+                     "manufacturer":Manufacturer.objects.get(id=i%4+Manufacturer.objects.order_by('id').first().id),
                      "cost":100,"price":200,"order_quantity":10,"stock":100,"stock_min":10,"generates_product":True}
                     for i in range (30)    
                 ]
@@ -32,14 +34,15 @@ def createConsumables():
         Consumible.objects.create(**consumable)
 
 def createCompoundProducts():
-    product = Product.objects.create(barcode='45645000',name="Compound product",family=ProductFamily.objects.get(id=1))
-    CombinationPosition.objects.create(product=product,quantity=1,ingredient=Consumible.objects.get(id=1))
-    CombinationPosition.objects.create(product=product,quantity=2,ingredient=Consumible.objects.get(id=2))
+    product = Product.objects.create(barcode='45645000',name="Compound product",family=ProductFamily.objects.order_by('id').first())
+    CombinationPosition.objects.create(product=product,quantity=1,ingredient=Consumible.objects.order_by('id').first())
+    CombinationPosition.objects.create(product=product,quantity=2,ingredient=Consumible.objects.order_by('id').last())
 
 
 @tag('CostPrices')
-class CostPrices_tests(TestCase):
+class CostPrices_tests(TransactionTestCase):
     ''' ASPECTS ALREADY TESTED:
+        - Checks every product has its cache key
         - Checks the creation of Consumables directly sellable create corresponding Products
         - Checks the correct calculation of cost on Products
         - Checks the correct calculation of cost on compound Products
@@ -50,69 +53,84 @@ class CostPrices_tests(TestCase):
     '''
     fixtures=[]
     
+    ''' 
+    When model instances are modified in celery tasks, you have to fork the celery worker from the django test process in order to force
+    celery to use django's test db.
+    In this case, the tests classes need to inherit from TransactionTestCase and a small sleep time needs to be included between the operation
+    that sends the celery task and the assertion of the result in order to leave time for the celery task to execute.
+    
+    '''
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.celery_worker = start_worker(app,perform_ping_check=False)
+        cls.celery_worker.__enter__()
+
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+        cls.celery_worker.__exit__(None, None, None)
+
     def setUp(self):
         cache.clear()
         self.defaultVAT, _ = VATValue.objects.get_or_create(**{"id":1,"name":"Standard","pc_value":21})
+        cache.set("DefaultVAT",self.defaultVAT.pc_value,None)
+
         self.discount10pc = ProductDiscount.objects.create(percent=10)
+        cache.set("consumable_info",{},None)
+        cache.set("products_info",{},None)
         createManufacturers()
         createProductFamilies()
         createConsumables()
         createCompoundProducts()
-
-        default,_ = VATValue.objects.get_or_create(**{"id":1,"name":"Standard","pc_value":21})
-        cache.set("DefaultVAT",default.pc_value,None)
-
-        products_info={}
-        for product in Product.objects.all():
-            products_info[product.id]={"pvp":product.pvp,'stock':product.stock}
-        cache.set("products_info",products_info,None)
-
-        consumable_info={}
-        for consumable in Consumible.objects.all():
-            consumable_info[consumable.id]={'stock':consumable.stock}
-        cache.set("consumable_info",consumable_info,None)
 
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
              
 # INDIVIDUAL FUNCTIONS TESTING
     def test_1(self):
+
+        print('## Checks every product has its cache key ##')
+        cached = cache.get("products_info")
+        for product in Product.objects.all():
+            self.assertTrue(product.id in cached.keys())
+
         print('## Checks the creation of Consumables directly sellable create corresponding Products ##')
         self.assertEqual(Product.objects.filter(single_ingredient=True).count(),Consumible.objects.filter(generates_product=True).count())
         
         print('## Checks the correct calculation of cost on Products ##')
-        product1 = Product.objects.get(id=1)
-        consumable1 = Consumible.objects.get(id=1)
+        product1 = Product.objects.order_by('id').first()
+        consumable1 = Consumible.objects.order_by('id').first()
         self.assertEqual(product1.cost,100)
         self.assertEqual(product1.cost,consumable1.cost)
         print('## Checks the correct calculation of cost on compound Products ##')
         compoundProduct = Product.objects.get(barcode='45645000')
         self.assertEqual(compoundProduct.cost,300)
-        self.assertEqual(compoundProduct.cost,consumable1.cost+2*Consumible.objects.get(id=2).cost)
+        self.assertEqual(compoundProduct.cost,consumable1.cost+2*Consumible.objects.order_by('id').last().cost)
 
         print('## Checks the correct calculation of price on Products ##')
-        product1 = Product.objects.get(id=1)
-        consumable1 = Consumible.objects.get(id=1)
+        product1 = Product.objects.order_by('id').first()
+        consumable1 = Consumible.objects.order_by('id').first()
         self.assertEqual(product1.price,200)
         self.assertEqual(product1.price,consumable1.price)
         print('## Checks the correct calculation of price on compound Products ##')
         compoundProduct = Product.objects.get(barcode='45645000')
         self.assertEqual(compoundProduct.price,600)
-        self.assertEqual(compoundProduct.price,consumable1.price+2*Consumible.objects.get(id=2).price)
+        self.assertEqual(compoundProduct.price,consumable1.price+2*Consumible.objects.order_by('id').last().price)
 
         print('## Checks the correct calculation of pvp on Products ##')
-        product1 = Product.objects.get(id=1)
-        consumable1 = Consumible.objects.get(id=1)
+        product1 = Product.objects.order_by('id').first()
+        consumable1 = Consumible.objects.order_by('id').first()
         self.assertEqual(product1.pvp,round(200*1.21,2))
         self.assertEqual(product1.pvp,consumable1.price*(1+self.defaultVAT.pc_value/100))
         print('## Checks the correct calculation of pvp on compound Products ##')
         compoundProduct = Product.objects.get(barcode='45645000')
         self.assertEqual(compoundProduct.pvp,round(600*1.21,2))
-        self.assertEqual(compoundProduct.pvp,(consumable1.price+2*Consumible.objects.get(id=2).price)*(1+self.defaultVAT.pc_value/100))
+        self.assertEqual(compoundProduct.pvp,(consumable1.price+2*Consumible.objects.order_by('id').last().price)*(1+self.defaultVAT.pc_value/100))
 
 
 @tag('Bills')
-class Billing_tests(TestCase):
+class Billing_tests(TransactionTestCase):
     ''' ASPECTS ALREADY TESTED:
     Bill open
         - Bill creation and customer assignation
@@ -141,11 +159,33 @@ class Billing_tests(TestCase):
     '''
     fixtures=[]
     
+    ''' 
+    When model instances are modified in celery tasks, you have to fork the celery worker from the django test process in order to force
+    celery to use django's test db.
+    In this case, the tests classes need to inherit from TransactionTestCase and a small sleep time needs to be included between the operation
+    that sends the celery task and the assertion of the result in order to leave time for the celery task to execute.
+    
+    '''
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.celery_worker = start_worker(app,perform_ping_check=False)
+        cls.celery_worker.__enter__()
+
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+        cls.celery_worker.__exit__(None, None, None)
+
     def setUp(self):
         cache.clear()
         self.defaultVAT, _ = VATValue.objects.get_or_create(**{"id":1,"name":"Standard","pc_value":21})
+        cache.set("DefaultVAT",self.defaultVAT.pc_value,None)
         self.discount10pc = ProductDiscount.objects.create(percent=10)
         self.promotion3x2 = ProductPromotion.objects.create(**{'units_take':3,'units_pay':2})
+        cache.set("consumable_info",{},None)
+        cache.set("products_info",{},None)
+        
         createManufacturers()
         createProductFamilies()
         createConsumables()
@@ -153,19 +193,7 @@ class Billing_tests(TestCase):
         self.cashier = User.objects.create(**{'identifier':'cashier','first_name':'cashiers name','last_name':'cashiers lastname'})
         self.green_customer = Customer.objects.create(**{'first_name':'customers name','last_name':'customers lastname',
                                                    'email':'customers@customers.com','cif':'A2345456','saves_paper':True})
-
-        default,_ = VATValue.objects.get_or_create(**{"id":1,"name":"Standard","pc_value":21})
-        cache.set("DefaultVAT",default.pc_value,None)
-
-        products_info={}
-        for product in Product.objects.all():
-            products_info[product.id]={"pvp":product.pvp,'stock':product.stock}
-        cache.set("products_info",products_info,None)
-
-        consumable_info={}
-        for consumable in Consumible.objects.all():
-            consumable_info[consumable.id]={'stock':consumable.stock}
-        cache.set("consumable_info",consumable_info,None)
+        
 
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
@@ -230,7 +258,7 @@ class Billing_tests(TestCase):
         bill=BillAccount.create(createdBy=self.cashier)
 
         print('## Append a position with promotion ##')
-        product1 = Product.objects.get(id=1)
+        product1 = Product.objects.order_by('id').first()
         product1.promotion = self.promotion3x2
         product1.save()
 

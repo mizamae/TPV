@@ -112,12 +112,8 @@ class Consumible(models.Model):
 
     def reduce_stock(self,quantity):
         if not self.infinite:
-            cached = cache.get("consumable_info")
             self.stock -= quantity
             self.stock = round(self.stock,2)
-            if cached:
-                cached[self.id]['stock'] = self.stock
-                cache.set("consumable_info",cached,None)
 
             if self.stock <= self.stock_min:
                 recipients=User.getStaffEmails()
@@ -128,15 +124,13 @@ class Consumible(models.Model):
                             recipient_list=recipients)
                 
             self.save(update_fields=['stock',])
+            self.updateCache()
     
     def increment_stock(self,quantity):
         if not self.infinite:
             self.stock += quantity
-            cached = cache.get("consumable_info")
-            if cached:
-                cached[self.id]['stock'] = self.stock
-                cache.set("consumable_info",cached,None)
             self.save(update_fields=['stock',])
+            self.updateCache()
     
     def getProductsWhereUsed(self):
         positions= CombinationPosition.objects.filter(ingredient=self)
@@ -186,12 +180,21 @@ class Consumible(models.Model):
             ingress += cons.get_monthly_consumption(month=month,year=year)*cons.price
         return ingress
 
+    def updateCache(self):
+        cached = cache.get("consumable_info")
+        if type(cached) is dict:
+            cached[self.id]={'stock': self.stock}
+            cache.set("consumable_info",cached,None)
+        for product in self.getProductsWhereUsed()['products']:
+            product.updateCache()
+
 @receiver(post_save, sender=Consumible, dispatch_uid="create_Product_onCreate")
 def create_Product_onCreate(sender, instance, created, **kwargs):
     if created and instance.generates_product:
         product = Product.objects.create(picture=instance.picture,name=instance.name,barcode=instance.barcode,
                             family=instance.family,single_ingredient=True,vat=instance.vat,details = instance.comments) 
         CombinationPosition.objects.get_or_create(product=product,quantity=1,ingredient=instance)
+    instance.updateCache()
 
 class Product(models.Model):
     class Meta:
@@ -270,46 +273,59 @@ class Product(models.Model):
     @property
     def pvp(self):
         cached = cache.get("products_info")
-        if cached:
-            return round(cached[self.id]['pvp'],2)
+        if type(cached) is dict:
+            try:
+                value = round(cached[self.id]['pvp'],2)
+            except:
+                self.updateCache()
+                cached = cache.get("products_info")  
+                value = round(cached[self.id]['pvp'],2)
+        else:
+            value = self.pvpFromDB
+        return value
+    
+    @property
+    def pvpFromDB(self,):
         return round(self.price+self.getVATAmount(),2)
     
     @property
     def stock(self):
         cached = cache.get("products_info")
-        if cached:
-            return cached[self.id]['stock']
+        if type(cached) is dict:
+            try:
+                value = cached[self.id]['stock']
+            except:
+                self.updateCache()      
+                cached = cache.get("products_info")  
+                value = cached[self.id]['stock']
+        else:
+            value = self.stockFromDB
+        return value
         
+    @property
+    def stockFromDB(self):
         stock_value = 1e6
         for comp in self.Ingredients:
             stock_value = min(stock_value,comp.ingredient.stock/comp.quantity)
         return round(stock_value)
 
     def reduce_stock(self,quantity):
-        cached = cache.get("products_info")
-        if cached:
-            cached[self.id]['stock'] -= quantity
-            cache.set("products_info",cached,None)
-
         for comp in self.Ingredients:
             comp.ingredient.reduce_stock(quantity = quantity*comp.quantity )
             
-    
     def increase_stock(self,quantity):
-        cached = cache.get("products_info")
-        if cached:
-            cached[self.id]['stock'] += quantity
-            cache.set("products_info",cached,None)
-
         for comp in self.Ingredients:
             comp.ingredient.increment_stock(quantity = quantity*comp.quantity )
+    
+    def updateCache(self):
+        cached = cache.get("products_info")
+        if type(cached) is dict:
+            cached[self.id]={'pvp':self.pvpFromDB,'stock':self.stockFromDB}
+            cache.set("products_info",cached,None)
 
 @receiver(post_save, sender=Product, dispatch_uid="updateProductsCache")
 def updateProductsCache(sender, instance, **kwargs):
-    cached = cache.get("products_info")
-    if cached:
-        cached[instance.id]['pvp']=round(instance.price+instance.getVATAmount(),2)
-        cache.set("products_info",cached,None)
+    instance.updateCache()
 
 class ProductPromotion(models.Model):
     units_pay = models.SmallIntegerField(verbose_name=_("Units to pay"))
@@ -353,7 +369,6 @@ class ProductDiscount(models.Model):
     @property
     def affectedProducts(self):
         return self.products.all()
-    
 
 class CombinationPosition(models.Model):
     class Meta:
@@ -366,6 +381,10 @@ class CombinationPosition(models.Model):
 
     def __str__(self) -> str:
         return str(self.ingredient)
+
+@receiver(post_save, sender=CombinationPosition, dispatch_uid="updateCompoundProductsCache")
+def updateCompoundProductsCache(sender, instance, **kwargs):
+    instance.product.updateCache()
 
 class BillAccount(models.Model):
 

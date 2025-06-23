@@ -103,7 +103,7 @@
 					<tr> 
 						<td>{{ row.quantity }}</td>
 						<td>{{ row.product }} <br> {% if row.reduce_concept %}{{ row.reduce_concept }} {% endif %} </td>
-						<td>{{ row.product.price }} €</td>
+						<td>{{ row.product.pvp }} €</td>
 						<td>{{ row.getSubtotal }} €</td>
 						<td>
 							<a type="button" class="btn btn-primary col-12" href={% url 'MaterialsAPP_reduce_bill_position' id=row.id %}>
