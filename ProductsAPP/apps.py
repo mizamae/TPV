@@ -6,10 +6,15 @@ class ProductsConfig(AppConfig):
     name = 'ProductsAPP'
 
     def ready(self):
-        cache.clear()
-        from .models import VATValue, Product, Consumible
+        cache.delete_many(keys=("products_info","consumable_info"))
+        from .models import Product, Consumible, VATValue
         try:
-            default,_ = VATValue.objects.get_or_create(**{"id":1,"name":"Standard","pc_value":21})
+            from myTPV.models import SiteSettings
+            SETTINGS=SiteSettings.load()
+            default,_ = VATValue.objects.get_or_create(**{"id":1,"name":"Standard"})
+            if SETTINGS.VAT != default.pc_value:
+                default.pc_value = SETTINGS.VAT
+                default.save()
             cache.set("DefaultVAT",default.pc_value,None)
 
             products_info={}
@@ -21,7 +26,6 @@ class ProductsConfig(AppConfig):
             for consumable in Consumible.objects.all():
                 consumable_info[consumable.id]={'stock':consumable.stock}
             cache.set("consumable_info",consumable_info,None)
-
         except Exception as exc:
             pass
         

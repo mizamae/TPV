@@ -537,7 +537,7 @@ class BillPosition(models.Model):
     def update(self, quantity):
         if quantity > 0 :
             if self.product.discount:
-                self.reduce_concept =  _("Discount of ") + str(self.product.discount)
+                self.reduce_concept =  "-" + str(self.product.discount)
             else:
                 self.reduce_concept = None
             self.quantity=quantity

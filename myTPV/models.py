@@ -40,6 +40,17 @@ class SiteSettings(SingletonModel):
 
     SHOP_NAME = models.CharField(verbose_name=_('Name of the shop'),max_length=100,
                                     help_text=_('The name of the shop'),default='My shop')
+    SHOP_ADDR1 = models.CharField(verbose_name=_('Address of the shop'),max_length=200,
+                                    help_text=_('The address of the shop'),default='My street and number')
+    SHOP_ADDR2 = models.CharField(verbose_name=_('Address of the shop (Line 2)'),max_length=200,
+                                    help_text=_('The address of the shop'),blank=True,null=True)
+    SHOP_VAT = models.CharField(verbose_name=_('Tax code of the shop'),max_length=200,
+                                    help_text=_('The tax code of the shop'))
+    SHOP_PHONE = models.CharField(verbose_name=_('Phone of the shop'),max_length=200,
+                                    help_text=_('The phone number of the shop'),blank=True,null=True)
+    SHOP_WEB = models.URLField(verbose_name=_('Web of the shop'),
+                                    help_text=_('The web page of the shop'),blank=True,null=True)
+    
     VERSION_AUTO_UPDATE=models.BooleanField(verbose_name=_('Automatic updates'),
                                 help_text=_('Allows to automatically update the software from official repository (requires internet access)'),default=False)
     VERSION_CODE= models.CharField(verbose_name=_('Code of the current version'),
@@ -50,7 +61,7 @@ class SiteSettings(SingletonModel):
     SEC2LOGOUT = models.PositiveSmallIntegerField(verbose_name=_("Seconds to logout"),default=0,
                                                  help_text=_("Seconds after when, the user would need to login again"))
     
-    VAT = models.FloatField(verbose_name=_("VAT"),help_text=_("Percentage of the cost added as a tax"),default=21.0)
+    VAT = models.FloatField(verbose_name=_("General VAT"),help_text=_("Percentage of the cost added as a tax"),default=21.0)
 
     @classmethod
     def runOnInit(cls):
@@ -71,6 +82,17 @@ class SiteSettings(SingletonModel):
         if rev_code[0:7] != SETTINGS.VERSION_CODE:
             SETTINGS.VERSION_CODE = rev_code[0:7]
             SETTINGS.save(update_fields=['VERSION_CODE',])
+
+    @classmethod
+    def commerceData(cls):
+        SETTINGS=cls.load()
+        return {'name':SETTINGS.SHOP_NAME,
+                'address1':SETTINGS.SHOP_ADDR1,
+                'address2':SETTINGS.SHOP_ADDR2,
+                'cif':SETTINGS.SHOP_VAT,
+                'phone':SETTINGS.SHOP_PHONE,
+                'web':SETTINGS.SHOP_PHONE}
+        
 
     @staticmethod
     def checkInternetConnection():

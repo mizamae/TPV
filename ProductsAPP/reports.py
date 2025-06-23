@@ -91,8 +91,8 @@ def SalesReport(_from,_to):
         fig = make_subplots(rows=1,specs=[[{"secondary_y": True}]])
         fig.update_yaxes(title_text="Operations", secondary_y=False)
         fig.update_yaxes(title_text="Income [€]", secondary_y=True)
-        fig.add_trace(go.Line(x=df_fig11.index.values, y=df_fig11.values,name='Operations',offsetgroup=1),secondary_y=False,)
-        fig.add_trace(go.Line(x=df_fig12.index.values, y=df_fig12.values,name='Income [€]',offsetgroup=2),secondary_y=True,)
+        fig.add_trace(go.Scatter(x=df_fig11.index.values, y=df_fig11.values,name='Operations',offsetgroup=1),secondary_y=False,)
+        fig.add_trace(go.Scatter(x=df_fig12.index.values, y=df_fig12.values,name='Income [€]',offsetgroup=2),secondary_y=True,)
 
         fig.update_xaxes(
                     showgrid=True,

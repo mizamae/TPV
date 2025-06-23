@@ -15,6 +15,9 @@ import datetime
 from UsersAPP.forms import findCustomerForm
 from UsersAPP.models import Customer
 
+from myTPV.models import SiteSettings
+SETTINGS = SiteSettings.load()
+
 @login_required(login_url="login")
 def add_bill(request):
     bill=BillAccount.create(createdBy=request.user)
@@ -113,7 +116,7 @@ def print_bill(request,code):
     bill=BillAccount.objects.get(code=code)
     billData = bill.toJSON()
     from utils.pdfConverter import PrintedBill
-    bill = PrintedBill(billData=billData,commerceData=settings.COMMERCE_DATA)
+    bill = PrintedBill(billData=billData,commerceData=SETTINGS.commerceData())
     filename = billData["code"]+".pdf"
     with open(filename, "wb") as binary_file:
         binary_file.write(bill.pdf)

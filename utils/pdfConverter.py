@@ -78,7 +78,7 @@ class PrintedBill(object):
         self.pdf.drawString(self.minX+0.5*(self.maxX-string_width-self.minX), self.currentY, text)
         self.nextRow(0.75)
         if self.commerceData['address2']:
-            text = self.commerceData['address2'] 
+            text = self.commerceData['address2'] if self.commerceData['address2'] else '' 
             string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
             self.pdf.drawString(self.minX+0.5*(self.maxX-string_width-self.minX), self.currentY, text)
             self.nextRow(0.75)
@@ -90,7 +90,8 @@ class PrintedBill(object):
             string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
             self.pdf.drawString(self.minX+0.5*(self.maxX-string_width-self.minX), self.currentY, text)
         self.nextRow(0.75)
-        text = 'Tel.: ' + self.commerceData['phone'] + " - " + self.commerceData['web']
+        text = 'Tel.: ' + self.commerceData['phone'] if self.commerceData['phone'] else 'Tel.: '
+        text += " - " + self.commerceData['web'] if self.commerceData['web'] else ''
         string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
         self.pdf.drawString(self.minX+0.5*(self.maxX-string_width-self.minX), self.currentY, text)
 

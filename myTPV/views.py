@@ -60,7 +60,9 @@ def reports_home(request):
 @login_required
 def siteSettings(request):
     if request.method == "POST":
-        pass
+        form=siteSettingsForm(request.POST)
+        if form.is_valid():
+            form.save()
     else:
         form=siteSettingsForm(instance = SiteSettings.load())
 

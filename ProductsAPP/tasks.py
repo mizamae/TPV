@@ -11,6 +11,7 @@ import logging
 logger = logging.getLogger("celery")
 import os
 
+
 @shared_task(bind=False,name='ProductsAPP_send_email')
 def send_email(subject,message,recipient_list,attachments=None):
     if "gmail" in settings.EMAIL_HOST:
@@ -21,9 +22,11 @@ def send_email(subject,message,recipient_list,attachments=None):
 @shared_task(bind=False,name='ProductsAPP_send_bill')
 def sendBillReceipt(billData):
     from .models import BillAccount
+    from myTPV.models import SiteSettings
+    SETTINGS = SiteSettings.load()
     if billData['status'] == BillAccount.STATUS_PAID and billData['customer'] and billData['customer']['email']:
         from utils.pdfConverter import PrintedBill
-        bill = PrintedBill(billData=billData,commerceData=settings.COMMERCE_DATA)
+        bill = PrintedBill(billData=billData,commerceData=SETTINGS.commerceData())
         with open(billData["code"]+".pdf", "wb") as binary_file:
             binary_file.write(bill.pdf)
         if "gmail" in settings.EMAIL_HOST:

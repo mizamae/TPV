@@ -2,8 +2,8 @@ from django import forms
 from django.utils.translation import gettext as _
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.bootstrap import FormActions,InlineRadios
-from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Column, Field
+from crispy_forms.bootstrap import FormActions,InlineRadios, AppendedText
+from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Column, Field, Fieldset
 from bootstrap_datepicker_plus.widgets import DatePickerInput
 
 from .models import SiteSettings
@@ -95,12 +95,23 @@ class siteSettingsForm(forms.ModelForm):
                     )
         
         self.helper.layout = Layout(
-                                    Field('SHOP_NAME',type=''),
-                                    Field('VERSION_AUTO_UPDATE',type=''),
-                                    Field('VERSION_CODE',type=''),
-                                    Field('LAN_IP',type=''),
-                                    Field('SEC2LOGOUT',type=''),
-                                    Field('VAT',type=''),
+                                    Fieldset(_("Shop details"),
+                                        'SHOP_NAME',
+                                        'SHOP_ADDR1',
+                                        'SHOP_ADDR2',
+                                        'SHOP_VAT',
+                                        'SHOP_PHONE',
+                                        'SHOP_WEB'
+                                    ),
+                                    Fieldset(_("Application details"),
+                                        'VERSION_AUTO_UPDATE',
+                                        'VERSION_CODE',
+                                        'LAN_IP',
+                                        AppendedText('SEC2LOGOUT', 's', active=True)
+                                    ),
+                                    Fieldset(_("Accountancy details"),
+                                        AppendedText('VAT', '%', active=True)
+                                    ),
 
                                 )
         self.helper.layout.append(buttons)
