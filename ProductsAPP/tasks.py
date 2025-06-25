@@ -10,7 +10,46 @@ User=get_user_model()
 import logging
 logger = logging.getLogger("celery")
 import os
+import json
 
+@shared_task(bind=False,name='ProductsAPP_publish_familyUpdates')
+def publish_familyUpdates(family_id,update_fields=None):
+    from .models import ProductFamily
+    from myTPV.models import SiteSettings
+    SETTINGS = SiteSettings.load()
+    if SETTINGS.PUBLISH_TO_WEB:
+        import requests
+        from itsdangerous.serializer import Serializer
+        try:
+            data = ProductFamily.objects.get(id = family_id).serialize(update_fields=update_fields)
+            s = Serializer(settings.SIGNATURE_KEY)
+            signature = json.dumps(data)
+            data2send = s.dumps(signature)
+            response = requests.post("http://127.0.0.1:8000/public-tpv/products/updatefamily",json=data2send)
+            # response = requests.post("https://"+SETTINGS.SHOP_WEB+"/products/update",json=data2send)
+            logger.info("RECV " + SETTINGS.SHOP_WEB+" responded with code " + str(response.status_code) + " to publish " + str(data['id']))
+        except Exception as exc:
+            logger.error("Failure to publish: " + str(exc))
+
+@shared_task(bind=False,name='ProductsAPP_publish_productUpdates')
+def publish_productUpdates(product_id,update_fields=None):
+    from .models import Product
+    from myTPV.models import SiteSettings
+    SETTINGS = SiteSettings.load()
+    if SETTINGS.PUBLISH_TO_WEB:
+        import requests
+        from itsdangerous.serializer import Serializer
+        try:
+            data = Product.objects.get(id = product_id).serialize(update_fields=update_fields)
+
+            s = Serializer(settings.SIGNATURE_KEY)
+            signature = json.dumps(data)
+            data2send = s.dumps(signature)
+            response = requests.post("http://127.0.0.1:8000/public-tpv/products/updateproduct",json=data2send)
+            # response = requests.post("https://"+SETTINGS.SHOP_WEB+"/products/update",json=data2send)
+            logger.info("RECV " + SETTINGS.SHOP_WEB+" responded with code " + str(response.status_code) + " to publish " + str(data['id']))
+        except Exception as exc:
+            logger.error("Failure to publish: " + str(exc))
 
 @shared_task(bind=False,name='ProductsAPP_send_email')
 def send_email(subject,message,recipient_list,attachments=None):

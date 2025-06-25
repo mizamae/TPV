@@ -101,7 +101,8 @@ class siteSettingsForm(forms.ModelForm):
                                         'SHOP_ADDR2',
                                         'SHOP_VAT',
                                         'SHOP_PHONE',
-                                        'SHOP_WEB'
+                                        'SHOP_WEB',
+                                        'PUBLISH_TO_WEB'
                                     ),
                                     Fieldset(_("Application details"),
                                         'VERSION_AUTO_UPDATE',

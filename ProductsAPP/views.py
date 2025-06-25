@@ -15,8 +15,7 @@ import datetime
 from UsersAPP.forms import findCustomerForm
 from UsersAPP.models import Customer
 
-from myTPV.models import SiteSettings
-SETTINGS = SiteSettings.load()
+
 
 @login_required(login_url="login")
 def add_bill(request):
@@ -113,6 +112,8 @@ def resume_bill(request,code):
 
 @login_required(login_url="login")
 def print_bill(request,code):
+    from myTPV.models import SiteSettings
+    SETTINGS = SiteSettings.load()
     bill=BillAccount.objects.get(code=code)
     billData = bill.toJSON()
     from utils.pdfConverter import PrintedBill

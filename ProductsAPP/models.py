@@ -11,7 +11,8 @@ from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from django.core.validators import MinValueValidator, MaxValueValidator
 import datetime
-from .tasks import send_email, sendBillReceipt
+import base64
+from .tasks import publish_familyUpdates, publish_productUpdates, send_email, sendBillReceipt
 
 import os
 FILE_DIR = os.path.join(settings.MEDIA_ROOT)
@@ -40,12 +41,37 @@ class ProductFamily(models.Model):
 
     picture = models.ImageField(_('Image'),null=True,blank=True,storage=IMAGES_FILESYSTEM)
     name = models.CharField(max_length=30, unique=True,verbose_name=_("Name"))
-    
+    short_description = models.CharField(_("Brief description"), max_length=300)
+    long_description = models.CharField(_("Detailed description"), max_length=1000)
+
     class Meta:
         ordering = ['name']
    
     def __str__(self) -> str:
         return self.name
+    
+    def serialize(self,update_fields=None):
+        data={}
+        data['id']=self.id
+
+        if update_fields is None:
+            update_fields=['picture','name','short_description','long_description']
+
+        for field in update_fields:
+            if field != 'picture':
+                data[field]=getattr(self, field)
+        
+        if 'picture' in update_fields:
+            if os.path.isfile(self.picture.path):
+                with open(self.picture.path, "rb") as image_file:
+                    encoded_string = base64.b64encode(image_file.read())
+
+                data['image'] = str(encoded_string)[2:] # this is to remove the 'b/ header'
+                _, extension = os.path.splitext(self.picture.name)
+                data['image_extension'] = extension
+            else:
+                data['image'] = None
+        return data
     
     @admin.display(description=_("Number of products"))
     def getNumberOfProducts(self,):
@@ -53,6 +79,10 @@ class ProductFamily(models.Model):
         
     def clean_name(self):
         self.name=self.name.strip().upper()
+
+@receiver(post_save, sender=ProductFamily, dispatch_uid="update_ProductFamily_onSave")
+def update_ProductFamily_onSave(sender, instance, created, **kwargs):
+    publish_familyUpdates.delay(family_id=instance.id,update_fields=None)
 
 class Manufacturer(models.Model):
     class Meta:
@@ -229,6 +259,33 @@ class Product(models.Model):
     def __str__(self) -> str:
         return self.name
     
+    def serialize(self,update_fields=None):
+        data={}
+        data['id']=self.id
+        
+        if update_fields is None:
+            update_fields=['name','picture','details','family','discount','promotion']
+
+        for field in update_fields:
+            data[field]=getattr(self, field)
+            if field in ['family',]:
+                data[field] = data[field].id
+            elif field in ['discount','promotion']:
+                data[field] = str(data[field])
+        
+        if 'picture' in update_fields:
+            del data['picture']
+            if self.picture and os.path.isfile(self.picture.path):
+                with open(self.picture.path, "rb") as image_file:
+                    encoded_string = base64.b64encode(image_file.read())
+
+                data['image'] = str(encoded_string)[2:] # this is to remove the 'b/ header'
+                _, extension = os.path.splitext(self.picture.name)
+                data['image_extension'] = extension
+            else:
+                data['image'] = None
+        return data
+
     def getVATValue(self):
         if self.vat:
             return self.vat.pc_value
@@ -326,6 +383,7 @@ class Product(models.Model):
 @receiver(post_save, sender=Product, dispatch_uid="updateProductsCache")
 def updateProductsCache(sender, instance, **kwargs):
     instance.updateCache()
+    publish_productUpdates.delay(product_id=instance.id,update_fields=kwargs.get('update_fields',None))
 
 class ProductPromotion(models.Model):
     units_pay = models.SmallIntegerField(verbose_name=_("Units to pay"))

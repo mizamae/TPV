@@ -51,6 +51,9 @@ class SiteSettings(SingletonModel):
     SHOP_WEB = models.URLField(verbose_name=_('Web of the shop'),
                                     help_text=_('The web page of the shop'),blank=True,null=True)
     
+    PUBLISH_TO_WEB = models.BooleanField(verbose_name=_('Publish products update to the web'),
+                                    help_text=_("Enables publishing any product creation/update to the shop's web to keep it updated"),default=False)
+    
     VERSION_AUTO_UPDATE=models.BooleanField(verbose_name=_('Automatic updates'),
                                 help_text=_('Allows to automatically update the software from official repository (requires internet access)'),default=False)
     VERSION_CODE= models.CharField(verbose_name=_('Code of the current version'),

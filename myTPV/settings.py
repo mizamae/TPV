@@ -14,6 +14,9 @@ from pathlib import Path
 from os.path import dirname, join, exists
 from os import mkdir
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
 import environ
 # Use 12factor inspired environment variables or from a file
 env = environ.Env()
@@ -23,8 +26,6 @@ env = environ.Env()
 env_file = join(dirname(__file__), 'local.env')
 if exists(env_file):
     environ.Env.read_env(str(env_file))
-
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,9 +45,8 @@ MEDIA_URL = '/media/' # Public URL at the browser
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY',default='django-insecure-xuxao-&y!gqxjhm76cy4c3d5v9vrf+!g6g_=9=@!nma4&66vz#')
+SIGNATURE_KEY = env('SIGNATURE_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = [s.strip() for s in env('ALLOWED_HOSTS').split(',')]
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1',]
