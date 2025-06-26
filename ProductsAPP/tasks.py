@@ -31,6 +31,25 @@ def publish_familyUpdates(family_id,update_fields=None):
         except Exception as exc:
             logger.error("Failure to publish: " + str(exc))
 
+@shared_task(bind=False,name='ProductsAPP_publish_familyDelete')
+def publish_familyDelete(id):
+    from myTPV.models import SiteSettings
+    SETTINGS = SiteSettings.load()
+    if SETTINGS.PUBLISH_TO_WEB:
+        import requests
+        from itsdangerous.serializer import Serializer
+        try:
+            data = {'id':id}
+
+            s = Serializer(settings.SIGNATURE_KEY)
+            signature = json.dumps(data)
+            data2send = s.dumps(signature)
+            response = requests.post("http://127.0.0.1:8000/products/deletefamily",json=data2send)
+            # response = requests.post("https://"+SETTINGS.SHOP_WEB+"/products/update",json=data2send)
+            logger.info("RECV " + SETTINGS.SHOP_WEB+" responded with code " + str(response.status_code) + " to deletion of family " + str(data['id']))
+        except Exception as exc:
+            logger.error("Failure to publish: " + str(exc))
+
 @shared_task(bind=False,name='ProductsAPP_publish_productUpdates')
 def publish_productUpdates(product_id,update_fields=None):
     from .models import Product
@@ -48,6 +67,25 @@ def publish_productUpdates(product_id,update_fields=None):
             response = requests.post("http://127.0.0.1:8000/products/updateproduct",json=data2send)
             # response = requests.post("https://"+SETTINGS.SHOP_WEB+"/products/update",json=data2send)
             logger.info("RECV " + SETTINGS.SHOP_WEB+" responded with code " + str(response.status_code) + " to publish " + str(data['id']))
+        except Exception as exc:
+            logger.error("Failure to publish: " + str(exc))
+
+@shared_task(bind=False,name='ProductsAPP_publish_productDelete')
+def publish_productDelete(product_id):
+    from myTPV.models import SiteSettings
+    SETTINGS = SiteSettings.load()
+    if SETTINGS.PUBLISH_TO_WEB:
+        import requests
+        from itsdangerous.serializer import Serializer
+        try:
+            data = {'id':product_id}
+
+            s = Serializer(settings.SIGNATURE_KEY)
+            signature = json.dumps(data)
+            data2send = s.dumps(signature)
+            response = requests.post("http://127.0.0.1:8000/products/deleteproduct",json=data2send)
+            # response = requests.post("https://"+SETTINGS.SHOP_WEB+"/products/update",json=data2send)
+            logger.info("RECV " + SETTINGS.SHOP_WEB+" responded with code " + str(response.status_code) + " to deletion of " + str(data['id']))
         except Exception as exc:
             logger.error("Failure to publish: " + str(exc))
 

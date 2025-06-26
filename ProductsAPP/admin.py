@@ -20,8 +20,9 @@ class PRODUCT_FAMILYAdmin(admin.ModelAdmin):
             for field in form.fields:
                 if form.initial[field] != form.cleaned_data[field]:
                     update_fields.append(field)
-
-        obj.save(update_fields=update_fields)
+            obj.save(update_fields=update_fields)
+        else:
+            obj.save()
 
 admin.site.register(ProductFamily, PRODUCT_FAMILYAdmin)
 
@@ -54,8 +55,11 @@ class PRODUCTAdmin(admin.ModelAdmin):
             for field in form.fields:
                 if form.initial[field] != form.cleaned_data[field]:
                     update_fields.append(field)
+            obj.save(update_fields=update_fields)
+        else:
+            obj.save()
 
-        obj.save(update_fields=update_fields)
+        
         
 admin.site.register(Product, PRODUCTAdmin)
 

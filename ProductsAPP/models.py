@@ -7,12 +7,12 @@ from django.conf import settings
 from django.core.cache import cache
 from django.contrib import admin
 from django.utils import timezone
-from django.db.models.signals import post_save, pre_delete
+from django.db.models.signals import post_save, pre_delete, post_delete
 from django.dispatch import receiver
 from django.core.validators import MinValueValidator, MaxValueValidator
 import datetime
 import base64
-from .tasks import publish_familyUpdates, publish_productUpdates, send_email, sendBillReceipt
+from .tasks import publish_familyUpdates, publish_familyDelete, publish_productUpdates, publish_productDelete, send_email, sendBillReceipt
 
 import os
 FILE_DIR = os.path.join(settings.MEDIA_ROOT)
@@ -83,6 +83,10 @@ class ProductFamily(models.Model):
 @receiver(post_save, sender=ProductFamily, dispatch_uid="update_ProductFamily_onSave")
 def update_ProductFamily_onSave(sender, instance, created, **kwargs):
     publish_familyUpdates.delay(family_id=instance.id,update_fields=None)
+
+@receiver(post_delete, sender=ProductFamily, dispatch_uid="updateProductFamily_onDelete")
+def updateProductFamily_onDelete(sender, instance, **kwargs):
+    publish_familyDelete.delay(id=instance.id)
 
 class Manufacturer(models.Model):
     class Meta:
@@ -389,7 +393,14 @@ class Product(models.Model):
 @receiver(post_save, sender=Product, dispatch_uid="updateProductsCache")
 def updateProductsCache(sender, instance, **kwargs):
     instance.updateCache()
-    publish_productUpdates.delay(product_id=instance.id,update_fields=list(kwargs.get('update_fields',None)))
+    update_fields=kwargs.get('update_fields',None)
+    if update_fields:
+        update_fields = list(update_fields)
+    publish_productUpdates.delay(product_id=instance.id,update_fields=update_fields)
+
+@receiver(post_delete, sender=Product, dispatch_uid="updateProducts_onDelete")
+def updateProducts_onDelete(sender, instance, **kwargs):
+    publish_productDelete.delay(product_id=instance.id)
 
 class ProductPromotion(models.Model):
     units_pay = models.SmallIntegerField(verbose_name=_("Units to pay"))
