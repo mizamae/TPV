@@ -260,11 +260,17 @@ class Product(models.Model):
         return self.name
     
     def serialize(self,update_fields=None):
+        default_serialize_fields = ['name','picture','details','family','discount','promotion','pvp','stock']
         data={}
         data['id']=self.id
         
         if update_fields is None:
-            update_fields=['name','picture','details','family','discount','promotion']
+            update_fields=default_serialize_fields
+        else:
+            for field in update_fields:
+                if not field in default_serialize_fields:
+                    update_fields.remove(field)
+            update_fields += ['pvp','stock']
 
         for field in update_fields:
             data[field]=getattr(self, field)
@@ -383,7 +389,7 @@ class Product(models.Model):
 @receiver(post_save, sender=Product, dispatch_uid="updateProductsCache")
 def updateProductsCache(sender, instance, **kwargs):
     instance.updateCache()
-    publish_productUpdates.delay(product_id=instance.id,update_fields=kwargs.get('update_fields',None))
+    publish_productUpdates.delay(product_id=instance.id,update_fields=list(kwargs.get('update_fields',None)))
 
 class ProductPromotion(models.Model):
     units_pay = models.SmallIntegerField(verbose_name=_("Units to pay"))

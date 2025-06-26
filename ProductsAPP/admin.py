@@ -13,6 +13,16 @@ class PRODUCT_FAMILYAdmin(admin.ModelAdmin):
     list_display = ("name","getNumberOfProducts")
     ordering = ('name',)
     
+    def save_model(self, request, obj, form, change):
+        update_fields = []
+
+        if change:
+            for field in form.fields:
+                if form.initial[field] != form.cleaned_data[field]:
+                    update_fields.append(field)
+
+        obj.save(update_fields=update_fields)
+
 admin.site.register(ProductFamily, PRODUCT_FAMILYAdmin)
 
 class MANUFACTURERAdmin(admin.ModelAdmin):
@@ -37,6 +47,16 @@ class PRODUCTAdmin(admin.ModelAdmin):
     inlines = (IngredientInline,)
     exclude = ('single_ingredient',)
 
+    def save_model(self, request, obj, form, change):
+        update_fields = []
+
+        if change:
+            for field in form.fields:
+                if form.initial[field] != form.cleaned_data[field]:
+                    update_fields.append(field)
+
+        obj.save(update_fields=update_fields)
+        
 admin.site.register(Product, PRODUCTAdmin)
 
 class BILLACCOUNT_Admin(admin.ModelAdmin):
