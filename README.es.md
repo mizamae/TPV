@@ -68,6 +68,7 @@ Para crear un consumible, haz clic en el botón de crear junto a la etiqueta *Co
 - Código de barras: el código de barras asociado al consumible.
 - Comentarios: campo de texto libre para introducir comentarios relevantes.
 - Familia: la familia a la que pertenece el consumible.
+- Fabricante: el fabricante del consumible.
 - Coste unitario: el coste de una unidad del consumible. Es el precio que se paga al proveedor.
 - Precio de venta: el precio al que deseas vender una unidad del consumible. Precio de venta menos coste unitario da el margen bruto esperado.
 - Cantidad mínima de pedido: mínimo de unidades que acepta tu proveedor por pedido.

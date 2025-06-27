@@ -66,6 +66,7 @@ To create a consumable, click on the create button next to Consumables label and
 - Barcode: the bar code associated to this consumable.
 - Comments: free-text field to introduced relevant comments.
 - Family: the family that the consumable is associated to.
+- Manufacturer: the manufacturer of the consumer.
 - Unitary cost: the cost of one unit of the consumable. This is the price that you pay to your supplier.
 - Selling price: the price you would like to sell one unit of consumable. Selling price minus Unitary cost would yield the gross margin you expect.
 - Minimum order quantity: the minimum units of consumable that your supplier accept in an order.

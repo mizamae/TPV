@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-27 10:27+0200\n"
+"POT-Creation-Date: 2025-06-27 13:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,19 +65,19 @@ msgstr ""
 msgid "X"
 msgstr ""
 
-#: .\templates\bill.html:124 .\templates\bill_resume.html:66
+#: .\templates\bill.html:116 .\templates\bill_resume.html:55
 msgid "VAT"
 msgstr "IVA"
 
-#: .\templates\bill.html:128 .\templates\bill_resume.html:74
+#: .\templates\bill.html:120 .\templates\bill_resume.html:59
 msgid "TOTAL"
 msgstr ""
 
-#: .\templates\bill.html:137
+#: .\templates\bill.html:129
 msgid " Close bill"
 msgstr " Cerrar cuenta"
 
-#: .\templates\bill.html:172
+#: .\templates\bill.html:164
 msgid "Set Value"
 msgstr "Fijar Uds"
 
@@ -86,18 +86,18 @@ msgid " from user "
 msgstr " del cliente "
 
 #: .\templates\bill_resume.html:41
-msgid "Cost"
-msgstr "Precio"
+msgid "Unit price"
+msgstr "Precio por unidad"
 
-#: .\templates\bill_resume.html:86
+#: .\templates\bill_resume.html:71
 msgid "Details of the payment"
 msgstr "Detalles del pago"
 
-#: .\templates\bill_resume.html:119
+#: .\templates\bill_resume.html:104
 msgid " Exit"
 msgstr " Salir"
 
-#: .\templates\bill_resume.html:126
+#: .\templates\bill_resume.html:111
 msgid " Print"
 msgstr " Imprimir"
 
@@ -165,7 +165,13 @@ msgstr "Precio de venta manual"
 msgid "Active discount"
 msgstr "Descuento activo"
 
-#: .\templates\products.html:46 .\templates\stock.html:50
+#: .\templates\products.html:24
+#, fuzzy
+#| msgid "Active discount"
+msgid "Active Promotion"
+msgstr "Descuento activo"
+
+#: .\templates\products.html:48 .\templates\stock.html:50
 msgid "Save"
 msgstr "Guardar"
 
@@ -200,3 +206,6 @@ msgstr "Unidades en stock"
 #: .\templates\stock.html:57
 msgid "The total cost of the stock is "
 msgstr "El coste total del stock asciende a "
+
+#~ msgid "Cost"
+#~ msgstr "Precio"

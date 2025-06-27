@@ -374,6 +374,8 @@ class Product(models.Model):
         stock_value = 1e6
         for comp in self.Ingredients:
             stock_value = min(stock_value,comp.ingredient.stock/comp.quantity)
+        if stock_value == 1e6:
+            stock_value = 0
         return round(stock_value)
 
     def reduce_stock(self,quantity):

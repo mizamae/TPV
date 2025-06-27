@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-26 12:24+0200\n"
+"POT-Creation-Date: 2025-06-27 13:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,6 +47,18 @@ msgstr "Guardar"
 msgid "Cancel"
 msgstr "Cancelar"
 
+#: .\myTPV\forms.py:98
+msgid "Shop details"
+msgstr "Detalles del comercio"
+
+#: .\myTPV\forms.py:107
+msgid "Application details"
+msgstr "Detalles de la aplicacion"
+
+#: .\myTPV\forms.py:113
+msgid "Accountancy details"
+msgstr "Detalles de contabilidad"
+
 #: .\myTPV\models.py:38
 msgid "Configuration"
 msgstr "Configuracion"
@@ -64,10 +76,56 @@ msgid "The name of the shop"
 msgstr "El nombre del establecimiento"
 
 #: .\myTPV\models.py:43
+msgid "Address of the shop"
+msgstr "Direccion del comercio"
+
+#: .\myTPV\models.py:44 .\myTPV\models.py:46
+msgid "The address of the shop"
+msgstr "La direccion del establecimiento"
+
+#: .\myTPV\models.py:45
+msgid "Address of the shop (Line 2)"
+msgstr "Direccion del comercio (Linea 2)"
+
+#: .\myTPV\models.py:47
+msgid "Tax code of the shop"
+msgstr "CIF del comercio"
+
+#: .\myTPV\models.py:48
+msgid "The tax code of the shop"
+msgstr "El CIF del establecimiento"
+
+#: .\myTPV\models.py:49
+msgid "Phone of the shop"
+msgstr "Telefono del establecimiento"
+
+#: .\myTPV\models.py:50
+msgid "The phone number of the shop"
+msgstr "El numero de telefono del establecimiento"
+
+#: .\myTPV\models.py:51
+msgid "Web of the shop"
+msgstr "Web del comercio"
+
+#: .\myTPV\models.py:52
+msgid "The web page of the shop"
+msgstr "La pagina web del establecimiento"
+
+#: .\myTPV\models.py:54
+msgid "Publish products update to the web"
+msgstr "Publicar actualizaciones de productos a la web"
+
+#: .\myTPV\models.py:55
+msgid ""
+"Enables publishing any product creation/update to the shop's web to keep it "
+"updated"
+msgstr "Habilita la publicacion de nuevos productos o actualizaciones a la pagina web del comercio manteniendola asi actualizada."
+
+#: .\myTPV\models.py:57
 msgid "Automatic updates"
 msgstr "Actualizaciones automaticas"
 
-#: .\myTPV\models.py:44
+#: .\myTPV\models.py:58
 msgid ""
 "Allows to automatically update the software from official repository "
 "(requires internet access)"
@@ -75,24 +133,24 @@ msgstr ""
 "Activa las actualizaciones automaticas del repositorio oficial (requiere "
 "conexion a internet)"
 
-#: .\myTPV\models.py:45
+#: .\myTPV\models.py:59
 msgid "Code of the current version"
 msgstr "Codigo de la version actual"
 
-#: .\myTPV\models.py:50
+#: .\myTPV\models.py:64
 msgid "Seconds to logout"
 msgstr "Segundos para logout"
 
-#: .\myTPV\models.py:51
+#: .\myTPV\models.py:65
 msgid "Seconds after when, the user would need to login again"
 msgstr ""
 "Segundos de inactividad tras los cuales, el usuario debera loggearse de nuevo"
 
-#: .\myTPV\models.py:53
-msgid "VAT"
-msgstr "IVA"
+#: .\myTPV\models.py:67
+msgid "General VAT"
+msgstr ""
 
-#: .\myTPV\models.py:53
+#: .\myTPV\models.py:67
 msgid "Percentage of the cost added as a tax"
 msgstr "Porcentage del coste que se añade como impuesto"
 
@@ -116,6 +174,9 @@ msgstr " facturas"
 msgid "View report"
 msgstr "Ver informe"
 
-#: .\myTPV\views.py:68
+#: .\myTPV\views.py:70
 msgid "Site settings"
 msgstr "Configuracion"
+
+#~ msgid "VAT"
+#~ msgstr "IVA"
