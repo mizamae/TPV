@@ -235,6 +235,7 @@ class Product(models.Model):
         verbose_name = _('Sellable product')
         verbose_name_plural = _('Sellable products')
 
+
     picture = models.ImageField(verbose_name=_('Image of the product'),null=True,blank=True,storage=IMAGES_FILESYSTEM)
     barcode = models.CharField(max_length=150, unique=True,verbose_name=_("Barcode"))
     name = models.CharField(max_length=150, verbose_name=_("Name of the product"))
@@ -254,6 +255,10 @@ class Product(models.Model):
     class Meta:
         ordering = ['name']
     
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.cached_picture_path = self.picture.path if self.picture else None
+
     def save(self, **kwargs):
         self.name=self.name.strip().upper()
         if self.manual_price and self.manual_price <=0:
@@ -395,7 +400,10 @@ class Product(models.Model):
 @receiver(post_save, sender=Product, dispatch_uid="updateProductsCache")
 def updateProductsCache(sender, instance, **kwargs):
     instance.updateCache()
-    update_fields=kwargs.get('update_fields',None)
+    if instance.picture and (instance.cached_picture_path != instance.picture.path):
+        update_fields=['picture',]
+    else:
+        update_fields=[]
     if update_fields:
         update_fields = list(update_fields)
     publish_productUpdates.delay(product_id=instance.id,update_fields=update_fields)

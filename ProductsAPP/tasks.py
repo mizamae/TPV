@@ -20,14 +20,51 @@ __sql_createTableStatement__ = """CREATE TABLE IF NOT EXISTS jobs (
 __sql_insertJob__ = ''' INSERT INTO jobs(url,data)
                         VALUES(?,?) '''
                         
-    
+
+@shared_task(bind=False,name='ProductsAPP_publish_pendingJobs')
+def publish_pendingJobs():
+    import sqlite3
+    from myTPV.models import SiteSettings
+    SETTINGS = SiteSettings.load()
+    if SETTINGS.PUBLISH_TO_WEB:
+        try:
+            conn = sqlite3.connect("publish_pending_db.sqlite")
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM jobs order by id")
+            jobs = cursor.fetchall()
+            cursor.execute("DELETE FROM jobs")
+            conn.commit()
+        finally:
+            if conn:
+                conn.close()
+        import requests
+        from itsdangerous.serializer import Serializer
+        for job in jobs:
+            # job = (1, 'http://127.0.0.1:8000/products/updateproduct', '{"id": 159, "pvp": 4.36, "stock": 15}')
+            try:
+                url = job[1]
+                data = json.loads(job[2])
+                s = Serializer(settings.SIGNATURE_KEY)
+                signature = json.dumps(data)
+                data2send = s.dumps(signature)
+                response = requests.post(url,json=data2send)
+                # response = requests.post("https://"+SETTINGS.SHOP_WEB+"/products/update",json=data2send)
+                logger.info("RECV " + SETTINGS.SHOP_WEB+" responded with code " + str(response.status_code) + " to publish " + str(data['id']))
+                if response.status_code > 201:
+                    addPendingJob(details={'url':url,'data' : data})
+            except Exception as exc:
+                logger.error("Failure to publish: " + str(exc))
+                if data:
+                    addPendingJob(details={'url':url,'data' : data})
+            
+
 def addPendingJob(details):
     import sqlite3
     try:
         conn = sqlite3.connect("publish_pending_db.sqlite")
         cursor = conn.cursor()
         cursor.execute(__sql_createTableStatement__)
-        cursor.execute(__sql_insertJob__, (details['url'],details['data']))
+        cursor.execute(__sql_insertJob__, (details['url'],json.dumps(details['data'])))
         conn.commit()
     finally:
         if conn:
