@@ -57,7 +57,7 @@
 								</tr>
 								<tr> 
 									<td colspan=3><h4 class="text-end">{% trans "TOTAL" %}</h4></td>
-									<td scope="col"><h4>{{ bill.total }} €</h4></td>
+									<td scope="col"><h4><span id="BillTotalQuantity">{{ bill.total }}</span> €</h4></td>
 								</tr>
 							
 							</tbody>    
@@ -77,14 +77,45 @@
 
 			<form action={% url 'MaterialsAPP_close_bill' code=bill.code %} method="post" class="paymentForm" >
 				{% crispy paymentForm %}
-				{% comment %} <button type="submit" class="btn btn-success col-12"  name="MaterialsAPP_close_bill" >
-					<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-						<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-					</svg>
-					<span class="h4 text-white">{% trans " Close the bill" %}</span>
-				</button> {% endcomment %}
 			</form>
 			
+			<table class="table table-dark" id="summary_table" style="width:100%">
+				<tbody>	
+					<tr style="height:75px"> 
+						<td class='h5' colspan=1>{% trans "Given amount" %}</td>
+						<td class='h5' colspan=2><span id="GivenQuantity"></span> €</td>
+					</tr>
+					<tr style="height:75px"> 
+						<td class='h5' colspan=1>{% trans "Refunded amount" %}</td>
+						<td class='h5' colspan=2><span id="RefundQuantity"></span> €</td>
+					</tr>
+				</tbody>    
+			</table>
+			<table class="table table-dark text-center" id="paid_table" style="width:100%">
+				<tbody>	
+					<tr style="height:75px"> 
+						<td class='h3' onclick="appendDigit(7);" style="cursor: pointer;">7</td>
+						<td class='h3' onclick="appendDigit(8);" style="cursor: pointer;">8</td>
+						<td class='h3' onclick="appendDigit(9);" style="cursor: pointer;">9</td>
+					</tr>
+					<tr style="height:75px"> 
+						<td class='h3' onclick="appendDigit(4);" style="cursor: pointer;">4</td>
+						<td class='h3' onclick="appendDigit(5);" style="cursor: pointer;">5</td>
+						<td class='h3' onclick="appendDigit(6);" style="cursor: pointer;">6</td>
+					</tr>
+					<tr style="height:75px"> 
+						<td class='h3' onclick="appendDigit(1);" style="cursor: pointer;">1</td>
+						<td class='h3' onclick="appendDigit(2);" style="cursor: pointer;">2</td>
+						<td class='h3' onclick="appendDigit(3);" style="cursor: pointer;">3</td>
+					</tr>
+					<tr style="height:75px"> 
+						<td class='h3' onclick="appendDigit(0);" style="cursor: pointer;">0</td>
+						<td class='h3' onclick="appendDigit('.');" style="cursor: pointer;">.</td>
+						<td class='h3' onclick="correctLast();" style="cursor: pointer;"><<</td>
+					</tr>
+				</tbody>    
+			</table>
+
 			{% comment %} <a type="button" class="btn btn-primary col-12" href={% url 'MaterialsAPP_edit_bill' code=bill.code %} >
 				<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-backspace" viewBox="0 0 16 16">
 					<path d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708l2.147-2.147 2.146 2.147a.5.5 0 0 0 .707-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.536 5.146a.5.5 0 0 0-.707 0z"/>
@@ -114,6 +145,35 @@
     </div>
 </div>
 
+<script>
+	let totalAmount = parseFloat(document.getElementById("BillTotalQuantity").textContent.replace(",","."));
+	let givenAmount = document.getElementById("GivenQuantity");
+	function correctLast(){
+		
+		if (givenAmount.textContent.length > 1)
+		{
+			givenAmount.textContent = givenAmount.textContent.substring(0, givenAmount.textContent.length - 1);
+		}
+		else {givenAmount.textContent = '';}
+		calculateRefund();
+	}
+	function appendDigit(digit){
+		givenAmount.textContent+=digit;
+		calculateRefund();
+	}
+
+	function calculateRefund(){
+		let totalGiven = parseFloat(givenAmount.textContent.replace(",","."));
+		let refund = 0;
+		if (totalGiven >= totalAmount)
+		{
+			refund = (totalGiven-totalAmount).toFixed(2);
+		}else{refund = 0;}
+		document.getElementById("RefundQuantity").textContent = refund;
+	}
+
+</script>
+
 {% endblock container %}
 
 
@@ -121,5 +181,6 @@
 {% endblock websockets_monitor %}
 
 {% block scripts %}
+
 
 {% endblock scripts %}
