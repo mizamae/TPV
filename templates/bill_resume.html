@@ -46,7 +46,11 @@
 								{% for row in bill.bill_positions.all %}
 								<tr> 
 									<td>{{ row.quantity }}</td>
-									<td>{{ row.product }} <br> {% if row.reduce_concept %}{{ row.reduce_concept }} {% endif %}</td>
+									<td>{{ row.product }} <br> 
+										{% if row.reduce_concept %}
+                							<span class="badge rounded-pill bg-success">{{ row.reduce_concept }}</span>
+										{% endif %}
+									</td>
 									<td>{{ row.getUnitPVP }} €</td>
 									<td>{{ row.getSubtotal }} €</td>
 								</tr>
