@@ -25,16 +25,17 @@ def printBillReceipt(billData):
     from utils.usbUtils import ThermalPrinter
     data=[]
     data.append("Codigo: " + str(billData['code']))
-    data.append("Fecha: " + str(billData['date']))
+    data.append("Fecha: " + str(billData['date']).split(".")[0])
     data.append("--------------------------------")
     data.append("Uds    Producto    Subtotal")
-    for pos in data['positions']:
-        data.append(str(data['quantity'])+"    " + data['product'] + "    " + str(data["subtotal"]))
-    data.append("IVA: " + str(data['vat']))
-    data.append("TOTAL: " + str(data['total']))
+    for pos in billData['positions']:
+        data.append(str(pos['quantity'])+"    " + pos['product'] + "    " + str(pos["subtotal"]))
+    data.append("IVA: " + str(billData['vat']))
+    data.append("TOTAL: " + str(billData['total']))
     data.append("--------------------------------")
     printer = ThermalPrinter()
     printer.printReceipt(data=data)
+    del printer
 
 @shared_task(bind=False,name='ProductsAPP_publish_pendingJobs')
 def publish_pendingJobs():

@@ -23,6 +23,7 @@ class ThermalPrinter():
         for row in data:
             self.printer.textln(row)
         self.printer.cut()
+        self.printer.close()
 
 def list_usb_devices():
     # Find all connected USB devices
