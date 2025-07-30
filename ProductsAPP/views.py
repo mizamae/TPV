@@ -210,7 +210,13 @@ def historics_home(request):
             else:
                 bills = BillAccount.objects.filter(createdOn__gt=info['from'],
                                                    createdOn__lt=info['to']).annotate(order_positions = Count('positions'))
-                bill_totals = bills.aggregate(total=Sum('total'),total_vat=Sum('vat_amount'))
+                total=0
+                total_vat=0
+                for bill in bills.filter(status = BillAccount.STATUS_PAID):
+                    total += bill.total
+                    total_vat += bill.getVATAmount()
+                #bill_totals = bills.aggregate(total=Sum('total'),total_vat=Sum('vat_amount'))
+                bill_totals={'total':total,'total_vat':total_vat}
             
             return render(request, 'historicBills.html', {'bills':bills,'number':bills.count(),'totals':bill_totals})
             
