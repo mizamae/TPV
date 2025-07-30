@@ -1,5 +1,6 @@
 import usb.core
 import usb.util
+from os.path import join
 
 '''
 On Windows, install libusb-win32
@@ -23,6 +24,6 @@ if __name__ == "__main__":
     from escpos.printer import Usb
     p = Usb(idVendor=0x1fc9, idProduct=0x2016,timeout=0,profile="TM-P80")
     p.text("Hello World\n")
-    p.image("logo.gif")
+    p.image(join("..","static","site","logos","CompanyLogoNavbar.jpg"))
     p.barcode('4006381333931', 'EAN13', 64, 2, '', '')
     p.cut()
