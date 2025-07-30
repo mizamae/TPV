@@ -20,3 +20,9 @@ def list_usb_devices():
 
 if __name__ == "__main__":
     list_usb_devices()
+    from escpos.printer import Usb
+    p = Usb(idVendor=0x1fc9, idProduct=0x2016,timeout=0,profile="TM-P80")
+    p.text("Hello World\n")
+    p.image("logo.gif")
+    p.barcode('4006381333931', 'EAN13', 64, 2, '', '')
+    p.cut()
