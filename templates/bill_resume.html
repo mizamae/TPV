@@ -8,7 +8,7 @@
 {% if bill.owner %}
 <h3 class="text-center">{% trans " Bill " %} {{ bill.code }}  {% trans " from user " %} {{ bill.owner }}
 	{% if bill.owner.saves_paper %}
-	<img src="{% static 'site/ico/GreenLeaf.svg' %}" /> 
+	<img class="img-fluid" src="{% static 'site/ico/GreenLeaf.svg' %}" /> 
 	{% endif%}
 </h3>
 {% else %}

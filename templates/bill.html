@@ -11,7 +11,7 @@
 		<h4 class="text-center">{% trans " Bill " %} {{ bill.code }}  {% trans " of customer " %} {{ bill.owner }}
 		{% if bill.owner.saves_paper %}
 		<a class="btn bg-transparent" data-toggle="tooltip" data-bs-placement="top" title="Customer prefers electronic receipts" >
-		<img src="{% static 'site/ico/GreenLeaf.svg' %}" style="max-width:50px;" /> 
+		<img class="img-fluid" src="{% static 'site/ico/GreenLeaf.svg' %}" style="max-width:50px;" /> 
 		</a>
 		{% endif%}
 		</h4>

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import VATValue, ProductFamily, Manufacturer, Consumible, CombinationPosition, Product, BillAccount, ProductDiscount, ProductPromotion
 
+from .tasks import sendBillReceipt
 # Register your models here.
 
 class VATValueAdmin(admin.ModelAdmin):
@@ -66,6 +67,12 @@ admin.site.register(Product, PRODUCTAdmin)
 class BILLACCOUNT_Admin(admin.ModelAdmin):
     list_display = ("createdOn","code","owner","get_status_display")
     ordering = ('createdOn',)
+    actions=['sendToCustomer',]
+    
+    def sendToCustomer(self, request, queryset):
+        for item in queryset:
+            if item.owner:
+                sendBillReceipt.delay(billData=item.toJSON())
     
 admin.site.register(BillAccount, BILLACCOUNT_Admin)
 
