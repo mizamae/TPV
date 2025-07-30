@@ -17,13 +17,33 @@ class ThermalPrinter():
     def __init__(self,idVendor=0x1fc9, idProduct=0x2016,profile="TM-P80"):
         self.printer = Usb(idVendor=idVendor, idProduct=idProduct,timeout=0,profile=profile)
 
+    def __del__(self,):
+        self.printer.close()
+        
     def printReceipt(self,data):
         if exists(join(settings.STATIC_ROOT,"site","logos","CompanyLogoNavbar.jpg")):
             self.printer.image(join(settings.STATIC_ROOT,"site","logos","CompanyLogoNavbar.jpg"))
         for row in data:
             self.printer.textln(row)
         self.printer.cut()
-        self.printer.close()
+        #self.printer.close()
+    
+    def cashdraw(self,pin):
+        self.printer.cashdraw(pin=pin)
+    
+    @property
+    def isOnline(self):
+        return self.printer.is_online()
+    
+    @property
+    def paperStatus(self):
+        value=self.printer.paper_status()
+        if value == 2:
+            return "Nivel de papel correcto"
+        elif value == 1:
+            return "Nivel de papel bajo"
+        else:
+            return "No hay papel" 
 
 def list_usb_devices():
     # Find all connected USB devices

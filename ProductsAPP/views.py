@@ -14,12 +14,15 @@ from .forms import paymentMethodsForm, StockFormSet, ProductFormSet, barcode2Bil
 import datetime
 from UsersAPP.forms import findCustomerForm
 from UsersAPP.models import Customer
-
+from utils.usbUtils import ThermalPrinter
 
 
 @login_required(login_url="login")
 def add_bill(request):
     bill=BillAccount.create(createdBy=request.user)
+    printer = ThermalPrinter()
+    messages.info(request, printer.paperStatus)
+    del printer
     return redirect('MaterialsAPP_edit_bill',code=bill.code,tab=0)
 
 @login_required(login_url="login")
@@ -134,7 +137,7 @@ def close_bill(request,code):
             paymentForm = paymentMethodsForm(request.POST,instance=bill)
             if paymentForm.is_valid():
                 paymentForm.save()
-                bill.close()                
+                bill.close()          
             else:
                 messages.error(request, _("The payment method should be defined"))
                 return redirect('MaterialsAPP_resume_bill',code = bill.code)

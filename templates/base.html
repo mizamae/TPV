@@ -32,15 +32,7 @@
 						<img class="img-fluid" src="{% static 'site/logos/CompanyLogoNavbar.svg' %}" />
 					</a>
 
-					<div class="row" id="messages_container">
-						{% if messages %}
-						<ul class="messages">
-							{% for message in messages %}
-							<li{% if message.tags %} class="alert {{ message.tags }}" {% else %} class="alert alert-danger"{% endif %}>{{ message }}</li>
-							{% endfor %}
-						</ul>
-						{% endif %}
-					</div>
+					
 				</div>
 				<div class="col-lg-4 col-md-4">
 				{% block navbar-center %}
