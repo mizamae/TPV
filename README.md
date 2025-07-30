@@ -23,12 +23,24 @@ Among its current available features are:
 
 ## Installation
 
+### Cloning the repository
+Use Git tools to clone the repository into your local machine.
+
+### Creation of Python virtuel env
 Create a virtual environment based on Python 3.11 or newer.
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install Tiny TPV.
 
 ```
 pip install -r requirements.txt
 ```
+
+### Configuration of the thermal printer
+
+Depending on your thermal printer, a slightly different procedure should be followed. In my case, to make a TM-P80 type thermal printer on a Windows 10 machine, the following steps should be followed:
+
+- Download [Zadig](https://zadig.akeo.ie/) to install the proper driver
+- Setup the libusbK driver for the USB printer compatibility profile
+- Try if configuration is correct by executing python ./utils/usbUtils.py
 
 ## Usage
 

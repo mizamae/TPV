@@ -12,7 +12,7 @@ from django.dispatch import receiver
 from django.core.validators import MinValueValidator, MaxValueValidator
 import datetime
 import base64
-from .tasks import publish_familyUpdates, publish_familyDelete, publish_productUpdates, publish_productDelete, send_email, sendBillReceipt
+from .tasks import publish_familyUpdates, publish_familyDelete, publish_productUpdates, publish_productDelete, send_email, sendBillReceipt, printBillReceipt
 
 import os
 FILE_DIR = os.path.join(settings.MEDIA_ROOT)
@@ -533,6 +533,8 @@ class BillAccount(models.Model):
                 position.close()
             if self.owner and self.owner.saves_paper:
                 sendBillReceipt.delay(billData=self.toJSON())
+            else:
+                printBillReceipt.delay(billData=self.toJSON())
 
     def setOwner(self,customer):
         self.owner = customer

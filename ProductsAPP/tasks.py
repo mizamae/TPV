@@ -20,6 +20,21 @@ __sql_createTableStatement__ = """CREATE TABLE IF NOT EXISTS jobs (
 __sql_insertJob__ = ''' INSERT INTO jobs(url,data)
                         VALUES(?,?) '''
                         
+@shared_task(bind=False,name='ProductsAPP_printReceipt')
+def printBillReceipt(billData):
+    from utils.usbUtils import ThermalPrinter
+    data=[]
+    data.append("Codigo: " + str(billData['code']))
+    data.append("Fecha: " + str(billData['date']))
+    data.append("--------------------------------")
+    data.append("Uds    Producto    Subtotal")
+    for pos in data['positions']:
+        data.append(str(data['quantity'])+"    " + data['product'] + "    " + str(data["subtotal"]))
+    data.append("IVA: " + str(data['vat']))
+    data.append("TOTAL: " + str(data['total']))
+    data.append("--------------------------------")
+    printer = ThermalPrinter()
+    printer.printReceipt(data=data)
 
 @shared_task(bind=False,name='ProductsAPP_publish_pendingJobs')
 def publish_pendingJobs():
