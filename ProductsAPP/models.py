@@ -26,7 +26,8 @@ class VATValue(models.Model):
         verbose_name_plural = _('VAT values')
 
     name = models.CharField(max_length=30, unique=True,verbose_name=_("Name"))
-    pc_value = models.FloatField(verbose_name=_("Percentage value"),help_text=_("Percentage over product value"))
+    pc_value = models.FloatField(verbose_name=_("Percentage value"),
+                                 help_text=_("Percentage over product value"))
 
     class Meta:
         ordering = ['name']

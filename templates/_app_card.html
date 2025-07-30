@@ -8,11 +8,11 @@
 
     {% if permission_OK %}
 	<a class="btn btn-primary-outline btn-block m-0" href="{% url link_to %}" role="button">
-		<img src="{% static icon %}" alt="{{ header }}" height="100%" width="100%">
+		<img class="img-fluid" src="{% static icon %}" alt="{{ header }}" height="100%" width="100%">
 	</a>
     {% else %}
     <a class="btn btn-primary-outline disabled" href="" role="button">
-        <img src="{% static icon %}" alt="{{ header }}" height="100%" width="100%">
+        <img class="img-fluid" src="{% static icon %}" alt="{{ header }}" height="100%" width="100%">
     </a>
     {% endif %}
     

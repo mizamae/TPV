@@ -112,7 +112,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "bootstrap_datepicker_plus",
 
-    "debug_toolbar",
+    #"debug_toolbar",
 
     'myTPV',
     'UsersAPP',
@@ -131,7 +131,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_plotly_dash.middleware.BaseMiddleware',
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    #"debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'myTPV.urls'

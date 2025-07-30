@@ -11,7 +11,7 @@ class ProductsConfig(AppConfig):
         try:
             from myTPV.models import SiteSettings
             SETTINGS=SiteSettings.load()
-            default,_ = VATValue.objects.get_or_create(**{"id":1,"name":"Standard"})
+            default,_ = VATValue.objects.get_or_create(**{"id":1,"name":"Standard","pc_value" : SETTINGS.VAT})
             if SETTINGS.VAT != default.pc_value:
                 default.pc_value = SETTINGS.VAT
                 default.save()
