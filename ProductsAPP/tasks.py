@@ -36,12 +36,13 @@ def printBillReceipt(billData):
     printer.printText("CANT       ARTICULO       PVP      TOTAL")
     for pos in billData['positions']:
         printer.printText(str(pos['quantity'])+"    " + pos['product'] + "    " + str(round(pos["subtotal"]/pos['quantity'],2))+ "    " + str(pos["subtotal"]))
+    printer.printText("")
     printer.printText("BASE: " + str(billData['total']-billData['vat']) + " €")
     printer.printText("IVA: " + str(billData['vat'])+ " €") 
     printer.printText("TOTAL: " + str(billData['total'])+" €")
-    printer.printText("MÉTODO DE PAGO: " + str(BillAccount.PAYMENT_TYPES[billData['paymentType']][1]))
+    printer.printText("METODO DE PAGO: " + str(BillAccount.PAYMENT_TYPES[billData['paymentType']][1]))
     printer.printText("----------------------------------------")
-    printer.printText("Plazo máximo de devolución 15 dias")
+    printer.printText("Plazo maximo de devolucion 15 dias")
     printer.cutPaper()
     del printer
 
