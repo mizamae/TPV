@@ -23,12 +23,13 @@ class PrintedBill(object):
         self.billData=billData
         self.commerceData=commerceData
 
-        self.fontName = "Helvetica-Bold"
+        self.fontName = "Helvetica"
+        self.fontBoldName = "Helvetica-Bold"
         #Canvas nos permite hacer el reporte con coordenadas X y Y
-        topMargin = 20*mm
+        topMargin = 50*mm
         leftMargin = 20*mm
         rightMargin = 20*mm
-        bottomMargin = 10*mm
+        bottomMargin = 50*mm
         self.pdf = canvas.Canvas(self.buffer,pagesize=A4,
                                  topMargin=topMargin,
                                 leftMargin=leftMargin,
@@ -64,36 +65,15 @@ class PrintedBill(object):
         self.nextRow(5)
 
     def footer(self,):
-        self.currentY = self.minY
-        self.nextRow(-5*0.75)
-        # Escribimos los datos del comercio
-        fontSize=10
-        self.pdf.setFont(self.fontName, fontSize)
-        text = self.commerceData['name']
-        string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
-        self.pdf.drawString(self.minX+0.5*(self.maxX-string_width-self.minX), self.currentY, text)
-        self.nextRow(0.75)
-        text = self.commerceData['address1']
-        string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
-        self.pdf.drawString(self.minX+0.5*(self.maxX-string_width-self.minX), self.currentY, text)
-        self.nextRow(0.75)
-        if self.commerceData['address2']:
-            text = self.commerceData['address2'] if self.commerceData['address2'] else '' 
-            string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
-            self.pdf.drawString(self.minX+0.5*(self.maxX-string_width-self.minX), self.currentY, text)
-            self.nextRow(0.75)
-            text = 'CIF: ' + self.commerceData['cif'] 
-            string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
-            self.pdf.drawString(self.minX+0.5*(self.maxX-string_width-self.minX), self.currentY, text)
-        else:
-            text = 'CIF: ' + self.commerceData['cif'] 
-            string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
-            self.pdf.drawString(self.minX+0.5*(self.maxX-string_width-self.minX), self.currentY, text)
-        self.nextRow(0.75)
-        text = 'Tel.: ' + self.commerceData['phone'] if self.commerceData['phone'] else 'Tel.: '
-        text += " - " + self.commerceData['web'] if self.commerceData['web'] else ''
-        string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
-        self.pdf.drawString(self.minX+0.5*(self.maxX-string_width-self.minX), self.currentY, text)
+        self.currentY = self.minY - 40*mm 
+        
+        try:
+            archivo_imagen = settings.STATIC_ROOT+'\site\logos\CompanyLogoNavbar.jpg'
+        except:
+            archivo_imagen = 'C:/Users/mikel.zabaleta/Github/TPV/static/site/logos/CompanyLogoNavbar.jpg'
+
+        self.pdf.drawImage(archivo_imagen, self.minX+int((self.maxX-self.minX)/3), self.currentY,int((self.maxX-self.minX)/3),preserveAspectRatio=True)
+
 
     def header(self,):
         self.currentY = self.maxY+10*mm
@@ -107,15 +87,45 @@ class PrintedBill(object):
         
         #Establecemos el tamaño de letra en 16 y el tipo de letra Helvetica
         self.currentY = self.maxY+10*mm
-        self.nextRow(1.5)
-        self.pdf.setFont(self.fontName, 14)
+        self.pdf.drawImage(archivo_imagen, self.minX, self.currentY,int((self.maxX-self.minX)/3),preserveAspectRatio=True)
 
-        text = self.billData['code']
-        string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=14)
-        self.pdf.drawString(self.maxX-string_width, self.currentY, text)
-        self.pdf.drawImage(archivo_imagen, self.minX, self.currentY-35, 110,preserveAspectRatio=True)
-        self.currentY = self.maxY
-        self.pdf.line(x1=self.minX,y1 = self.currentY,x2=self.maxX, y2 = self.currentY)
+        # text = self.billData['code']
+        # string_width = self.pdf.stringWidth(text=text, fontName=self.fontBoldName, fontSize=14)
+        # self.pdf.drawString(self.maxX-string_width, self.currentY, text)
+        
+        # self.currentY = self.maxY
+        #self.pdf.line(x1=self.minX,y1 = self.currentY,x2=self.maxX, y2 = self.currentY)
+        
+        # Escribimos los datos del comercio
+        self.currentY = self.maxY+35*mm
+        fontSize=9
+        self.pdf.setFont(self.fontBoldName, fontSize)
+        text = self.commerceData['name']
+        startX = int((self.maxX-self.minX)*2/3)
+        self.pdf.drawString(startX, self.currentY, text)
+        self.nextRow(0.75)
+        text = self.commerceData['address1']
+        self.pdf.drawString(startX, self.currentY, text)
+        self.nextRow(0.75)
+        if self.commerceData['address2']:
+            text = self.commerceData['address2'] if self.commerceData['address2'] else '' 
+            self.pdf.drawString(startX, self.currentY, text)
+            self.nextRow(0.75)
+            text = 'CIF: ' + self.commerceData['cif'] 
+            self.pdf.drawString(startX, self.currentY, text)
+        else:
+            text = 'CIF: ' + self.commerceData['cif'] 
+            self.pdf.drawString(startX, self.currentY, text)
+        self.nextRow(0.75)
+        text = 'Tel.: ' + self.commerceData['phone'] if self.commerceData['phone'] else 'Tel.: '
+        self.pdf.drawString(startX, self.currentY, text)
+        self.nextRow(0.75)
+        text = "Web: " + self.commerceData['web'] if self.commerceData['web'] else 'Web: '
+        self.pdf.drawString(startX, self.currentY, text)
+        self.nextRow(0.75)
+        text = "Email: " + self.commerceData['email'] if self.commerceData['email'] else 'Email: '
+        self.pdf.drawString(startX, self.currentY, text)
+        
         self.nextRow(2)
 
     def createBill(self,):
@@ -126,41 +136,48 @@ class PrintedBill(object):
         self.header()
 
         self.nextRow(0.5) 
-        # Escribimos los datos del cliente
-        fontSize=10
-        self.pdf.setFont(self.fontName, fontSize)
-        text = _("Date: ") + self.billData['date'].strftime("%d/%m/%Y, %H:%M:%S")
-        string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
+        
+        fontSize=9
+        self.pdf.setFont(self.fontBoldName, fontSize)
+        
+        text = _("Bill summary")
+        string_width = self.pdf.stringWidth(text=text, fontName=self.fontBoldName, fontSize=fontSize)
         self.pdf.drawString(self.minX, self.currentY, text)
+        
+        self.nextRow(2)
+        
+        # Escribimos los datos del cliente
+        startY = self.currentY
+        startX = int((self.maxX-self.minX)*2/3)
+        
+        text = _("Bill code: ") + self.billData['code']
+        string_width = self.pdf.stringWidth(text=text, fontName=self.fontBoldName, fontSize=14)
+        self.pdf.drawString(startX, self.currentY, text)
+        self.nextRow(1)
+        
+        text = _("Date: ") + self.billData['date'].strftime("%d/%m/%Y, %H:%M:%S")
+        string_width = self.pdf.stringWidth(text=text, fontName=self.fontBoldName, fontSize=fontSize)
+        self.pdf.drawString(startX, self.currentY, text)
         self.nextRow(1)
         if self.billData['customer']:
+            self.currentY = startY
             text = _("Customer name: ") + self.billData['customer']['name'] + " " +self.billData['customer']['surname']
-            string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
+            string_width = self.pdf.stringWidth(text=text, fontName=self.fontBoldName, fontSize=fontSize)
             self.pdf.drawString(self.minX, self.currentY, text)
             self.nextRow(1)
             text = _("Customer Tax number: ") + self.billData['customer']['cif']
-            string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
+            string_width = self.pdf.stringWidth(text=text, fontName=self.fontBoldName, fontSize=fontSize)
             self.pdf.drawString(self.minX, self.currentY, text)
             self.nextRow(5)       
         
-        fontSize=18
-        self.pdf.setFont(self.fontName, fontSize)
-
-        text = _("Bill summary")
-        string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
-        self.pdf.drawString(self.minX+(self.maxX-self.minX-string_width)/2, self.currentY, text)
+        tableRows = [(row['product'],row['quantity'],str(round(row['subtotal']/row['quantity'],2))+'€',str(row['subtotal'])+'€') for row in self.billData['positions']]
         
-        self.nextRow(2)
-
-        tableRows = [(row['quantity'],row['product'],str(round(row['subtotal']/row['quantity'],2))+'€',str(row['subtotal'])+'€') for row in self.billData['positions']]
-        
-
         if len(self.billData['positions'])<=rowsPerPage:
-            self.__table__(y=None,header=[_('Quant.'),_('Product'), _('Unit price'), _('Subtotal')],
+            self.__table__(y=None,header=[_('Product'),_('Quant.'), _('Unit price'), _('Subtotal')],
                                     rows=tableRows)
         else:
             for i in range(0,len(self.billData['positions']),rowsPerPage):
-                self.__table__(y=None,header=[_('Quant.'),_('Product'),_('Unit price'), _('Subtotal')],
+                self.__table__(y=None,header=[_('Product'),_('Quant.'),_('Unit price'), _('Subtotal')],
                                     rows=tableRows[i:i+rowsPerPage])
                 if i+rowsPerPage < len(self.billData['positions']):
                     self.nextPage()
@@ -168,18 +185,18 @@ class PrintedBill(object):
         # Escribimos el resumen de la factura
         self.nextRow(1.5)
         fontSize=10
-        self.pdf.setFont(self.fontName, fontSize)
+        self.pdf.setFont(self.fontBoldName, fontSize)
         vat_amount=0
         for row in self.billData['positions']:
             vat_amount += row['vat_amount']
         text = _("VAT") +": ........................" + str(round(vat_amount,2))+"€"
-        string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
+        string_width = self.pdf.stringWidth(text=text, fontName=self.fontBoldName, fontSize=fontSize)
         self.pdf.drawString(self.maxX-string_width, self.currentY, text)
         self.nextRow(2)
         fontSize=12
-        self.pdf.setFont(self.fontName, fontSize)
+        self.pdf.setFont(self.fontBoldName, fontSize)
         text = _("TOTAL")+": ......................." + str(round(self.billData['total'],2))+"€"
-        string_width = self.pdf.stringWidth(text=text, fontName=self.fontName, fontSize=fontSize)
+        string_width = self.pdf.stringWidth(text=text, fontName=self.fontBoldName, fontSize=fontSize)
         self.pdf.drawString(self.maxX-string_width, self.currentY, text)
 
 
@@ -188,8 +205,8 @@ class PrintedBill(object):
         #Creamos una tupla de encabezados para neustra tabla
         encabezados = (col for col in header)
         #Establecemos el tamaño de cada una de las columnas de la tabla
-        table = Table([encabezados] + rows, colWidths=  [(self.maxX-self.minX)*0.1]+ # column 1
-                                                        [(self.maxX-self.minX)*0.5]+ # column 2
+        table = Table([encabezados] + rows, colWidths=  [(self.maxX-self.minX)*0.5]+ # column 1
+                                                        [(self.maxX-self.minX)*0.1]+ # column 2
                                                         [0.4*(self.maxX-self.minX)/(len(header)-2) for _ in header[2:]])
         #Aplicamos estilos a las celdas de la tabla
         cellStyles = []
@@ -203,19 +220,23 @@ class PrintedBill(object):
         table.setStyle(TableStyle(
             [
                 ('BACKGROUND',(0,0),(len(header),0),colors.HexColor("#898A88")),
-                ('FONT',(0,0),(len(header),0),self.fontName),
-                #El tamaño de las letras de cada una de las celdas del encabezado sera 11
-                ('FONTSIZE', (0, 0), (len(header),0), 11),
+                ('TEXTCOLOR', (0, 0), (len(header),0), colors.HexColor("#F7F8F6")),
+                ('FONT',(0,0),(len(header),0),self.fontBoldName),
+                #El tamaño de las letras de cada una de las celdas del encabezado sera 10
+                ('FONTSIZE', (0, 0), (len(header),0), 10),
 
                 # All cells aligned center
-                ('ALIGN',(0,0),(0,-1),'CENTER'), # first column centered
-                ('ALIGN',(1,0),(1,-1),'LEFT'), # second column left
+                ('ALIGN',(0,0),(0,-1),'LEFT'), # first column centered
+                ('ALIGN',(1,0),(1,-1),'CENTER'), # second column left
                 ('ALIGN',(2,0),(-1,-1),'CENTER'), # rest centered
                 #Los bordes de todas las celdas serán de color negro y con un grosor de 1
-                ('GRID', (0, 0), (-1, -1), 0.5, colors.black), 
+                ('LINEABOVE', (0,2), (-1,-1), 0.25, colors.black),
+                ('LINEBELOW', (0,-1), (-1,-1), 0.25, colors.black),
+                #('GRID', (0, 0), (-1, -1), 0.5, colors.black), 
                 
-                #El tamaño de las letras de cada una de las celdas con datos será de 10
-                ('FONTSIZE', (0, 1), (-1, -1), 10),
+                #El tamaño de las letras de cada una de las celdas con datos será de 8
+                ('FONTSIZE', (0, 1), (-1, -1), 8),
+                ('FONT',(0, 1), (-1, -1),self.fontName),
             ] + cellStyles
         ))
         #Establecemos el tamaño de la hoja que ocupará la tabla 

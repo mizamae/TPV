@@ -48,6 +48,8 @@ class SiteSettings(SingletonModel):
                                     help_text=_('The tax code of the shop'))
     SHOP_PHONE = models.CharField(verbose_name=_('Phone of the shop'),max_length=200,
                                     help_text=_('The phone number of the shop'),blank=True,null=True)
+    SHOP_EMAIL = models.EmailField(verbose_name=_('Contact email of the shop'),
+                                    help_text=_('The contact email of the shop'),blank=True,null=True)
     SHOP_WEB = models.URLField(verbose_name=_('Web of the shop'),
                                     help_text=_('The web page of the shop'),blank=True,null=True)
     
@@ -94,7 +96,8 @@ class SiteSettings(SingletonModel):
                 'address2':SETTINGS.SHOP_ADDR2,
                 'cif':SETTINGS.SHOP_VAT,
                 'phone':SETTINGS.SHOP_PHONE,
-                'web':SETTINGS.SHOP_PHONE}
+                'email':SETTINGS.SHOP_EMAIL,
+                'web':SETTINGS.SHOP_WEB}
         
 
     @staticmethod

@@ -21,7 +21,10 @@ from utils.usbUtils import ThermalPrinter
 def add_bill(request):
     bill=BillAccount.create(createdBy=request.user)
     printer = ThermalPrinter()
-    messages.info(request, printer.paperStatus)
+    try:
+        messages.info(request, printer.paperStatus)
+    except:
+        messages.warning(request, _("Cannot communicate with the receipt printer"))
     del printer
     return redirect('MaterialsAPP_edit_bill',code=bill.code,tab=0)
 
