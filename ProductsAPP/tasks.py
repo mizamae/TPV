@@ -39,7 +39,7 @@ def printBillReceipt(billData):
     printer.printText("BASE: " + str(billData['total']-billData['vat']))
     printer.printText("IVA: " + str(billData['vat']))
     printer.printText("TOTAL: " + str(billData['total']))
-    printer.printText("MÉTODO DE PAGO: " + str(BillAccount.PAYMENT_TYPES(billData['paymentType'])[1]))
+    printer.printText("MÉTODO DE PAGO: " + str(BillAccount.PAYMENT_TYPES[billData['paymentType']][1]))
     printer.printText("----------------------------------------")
     printer.printText("Plazo máximo de devolución 15 dias")
     printer.cutPaper()
