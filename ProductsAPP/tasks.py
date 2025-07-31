@@ -22,19 +22,27 @@ __sql_insertJob__ = ''' INSERT INTO jobs(url,data)
                         
 @shared_task(bind=False,name='ProductsAPP_printReceipt')
 def printBillReceipt(billData):
+    from.models import BillAccount
     from utils.usbUtils import ThermalPrinter
-    data=[]
-    data.append("Codigo: " + str(billData['code']))
-    data.append("Fecha: " + str(billData['date']).split(".")[0])
-    data.append("--------------------------------")
-    data.append("Uds    Producto    Subtotal")
-    for pos in billData['positions']:
-        data.append(str(pos['quantity'])+"    " + pos['product'] + "    " + str(pos["subtotal"]))
-    data.append("IVA: " + str(billData['vat']))
-    data.append("TOTAL: " + str(billData['total']))
-    data.append("--------------------------------")
     printer = ThermalPrinter()
-    printer.printReceipt(data=data)
+    if os.path.exists(os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoNavbar.jpg")):
+        printer.printImage(os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoNavbar.jpg"))
+    else:
+        printer.printImage(os.path.join(settings.STATIC_ROOT,"site","logos","TinyTPV.jpg"))
+        
+    printer.printText("FRA. SIMPLIFICADA: " + str(billData['code']))
+    printer.printText("Fecha: " + str(billData['date']).split(".")[0])
+    printer.printText("----------------------------------------")
+    printer.printText("CANT       ARTICULO       PVP      TOTAL")
+    for pos in billData['positions']:
+        printer.printText(str(pos['quantity'])+"    " + pos['product'] + "    " + str(pos["subtotal"]/pos['quantity'])+ "    " + str(pos["subtotal"]))
+    printer.printText("BASE: " + str(billData['total']-billData['vat']))
+    printer.printText("IVA: " + str(billData['vat']))
+    printer.printText("TOTAL: " + str(billData['total']))
+    printer.printText("MÉTODO DE PAGO: " + str(BillAccount.PAYMENT_TYPES(billData['paymentType'])(1)))
+    printer.printText("----------------------------------------")
+    printer.printText("Plazo máximo de devolución 15 dias")
+    printer.cutPaper()
     del printer
 
 @shared_task(bind=False,name='ProductsAPP_publish_pendingJobs')

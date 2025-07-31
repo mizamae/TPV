@@ -541,7 +541,7 @@ class BillAccount(models.Model):
         self.save(update_fields=['owner',])
 
     def toJSON(self):
-        value = {'code':self.code,'customer':self.owner.toJSON() if self.owner else {},
+        value = {'code':self.code,'customer':self.owner.toJSON() if self.owner else {},'paymentType':self.paymenttype,
                  'date':self.createdOn,'status':self.status,'total':self.total,"vat":self.getVATAmount(),'positions':[]}
         for position in self.bill_positions.all():
             value['positions'].append({'quantity':position.quantity,'product':str(position.product),

@@ -1,6 +1,5 @@
 import usb.core
 import usb.util
-from os.path import join,exists
 from escpos.printer import Usb
 
 from django.conf import settings
@@ -19,15 +18,16 @@ class ThermalPrinter():
 
     def __del__(self,):
         self.printer.close()
-        
-    def printReceipt(self,data):
-        if exists(join(settings.STATIC_ROOT,"site","logos","CompanyLogoNavbar.jpg")):
-            self.printer.image(join(settings.STATIC_ROOT,"site","logos","CompanyLogoNavbar.jpg"))
-        for row in data:
-            self.printer.textln(row)
-        self.printer.cut()
-        #self.printer.close()
     
+    def printImage(self,path):
+        self.printer.image(path)
+        
+    def printText(self,text):
+        self.printer.textln(text)
+    
+    def cutPaper(self):
+        self.printer.cut()
+        
     def cashdraw(self,pin):
         self.printer.cashdraw(pin=pin)
     
@@ -63,7 +63,9 @@ if __name__ == "__main__":
     list_usb_devices()
     
     printer = ThermalPrinter()
-    printer.printReceipt(data=['Hola mundo',"Esto es muy duro","Pero entre todos lo superaremos sin ninguna duda"])
+    for row in ['Hola mundo',"Esto es muy duro","Pero entre todos lo superaremos sin ninguna duda"]:
+        printer.printText(row)
+    printer.cutPaper()
     # p = Usb(idVendor=0x1fc9, idProduct=0x2016,timeout=0,profile="TM-P80")
     # p.text("Hello World\n")
     # p.image(join("..","static","site","logos","CompanyLogoNavbar.jpg"))
