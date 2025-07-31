@@ -14,7 +14,8 @@ On Windows, use zadig to install the proer driver
 
 class ThermalPrinter():
     def __init__(self,idVendor=0x1fc9, idProduct=0x2016,profile="TM-P80"):
-        self.printer = Usb(idVendor=idVendor, idProduct=idProduct,timeout=0,profile=profile,python_encode='latin_1')
+        self.printer = Usb(idVendor=idVendor, idProduct=idProduct,timeout=0,profile=profile)
+        self.printer.charcode(code='latin_1')
 
     def __del__(self,):
         self.printer.close()
