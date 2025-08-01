@@ -16,6 +16,7 @@ from reportlab.graphics.charts.axes import XValueAxis, YValueAxis, AdjYValueAxis
 from django.conf import settings
 from django.utils.translation import gettext as _
 
+import os
 
 class PrintedBill(object):
     def __init__(self,billData,commerceData):
@@ -67,11 +68,11 @@ class PrintedBill(object):
     def footer(self,):
         self.currentY = self.minY - 40*mm 
         
-        try:
-            archivo_imagen = settings.STATIC_ROOT+'\site\logos\CompanyLogoNavbar.jpg'
-        except:
-            archivo_imagen = 'C:/Users/mikel.zabaleta/Github/TPV/static/site/logos/CompanyLogoNavbar.jpg'
-
+        if os.path.exists(os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoBillBottom.jpg")):
+            archivo_imagen = os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoBillBottom.jpg")
+        else:
+            archivo_imagen = os.path.join(settings.STATIC_ROOT,"site","logos","TinyTPV.jpg")
+        
         self.pdf.drawImage(archivo_imagen, self.minX+int((self.maxX-self.minX)/3), self.currentY,int((self.maxX-self.minX)/3),preserveAspectRatio=True)
 
 
@@ -79,10 +80,10 @@ class PrintedBill(object):
         self.currentY = self.maxY+10*mm
         
         #Utilizamos el archivo logo_django.png que está guardado en la carpeta media/imagenes
-        try:
-            archivo_imagen = settings.STATIC_ROOT+'\site\logos\CompanyLogoNavbar.jpg'
-        except:
-            archivo_imagen = 'C:/Users/mikel.zabaleta/Github/TPV/static/site/logos/CompanyLogoNavbar.jpg'
+        if os.path.exists(os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoBillTop.jpg")):
+            archivo_imagen = os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoBillTop.jpg")
+        else:
+            archivo_imagen = os.path.join(settings.STATIC_ROOT,"site","logos","TinyTPV.jpg")
 
         
         #Establecemos el tamaño de letra en 16 y el tipo de letra Helvetica

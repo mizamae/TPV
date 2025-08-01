@@ -19,14 +19,30 @@ __sql_createTableStatement__ = """CREATE TABLE IF NOT EXISTS jobs (
                         );"""
 __sql_insertJob__ = ''' INSERT INTO jobs(url,data)
                         VALUES(?,?) '''
-                        
+
+@shared_task(bind=False,name='ProductsAPP_send_bill')
+def sendBillReceipt(billData):
+    from .models import BillAccount
+    from myTPV.models import SiteSettings
+    SETTINGS = SiteSettings.load()
+    if billData['status'] == BillAccount.STATUS_PAID and billData['customer'] and billData['customer']['email']:
+        from utils.pdfConverter import PrintedBill
+        bill = PrintedBill(billData=billData,commerceData=SETTINGS.commerceData())
+        with open(billData["code"]+".pdf", "wb") as binary_file:
+            binary_file.write(bill.pdf)
+        if "gmail" in settings.EMAIL_HOST:
+            from utils.googleGmail import googleGmail_handler
+            googleGmail_handler.sendEmail(subject='Invoice test',attachments=[billData["code"]+".pdf",],recipient=billData['customer']['email'],
+                                          html_content='Hello darling')
+        os.remove(billData["code"]+".pdf")
+        
 @shared_task(bind=False,name='ProductsAPP_printReceipt')
 def printBillReceipt(billData):
     from.models import BillAccount
     from utils.usbUtils import ThermalPrinter
     printer = ThermalPrinter()
-    if os.path.exists(os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoNavbar.jpg")):
-        printer.printImage(os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoNavbar.jpg"))
+    if os.path.exists(os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoTicketTop.jpg")):
+        printer.printImage(os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoTicketTop.jpg"))
     else:
         printer.printImage(os.path.join(settings.STATIC_ROOT,"site","logos","TinyTPV.jpg"))
         
@@ -196,22 +212,6 @@ def send_email(subject,message,recipient_list,attachments=None):
         from utils.googleGmail import googleGmail_handler
         googleGmail_handler.sendMultipleEmails(subject=subject,attachments=attachments,recipients=recipient_list,html_content=message)
         logger.info("Email sent to " + str(recipient_list))
-
-@shared_task(bind=False,name='ProductsAPP_send_bill')
-def sendBillReceipt(billData):
-    from .models import BillAccount
-    from myTPV.models import SiteSettings
-    SETTINGS = SiteSettings.load()
-    if billData['status'] == BillAccount.STATUS_PAID and billData['customer'] and billData['customer']['email']:
-        from utils.pdfConverter import PrintedBill
-        bill = PrintedBill(billData=billData,commerceData=SETTINGS.commerceData())
-        with open(billData["code"]+".pdf", "wb") as binary_file:
-            binary_file.write(bill.pdf)
-        if "gmail" in settings.EMAIL_HOST:
-            from utils.googleGmail import googleGmail_handler
-            googleGmail_handler.sendEmail(subject='Invoice test',attachments=[billData["code"]+".pdf",],recipient=billData['customer']['email'],
-                                          html_content='Hello darling')
-        os.remove(billData["code"]+".pdf")
 
 @shared_task(bind=False,name='ProductsAPP_monthly_results')
 def monthly_results():
