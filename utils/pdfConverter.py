@@ -36,12 +36,12 @@ class PrintedBill(object):
                                 leftMargin=leftMargin,
                                 rightMargin=rightMargin,
                                 bottomMargin=bottomMargin)
-        width, height = A4
+        self.width, self.height = A4
         
 
-        self.maxY = (height/mm-topMargin/mm)*mm
+        self.maxY = (self.height/mm-topMargin/mm)*mm
         self.minY = bottomMargin
-        self.maxX = (width/mm-rightMargin/mm)*mm
+        self.maxX = (self.width/mm-rightMargin/mm)*mm
         self.minX = leftMargin
         self.dy = 5*mm
         self.currentY = self.maxY
@@ -68,14 +68,14 @@ class PrintedBill(object):
     def footer(self,):
         self.currentY = self.minY - 40*mm  
         self.pdf.setFillColor(colors.HexColor("#f73449"))
-        self.pdf.rect(self.minX, self.currentY, (self.maxX-self.minX), 40*mm, fill=1,stroke=0)
+        self.pdf.rect(0, self.currentY, self.width, 40*mm, fill=1,stroke=0)
         self.pdf.setFillColor(colors.HexColor("#000000"))
         if os.path.exists(os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoBillBottom.png")):
             archivo_imagen = os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoBillBottom.png")
         else:
             archivo_imagen = os.path.join(settings.STATIC_ROOT,"site","logos","TinyTPV.png")
         
-        self.pdf.drawImage(archivo_imagen, self.minX+int((self.maxX-self.minX)/3), self.currentY,int((self.maxX-self.minX)/3),
+        self.pdf.drawImage(archivo_imagen, self.minX+int((self.maxX-self.minX)/3), self.currentY-4*mm,int((self.maxX-self.minX)/3),
                            preserveAspectRatio=True,mask='auto')
 
 
