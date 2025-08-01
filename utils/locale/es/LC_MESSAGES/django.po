@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-27 13:22+0200\n"
+"POT-Creation-Date: 2025-08-01 16:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,42 +19,46 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: .\utils\pdfConverter.py:132
-msgid "Date: "
-msgstr "Fecha: "
-
-#: .\utils\pdfConverter.py:137
-msgid "Customer name: "
-msgstr "Nombre del cliente: "
-
-#: .\utils\pdfConverter.py:141
-msgid "Customer Tax number: "
-msgstr "CIF cliente: "
-
-#: .\utils\pdfConverter.py:149
+#: .\utils\pdfConverter.py:147
 msgid "Bill summary"
 msgstr "Resumen de la factura"
 
-#: .\utils\pdfConverter.py:159 .\utils\pdfConverter.py:163
-msgid "Quant."
-msgstr "Cant."
+#: .\utils\pdfConverter.py:157
+msgid "Bill code: "
+msgstr "Factura: "
 
-#: .\utils\pdfConverter.py:159 .\utils\pdfConverter.py:163
+#: .\utils\pdfConverter.py:162
+msgid "Date: "
+msgstr "Fecha: "
+
+#: .\utils\pdfConverter.py:168
+msgid "Customer name: "
+msgstr "Nombre del cliente: "
+
+#: .\utils\pdfConverter.py:172
+msgid "Customer Tax number: "
+msgstr "CIF cliente: "
+
+#: .\utils\pdfConverter.py:180 .\utils\pdfConverter.py:184
 msgid "Product"
 msgstr "Producto"
 
-#: .\utils\pdfConverter.py:159 .\utils\pdfConverter.py:163
+#: .\utils\pdfConverter.py:180 .\utils\pdfConverter.py:184
+msgid "Quant."
+msgstr "Cant."
+
+#: .\utils\pdfConverter.py:180 .\utils\pdfConverter.py:184
 msgid "Unit price"
 msgstr "Precio unit."
 
-#: .\utils\pdfConverter.py:159 .\utils\pdfConverter.py:163
+#: .\utils\pdfConverter.py:180 .\utils\pdfConverter.py:184
 msgid "Subtotal"
 msgstr ""
 
-#: .\utils\pdfConverter.py:175
+#: .\utils\pdfConverter.py:196
 msgid "VAT"
 msgstr "IVA"
 
-#: .\utils\pdfConverter.py:181
+#: .\utils\pdfConverter.py:202
 msgid "TOTAL"
 msgstr ""

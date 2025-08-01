@@ -86,8 +86,13 @@
 				setInterval(function(){
 					const activeElement = document.activeElement;
 					if (activeElement != document.getElementById("id_customer_data")){document.getElementById("id_barcode").focus();}
-				}, 1000);				
+				}, 500);				
 			</script>
+			<div class='col-12'>
+				{% if bill.bill_positions.count > 0 %}
+				<h5>{{ bill.bill_positions.count }} {% trans " position" %}{{ bill.bill_positions.count|pluralize }}</h5>
+				{% endif %}
+			</div>
 			<table class="table table-dark" id="bill_table">
 				<thead>
 					<tr>
