@@ -91,7 +91,8 @@ class PrintedBill(object):
         
         #Establecemos el tamaño de letra en 16 y el tipo de letra Helvetica
         self.currentY = self.maxY+10*mm
-        self.pdf.drawImage(archivo_imagen, self.minX, self.currentY,int(0.5*(self.maxX-self.minX)/3),preserveAspectRatio=True)
+        self.pdf.drawImage(archivo_imagen, self.minX, self.currentY,int(0.5*(self.maxX-self.minX)/3),
+                           preserveAspectRatio=True,mask='auto')
 
         # text = self.billData['code']
         # string_width = self.pdf.stringWidth(text=text, fontName=self.fontBoldName, fontSize=14)
