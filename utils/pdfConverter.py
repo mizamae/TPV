@@ -88,7 +88,7 @@ class PrintedBill(object):
         
         #Establecemos el tamaño de letra en 16 y el tipo de letra Helvetica
         self.currentY = self.maxY+10*mm
-        self.pdf.drawImage(archivo_imagen, self.minX, self.currentY,int((self.maxX-self.minX)/3),preserveAspectRatio=True)
+        self.pdf.drawImage(archivo_imagen, self.minX, self.currentY,int(0.5*(self.maxX-self.minX)/3),preserveAspectRatio=True)
 
         # text = self.billData['code']
         # string_width = self.pdf.stringWidth(text=text, fontName=self.fontBoldName, fontSize=14)
@@ -220,7 +220,7 @@ class PrintedBill(object):
 
         table.setStyle(TableStyle(
             [
-                ('BACKGROUND',(0,0),(len(header),0),colors.HexColor("#898A88")),
+                ('BACKGROUND',(0,0),(len(header),0),colors.HexColor("#B3CFCD")),
                 ('TEXTCOLOR', (0, 0), (len(header),0), colors.HexColor("#F7F8F6")),
                 ('FONT',(0,0),(len(header),0),self.fontBoldName),
                 #El tamaño de las letras de cada una de las celdas del encabezado sera 10
