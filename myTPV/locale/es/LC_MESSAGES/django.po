@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-27 13:22+0200\n"
+"POT-Creation-Date: 2025-08-01 16:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,11 +51,11 @@ msgstr "Cancelar"
 msgid "Shop details"
 msgstr "Detalles del comercio"
 
-#: .\myTPV\forms.py:107
+#: .\myTPV\forms.py:108
 msgid "Application details"
 msgstr "Detalles de la aplicacion"
 
-#: .\myTPV\forms.py:113
+#: .\myTPV\forms.py:114
 msgid "Accountancy details"
 msgstr "Detalles de contabilidad"
 
@@ -104,28 +104,42 @@ msgid "The phone number of the shop"
 msgstr "El numero de telefono del establecimiento"
 
 #: .\myTPV\models.py:51
+#, fuzzy
+#| msgid "Phone of the shop"
+msgid "Contact email of the shop"
+msgstr "Telefono del establecimiento"
+
+#: .\myTPV\models.py:52
+#, fuzzy
+#| msgid "The name of the shop"
+msgid "The contact email of the shop"
+msgstr "El nombre del establecimiento"
+
+#: .\myTPV\models.py:53
 msgid "Web of the shop"
 msgstr "Web del comercio"
 
-#: .\myTPV\models.py:52
+#: .\myTPV\models.py:54
 msgid "The web page of the shop"
 msgstr "La pagina web del establecimiento"
 
-#: .\myTPV\models.py:54
+#: .\myTPV\models.py:56
 msgid "Publish products update to the web"
 msgstr "Publicar actualizaciones de productos a la web"
 
-#: .\myTPV\models.py:55
+#: .\myTPV\models.py:57
 msgid ""
 "Enables publishing any product creation/update to the shop's web to keep it "
 "updated"
-msgstr "Habilita la publicacion de nuevos productos o actualizaciones a la pagina web del comercio manteniendola asi actualizada."
+msgstr ""
+"Habilita la publicacion de nuevos productos o actualizaciones a la pagina "
+"web del comercio manteniendola asi actualizada."
 
-#: .\myTPV\models.py:57
+#: .\myTPV\models.py:59
 msgid "Automatic updates"
 msgstr "Actualizaciones automaticas"
 
-#: .\myTPV\models.py:58
+#: .\myTPV\models.py:60
 msgid ""
 "Allows to automatically update the software from official repository "
 "(requires internet access)"
@@ -133,24 +147,24 @@ msgstr ""
 "Activa las actualizaciones automaticas del repositorio oficial (requiere "
 "conexion a internet)"
 
-#: .\myTPV\models.py:59
+#: .\myTPV\models.py:61
 msgid "Code of the current version"
 msgstr "Codigo de la version actual"
 
-#: .\myTPV\models.py:64
+#: .\myTPV\models.py:66
 msgid "Seconds to logout"
 msgstr "Segundos para logout"
 
-#: .\myTPV\models.py:65
+#: .\myTPV\models.py:67
 msgid "Seconds after when, the user would need to login again"
 msgstr ""
 "Segundos de inactividad tras los cuales, el usuario debera loggearse de nuevo"
 
-#: .\myTPV\models.py:67
+#: .\myTPV\models.py:69
 msgid "General VAT"
 msgstr ""
 
-#: .\myTPV\models.py:67
+#: .\myTPV\models.py:69
 msgid "Percentage of the cost added as a tax"
 msgstr "Porcentage del coste que se añade como impuesto"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-02 19:25+0200\n"
+"POT-Creation-Date: 2025-08-01 16:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,11 +23,11 @@ msgstr ""
 msgid "Back"
 msgstr "Volver"
 
-#: .\templates\base.html:119
+#: .\templates\base.html:111
 msgid "You are not logged in. Try logging in to start working..."
 msgstr "No estas logueado. Logueate antes de hacer nada..."
 
-#: .\templates\base.html:143
+#: .\templates\base.html:135
 msgid "Powered by "
 msgstr ""
 
@@ -44,40 +44,44 @@ msgstr " del cliente "
 msgid " Assign customer to bill "
 msgstr " Asignar cliente "
 
-#: .\templates\bill.html:94 .\templates\bill_resume.html:39
+#: .\templates\bill.html:93
+msgid " position"
+msgstr " posicion"
+
+#: .\templates\bill.html:99 .\templates\bill_resume.html:39
 msgid "Units"
 msgstr "Uds"
 
-#: .\templates\bill.html:95 .\templates\bill_resume.html:40
+#: .\templates\bill.html:100 .\templates\bill_resume.html:40
 #: .\templates\products.html:20
 msgid "Product"
 msgstr "Producto"
 
-#: .\templates\bill.html:96
+#: .\templates\bill.html:101
 msgid "Price"
 msgstr "Precio"
 
-#: .\templates\bill.html:97 .\templates\bill_resume.html:42
+#: .\templates\bill.html:102 .\templates\bill_resume.html:42
 msgid "Subtotal"
 msgstr ""
 
-#: .\templates\bill.html:98
+#: .\templates\bill.html:103
 msgid "X"
 msgstr ""
 
-#: .\templates\bill.html:116 .\templates\bill_resume.html:55
+#: .\templates\bill.html:121 .\templates\bill_resume.html:59
 msgid "VAT"
 msgstr "IVA"
 
-#: .\templates\bill.html:120 .\templates\bill_resume.html:59
+#: .\templates\bill.html:125 .\templates\bill_resume.html:63
 msgid "TOTAL"
 msgstr ""
 
-#: .\templates\bill.html:129
+#: .\templates\bill.html:134
 msgid " Close bill"
 msgstr " Cerrar cuenta"
 
-#: .\templates\bill.html:164
+#: .\templates\bill.html:169
 msgid "Set Value"
 msgstr "Fijar Uds"
 
@@ -89,23 +93,23 @@ msgstr " del cliente "
 msgid "Unit price"
 msgstr "Precio por unidad"
 
-#: .\templates\bill_resume.html:71
+#: .\templates\bill_resume.html:75
 msgid "Details of the payment"
 msgstr "Detalles del pago"
 
-#: .\templates\bill_resume.html:85
+#: .\templates\bill_resume.html:89
 msgid "Given amount"
 msgstr "Cantidad entregada"
 
-#: .\templates\bill_resume.html:89
+#: .\templates\bill_resume.html:93
 msgid "Refunded amount"
 msgstr "Cantidad a devolver"
 
-#: .\templates\bill_resume.html:134
+#: .\templates\bill_resume.html:138
 msgid " Exit"
 msgstr " Salir"
 
-#: .\templates\bill_resume.html:141
+#: .\templates\bill_resume.html:145
 msgid " Print"
 msgstr " Imprimir"
 
@@ -149,11 +153,11 @@ msgstr "INFORMES"
 msgid "HISTORICS"
 msgstr "HISTORICO"
 
-#: .\templates\home.html:51
+#: .\templates\home.html:60
 msgid "Today's bills"
 msgstr "Cuentas de hoy"
 
-#: .\templates\home.html:57
+#: .\templates\home.html:66
 msgid "Today's income "
 msgstr "Ingreso de hoy"
 
@@ -174,10 +178,8 @@ msgid "Active discount"
 msgstr "Descuento activo"
 
 #: .\templates\products.html:24
-#, fuzzy
-#| msgid "Active discount"
 msgid "Active Promotion"
-msgstr "Descuento activo"
+msgstr "Promocion activa"
 
 #: .\templates\products.html:48 .\templates\stock.html:50
 msgid "Save"
