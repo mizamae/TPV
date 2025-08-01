@@ -7430,7 +7430,7 @@ textarea.form-control-lg {
 }
 
 .bg-light {
-  background-color: #f8f9fa !important;
+  background-color: rgba(179, 207, 204, 0.5) !important;
 }
 
 .bg-dark {
