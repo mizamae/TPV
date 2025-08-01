@@ -133,9 +133,9 @@ class ConsumibleInlineForm(forms.ModelForm):
             help_text = self.fields[field].help_text
             self.fields[field].help_text = None
             if help_text != '':
-                self.fields[field].widget.attrs.update({'step':'0.1','min':'0','class':'form-control keyboard-numeric','data-toggle':'tooltip' ,'title':help_text, 'data-placement':'right', 'data-container':'body'})
+                self.fields[field].widget.attrs.update({'step':'0.1','min':'0','class':'form-control','data-toggle':'tooltip' ,'title':help_text, 'data-placement':'right', 'data-container':'body'})
             else:
-                self.fields[field].widget.attrs.update({'step':'0.1','min':'0','class':'form-control keyboard-numeric'})
+                self.fields[field].widget.attrs.update({'step':'0.1','min':'0','class':'form-control'})
         
         self.helper.layout = Layout(
                                     Field('name',type=''),
@@ -174,7 +174,7 @@ class ProductInlineForm(forms.ModelForm):
             else:
                 self.fields[field].widget.attrs.update({'class':'form-control'})
             if field=='manual_price': # to display the screen keyboard
-                self.fields[field].widget.attrs.update({'step':'0.1','min':'0','class':'form-control keyboard-numeric'})
+                self.fields[field].widget.attrs.update({'step':'0.1','min':'0','class':'form-control'}) # set class keyboard-numeric to show screen keyboard
         self.helper.layout = Layout(
                                     Field('name',type=''),
                                     Field('manual_price',type='text'),
