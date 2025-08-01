@@ -6,7 +6,7 @@ from reportlab.platypus.tables import TableStyle
 from reportlab.platypus.flowables import HRFlowable
 from reportlab.lib.units import mm
 from reportlab.lib import colors
-from reportlab.graphics.shapes import Drawing
+from reportlab.graphics.shapes import Rect, Drawing
 from reportlab.graphics.charts.legends import LineLegend
 from reportlab.graphics.charts.barcharts import VerticalBarChart
 from reportlab.graphics.charts.lineplots import LinePlot
@@ -66,24 +66,27 @@ class PrintedBill(object):
         self.nextRow(5)
 
     def footer(self,):
-        self.currentY = self.minY - 40*mm 
-        
-        if os.path.exists(os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoBillBottom.jpg")):
-            archivo_imagen = os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoBillBottom.jpg")
+        self.currentY = self.minY - 40*mm  
+        self.pdf.setFillColor(colors.HexColor("#f73449"))
+        self.pdf.rect(self.minX, self.currentY, (self.maxX-self.minX), 40*mm, fill=1,stroke=0)
+        self.pdf.setFillColor(colors.HexColor("#000000"))
+        if os.path.exists(os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoBillBottom.png")):
+            archivo_imagen = os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoBillBottom.png")
         else:
-            archivo_imagen = os.path.join(settings.STATIC_ROOT,"site","logos","TinyTPV.jpg")
+            archivo_imagen = os.path.join(settings.STATIC_ROOT,"site","logos","TinyTPV.png")
         
-        self.pdf.drawImage(archivo_imagen, self.minX+int((self.maxX-self.minX)/3), self.currentY,int((self.maxX-self.minX)/3),preserveAspectRatio=True)
+        self.pdf.drawImage(archivo_imagen, self.minX+int((self.maxX-self.minX)/3), self.currentY,int((self.maxX-self.minX)/3),
+                           preserveAspectRatio=True,mask='auto')
 
 
     def header(self,):
         self.currentY = self.maxY+10*mm
         
         #Utilizamos el archivo logo_django.png que está guardado en la carpeta media/imagenes
-        if os.path.exists(os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoBillTop.jpg")):
-            archivo_imagen = os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoBillTop.jpg")
+        if os.path.exists(os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoBillTop.png")):
+            archivo_imagen = os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoBillTop.png")
         else:
-            archivo_imagen = os.path.join(settings.STATIC_ROOT,"site","logos","TinyTPV.jpg")
+            archivo_imagen = os.path.join(settings.STATIC_ROOT,"site","logos","TinyTPV.png")
 
         
         #Establecemos el tamaño de letra en 16 y el tipo de letra Helvetica
