@@ -1,13 +1,15 @@
 {% load i18n %}
 {% load static %}
-{% if row.status == 0  %} <!-- if row status is open -->
 <tr class="alert alert-light">
-{% elif row.status == 1  %} <!-- if row status is closed no payment check -->
-<tr class="alert alert-warning">
-{% else %}
-<tr class="alert alert-success">
-{% endif %}
-    <td>{{ row.code }}</td>
+    {% if row.status == row.STATUS_OPEN  %} <!-- if row status is open -->
+    <td>
+    {% elif row.status == row.STATUS_CLOSED  %} <!-- if row status is closed no payment check -->
+    <td class="bg-warning">
+    {% else %}
+    <td class="bg-success text-white">
+    {% endif %}
+    {{ row.code }}
+    </td>
     <td>{{ row.createdOn }}</td>
     <td scope="col">{{ row.total|floatformat:2 }} €</td>
     <td scope="col">{{ row.getVATAmount }} €</td>

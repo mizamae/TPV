@@ -116,30 +116,27 @@
 			{% endif %}
 		</div>
 
-		<div class="container sticky-bottom mt-4">
-			{% block footer %}
+		{% block footer %}
 			<footer class="footer mt-auto">
-					<div class="row">
-						<div class="col-3 text-center">
-							<p>&copy; {% include "_brandname.html" %} {% now 'Y' %}</p>
-						</div>
-						<div class="col-3 text-center">
-							<p>mizamae@gmail.com</p>
-						</div>
-						<div class="col-3 text-center">
-							{% get_current_timezone as TIME_ZONE %}
-							<p>TZ: {{ TIME_ZONE }}</p>
-						</div>
-						<div class="col-3 text-center">
-							<p>{% trans "Powered by " %}
-								<img class="img-fluid w-10"	src="{% static 'site/img/icons8-django-50.svg' %}" alt="back">
-							</p>
-						</div>
+				<div class="row">
+					<div class="col-3 text-center">
+						<p>&copy; {% include "_brandname.html" %} {% now 'Y' %}</p>
 					</div>
-				
+					<div class="col-3 text-center">
+						<p>mizamae@gmail.com</p>
+					</div>
+					<div class="col-3 text-center">
+						{% get_current_timezone as TIME_ZONE %}
+						<p>TZ: {{ TIME_ZONE }}</p>
+					</div>
+					<div class="col-3 text-center">
+						<p>{% trans "Powered by " %}
+							<img class="img-fluid w-10"	src="{% static 'site/img/icons8-django-50.svg' %}" alt="back">
+						</p>
+					</div>
+				</div>
 			</footer>
 			{% endblock %}
-		</div>
 		
 		<script src="{% static 'site/js/jquery-ui.min.js' %}"></script> 
 		<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>	
