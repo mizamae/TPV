@@ -4,9 +4,31 @@ from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 from .managers import CustomUserManager
 
+class CustomerProfile(models.Model):
+    class Meta:
+        verbose_name = _('Customer profile')
+        verbose_name_plural = _('Customer profiles')
+
+    PERCENTAGE_VALIDATOR = [MinValueValidator(0), MaxValueValidator(100)]
+
+    name = models.CharField(_("Name"), max_length=150)
+    percent = models.FloatField(default=0,verbose_name=_("Percentage over bill's total"),validators=PERCENTAGE_VALIDATOR)
+
+    def __str__(self):
+        return self.name
+    
+    @admin.display(description=_("Customers"))
+    def adminAffectedCustomers(self,):
+        return list(map(str,self.affectedCustomers))
+    
+    @property
+    def affectedCustomers(self):
+        return self.customers.all()
+    
 class Customer(models.Model):
     class Meta:
         verbose_name = _('Customer')
@@ -22,6 +44,7 @@ class Customer(models.Model):
         default=False,
         help_text=_("Desires to receive the receipts electronically"),
     )
+    profile = models.ForeignKey(CustomerProfile,blank=True,null=True,on_delete=models.SET_NULL,related_name='customers')
 
     def clean(self):
         from django.core.exceptions import ValidationError  
@@ -39,19 +62,26 @@ class Customer(models.Model):
     def toJSON(self):
         return {'name':self.first_name,'surname':self.last_name,'email':self.email,'cif':self.cif}
 
+    @property
+    def hasDiscount(self,):
+        return self.profile and self.profile.percent>0
+
     @staticmethod
     def find(data):
         customer=None
         try:
             customer = Customer.objects.get(phone=data)
+            return customer
         except:
             pass
         try:
             customer = Customer.objects.get(email=data.lower())
+            return customer
         except:
             pass
         try:
             customer = Customer.objects.get(cif=data.upper())
+            return customer
         except:
             pass
         return customer

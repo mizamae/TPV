@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-01 16:37+0200\n"
+"POT-Creation-Date: 2025-08-18 10:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgstr "Volver"
 msgid "You are not logged in. Try logging in to start working..."
 msgstr "No estas logueado. Logueate antes de hacer nada..."
 
-#: .\templates\base.html:135
+#: .\templates\base.html:134
 msgid "Powered by "
 msgstr ""
 
@@ -69,11 +69,11 @@ msgstr ""
 msgid "X"
 msgstr ""
 
-#: .\templates\bill.html:121 .\templates\bill_resume.html:59
+#: .\templates\bill.html:121 .\templates\bill_resume.html:65
 msgid "VAT"
 msgstr "IVA"
 
-#: .\templates\bill.html:125 .\templates\bill_resume.html:63
+#: .\templates\bill.html:125 .\templates\bill_resume.html:69
 msgid "TOTAL"
 msgstr ""
 
@@ -93,23 +93,27 @@ msgstr " del cliente "
 msgid "Unit price"
 msgstr "Precio por unidad"
 
-#: .\templates\bill_resume.html:75
+#: .\templates\bill_resume.html:60
+msgid "User discount "
+msgstr "Descuento de usuario"
+
+#: .\templates\bill_resume.html:81
 msgid "Details of the payment"
 msgstr "Detalles del pago"
 
-#: .\templates\bill_resume.html:89
+#: .\templates\bill_resume.html:95
 msgid "Given amount"
 msgstr "Cantidad entregada"
 
-#: .\templates\bill_resume.html:93
+#: .\templates\bill_resume.html:99
 msgid "Refunded amount"
 msgstr "Cantidad a devolver"
 
-#: .\templates\bill_resume.html:138
+#: .\templates\bill_resume.html:144
 msgid " Exit"
 msgstr " Salir"
 
-#: .\templates\bill_resume.html:145
+#: .\templates\bill_resume.html:151
 msgid " Print"
 msgstr " Imprimir"
 
