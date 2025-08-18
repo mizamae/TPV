@@ -7,7 +7,7 @@ from myTPV.celery import app
 from django.forms import ValidationError
 import copy
 from .models import VATValue, Manufacturer, ProductFamily, Consumible, Product, CombinationPosition, ProductDiscount, ProductPromotion, BillAccount
-from UsersAPP.models import Customer, User
+from UsersAPP.models import Customer, User, CustomerProfile
 
 print('######################################')
 print('# TESTING OF ProductsAPP MODEL FUNCTIONS #')
@@ -17,6 +17,8 @@ def createManufacturers():
     names = ["Manufacturer 1","Manufacturer 2","Manufacturer 3","Manufacturer 4"]
     for name in names:
         Manufacturer.objects.create(name=name)
+    
+        
 
 def createProductFamilies():
     names = ["Comida perros","Comida gatos","Comida pajaros","Comida peces"]
@@ -190,6 +192,12 @@ class Billing_tests(TransactionTestCase):
         createProductFamilies()
         createConsumables()
         createCompoundProducts()
+
+        prof = CustomerProfile.objects.create(name="VIP",percent=10)
+        self.vip_customer = Customer.objects.create(**{'first_name':'VIP customer','last_name':'customers lastname',
+                                                'email':'VIPcustomer@customers.com','cif':'A123456789VIP','saves_paper':True,
+                                                'profile':prof})
+        
         self.cashier = User.objects.create(**{'identifier':'cashier','first_name':'cashiers name','last_name':'cashiers lastname'})
         self.green_customer = Customer.objects.create(**{'first_name':'customers name','last_name':'customers lastname',
                                                    'email':'customers@customers.com','cif':'A2345456','saves_paper':True})
@@ -287,3 +295,19 @@ class Billing_tests(TransactionTestCase):
         print('## total and vat_amount fields are filled with current values  ##')
         self.assertEqual(bill.total,4*round(200*1.21,2))
         self.assertEqual(bill.total*100/121*0.21,bill.getVATAmount())
+
+    def test_3(self):
+        bill=BillAccount.create(createdBy=self.cashier)
+
+        print('## Append a position ##')
+        product1 = Product.objects.order_by('id').first()
+
+        print('## Total is correctly calculated without customer ##')
+        bill.add_bill_position(product=product1,quantity=2)
+        self.assertEqual(bill.total,2*round(200*1.21,2))
+        self.assertEqual(2*product1.pvp,bill.total)
+
+        print('## Total is correctly calculated with a VIP customer ##')
+        bill.setOwner(customer=self.vip_customer)
+        self.assertEqual(bill.total,2*0.9*round(200*1.21,2))
+        self.assertEqual(2*0.9*product1.pvp,bill.total)

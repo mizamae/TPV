@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-01 16:37+0200\n"
+"POT-Creation-Date: 2025-08-18 10:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -273,7 +273,7 @@ msgstr "Combinacion de consumibles"
 msgid "Combinations of consumables"
 msgstr "Combinaciones de consumibles"
 
-#: .\ProductsAPP\models.py:465 .\ProductsAPP\models.py:586
+#: .\ProductsAPP\models.py:465 .\ProductsAPP\models.py:603
 msgid "Quantity"
 msgstr "Cantidad"
 
@@ -309,38 +309,46 @@ msgstr "Fecha y hora"
 msgid "Status"
 msgstr "Estado"
 
+#: .\ProductsAPP\models.py:505 .\ProductsAPP\models.py:555
+msgid "User discount"
+msgstr "Descuento de usuario"
+
 #: .\ProductsAPP\models.py:505
+msgid "Discount due to user affillation"
+msgstr "Descuento por fidelizacion de usuario"
+
+#: .\ProductsAPP\models.py:507
 msgid "Payment"
 msgstr "Pago"
 
-#: .\ProductsAPP\models.py:511
+#: .\ProductsAPP\models.py:513
 msgid " of customer "
 msgstr " del cliente "
 
-#: .\ProductsAPP\models.py:552
+#: .\ProductsAPP\models.py:567
 #, fuzzy
 #| msgid "Total including VAT"
 msgid "Total including VAT and discounts"
 msgstr "Total incluyendo IVA"
 
-#: .\ProductsAPP\models.py:559 .\ProductsAPP\models.py:590
+#: .\ProductsAPP\models.py:576 .\ProductsAPP\models.py:607
 #: .\ProductsAPP\templates\ProductsAPP\_list.html:11
 msgid "VAT amount"
 msgstr "Importe IVA"
 
-#: .\ProductsAPP\models.py:584
+#: .\ProductsAPP\models.py:601
 msgid "Position"
 msgstr "Posicion"
 
-#: .\ProductsAPP\models.py:589
+#: .\ProductsAPP\models.py:606
 msgid "Subtotal"
 msgstr ""
 
-#: .\ProductsAPP\models.py:589
+#: .\ProductsAPP\models.py:606
 msgid "Selling price at the moment of the operation"
 msgstr "Precio de venta en el momento de la transaccion"
 
-#: .\ProductsAPP\models.py:590
+#: .\ProductsAPP\models.py:607
 #, fuzzy
 #| msgid "Selling price at the moment of the operation"
 msgid "VAT amount at the moment of the operation"
@@ -386,19 +394,19 @@ msgstr ""
 msgid "[STOCK_WARNING] List of the products with stock below its minimum"
 msgstr "[AVISO_STOCK] Listado de productos por debajo de su stock de seguridad"
 
-#: .\ProductsAPP\templates\ProductsAPP\_bill.html:24
+#: .\ProductsAPP\templates\ProductsAPP\_bill.html:26
 msgid " Close"
 msgstr " Cerrar"
 
-#: .\ProductsAPP\templates\ProductsAPP\_bill.html:37
+#: .\ProductsAPP\templates\ProductsAPP\_bill.html:39
 msgid " Edit"
 msgstr " Editar"
 
-#: .\ProductsAPP\templates\ProductsAPP\_bill.html:45
+#: .\ProductsAPP\templates\ProductsAPP\_bill.html:47
 msgid " View"
 msgstr " Ver"
 
-#: .\ProductsAPP\templates\ProductsAPP\_bill.html:55
+#: .\ProductsAPP\templates\ProductsAPP\_bill.html:57
 msgid " Delete"
 msgstr " Borrar"
 
@@ -479,9 +487,6 @@ msgstr "Historico"
 
 #~ msgid "Discount of "
 #~ msgstr "Descuento de "
-
-#~ msgid "Discount"
-#~ msgstr "Descuento"
 
 #~ msgid "Category"
 #~ msgstr "Categoria"

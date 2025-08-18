@@ -502,6 +502,8 @@ class BillAccount(models.Model):
 
     positions = models.ManyToManyField(Product,blank=True,through='BillPosition',related_name="bill_lines")
 
+    userDiscount = models.FloatField(verbose_name=_("User discount"),help_text=_("Discount due to user affillation"),blank=True,null=True,editable = False)
+
     paymenttype = models.PositiveSmallIntegerField(verbose_name=_("Payment"),blank=False,null=True,choices=PAYMENT_TYPES)
 
     def __init__(self, *args, **kwargs) -> None:
@@ -531,6 +533,7 @@ class BillAccount(models.Model):
             self.save(update_fields=['status',]) #'vat_amount','total','save_amount'])
             for position in self.bill_positions.all():
                 position.close()
+            
             if self.owner and self.owner.saves_paper:
                 sendBillReceipt.delay(billData=self.toJSON())
             else:
@@ -538,7 +541,9 @@ class BillAccount(models.Model):
 
     def setOwner(self,customer):
         self.owner = customer
-        self.save(update_fields=['owner',])
+        if self.owner.hasDiscount:
+            self.userDiscount=self.owner.profile.percent
+        self.save(update_fields=['owner','userDiscount'])
 
     def toJSON(self):
         value = {'code':self.code,'customer':self.owner.toJSON() if self.owner else {},'paymentType':self.paymenttype,
@@ -546,7 +551,24 @@ class BillAccount(models.Model):
         for position in self.bill_positions.all():
             value['positions'].append({'quantity':position.quantity,'product':str(position.product),
                                        'vat_amount':position.getVATAmount(),'subtotal':position.getSubtotal(),'reduce_concept':position.reduce_concept})
+        if self.owner and self.owner.hasDiscount:
+            value['positions'].append({'quantity':1,'product':_("User discount"),
+                                       'vat_amount':0,'subtotal':self.userDiscountAmount,'reduce_concept':position.reduce_concept})
         return value
+
+    @property
+    def userDiscountAmount(self):
+        if self.userDiscount:
+            return round(self.totalNoBillDiscounts*(-self.userDiscount/100.0),2)
+        else:
+            return None
+    
+    @property
+    def totalNoBillDiscounts(self,):
+        total=0
+        for position in self.bill_positions.all():
+            total+=position.getSubtotal()
+        return total
 
     @property
     @admin.display(description=_("Total including VAT and discounts"))
@@ -554,6 +576,8 @@ class BillAccount(models.Model):
         total=0
         for position in self.bill_positions.all():
             total+=position.getSubtotal()
+        if self.userDiscount:
+            total = total+self.userDiscountAmount
         return round(total,2)
     
     @admin.display(description=_("VAT amount"))
