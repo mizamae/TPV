@@ -253,6 +253,9 @@ class Product(models.Model):
 
     vat = models.ForeignKey(VATValue,verbose_name=_("Applicable VAT"), on_delete=models.SET_NULL, related_name='products',null=True)
 
+    credit_acc_factor = models.FloatField(verbose_name=_("Credit accumulation factor"),help_text=_("Factor of the price accumulated into customer's credit"),
+                                          blank=True,null=True)
+
     class Meta:
         ordering = ['name']
     
@@ -503,6 +506,7 @@ class BillAccount(models.Model):
     positions = models.ManyToManyField(Product,blank=True,through='BillPosition',related_name="bill_lines")
 
     userDiscount = models.FloatField(verbose_name=_("User discount"),help_text=_("Discount due to user affillation"),blank=True,null=True,editable = False)
+    userCredit = models.FloatField(verbose_name=_("User credit"),help_text=_("Discount due to user credit"),blank=True,null=True,editable = False)
 
     paymenttype = models.PositiveSmallIntegerField(verbose_name=_("Payment"),blank=False,null=True,choices=PAYMENT_TYPES)
 
@@ -534,10 +538,26 @@ class BillAccount(models.Model):
             for position in self.bill_positions.all():
                 position.close()
             
-            if self.owner and self.owner.saves_paper:
-                sendBillReceipt.delay(billData=self.toJSON())
+            if self.owner:
+                if self.owner.saves_paper:
+                    sendBillReceipt.delay(billData=self.toJSON())                    
+
+                from myTPV.models import SiteSettings
+                SETTINGS=SiteSettings.load()
+                if SETTINGS.ACCUMULATION:
+                    amount = 0
+                    for position in self.bill_positions.all():
+                        if position.credit_acc:
+                            amount += position.credit_acc
+                    self.owner.addCredit(amount)
             else:
                 printBillReceipt.delay(billData=self.toJSON())
+
+    def discountUserCredit(self):
+        total = self.totalNoBillDiscounts-self.userDiscountAmount
+        self.userCredit = self.owner.credit if self.owner.credit<total else total
+        self.owner.addCredit(amount=-self.userCredit)
+        self.save(update_fields=['userCredit',])
 
     def setOwner(self,customer):
         self.owner = customer
@@ -551,17 +571,21 @@ class BillAccount(models.Model):
         for position in self.bill_positions.all():
             value['positions'].append({'quantity':position.quantity,'product':str(position.product),
                                        'vat_amount':position.getVATAmount(),'subtotal':position.getSubtotal(),'reduce_concept':position.reduce_concept})
-        if self.owner and self.owner.hasDiscount:
-            value['positions'].append({'quantity':1,'product':_("User discount"),
-                                       'vat_amount':0,'subtotal':self.userDiscountAmount,'reduce_concept':position.reduce_concept})
+        if self.owner:
+            if self.owner.hasDiscount:
+                value['positions'].append({'quantity':1,'product':_("User discount"),
+                                        'vat_amount':0,'subtotal':-self.userDiscountAmount,'reduce_concept':None})
+            if self.userCredit:
+                value['positions'].append({'quantity':1,'product':_("User credits"),
+                                        'vat_amount':0,'subtotal':-self.userCredit,'reduce_concept':None})
         return value
 
     @property
     def userDiscountAmount(self):
         if self.userDiscount:
-            return round(self.totalNoBillDiscounts*(-self.userDiscount/100.0),2)
+            return round(self.totalNoBillDiscounts*(self.userDiscount/100.0),2)
         else:
-            return None
+            return 0
     
     @property
     def totalNoBillDiscounts(self,):
@@ -573,11 +597,11 @@ class BillAccount(models.Model):
     @property
     @admin.display(description=_("Total including VAT and discounts"))
     def total(self,):
-        total=0
-        for position in self.bill_positions.all():
-            total+=position.getSubtotal()
+        total=self.totalNoBillDiscounts
         if self.userDiscount:
-            total = total+self.userDiscountAmount
+            total = total-self.userDiscountAmount
+        if self.userCredit:
+            total = total-self.userCredit
         return round(total,2)
     
     @admin.display(description=_("VAT amount"))
@@ -615,6 +639,8 @@ class BillPosition(models.Model):
 
     reduce_concept = models.CharField(max_length=20,editable=False,blank=True,null=True)
 
+    credit_acc = models.FloatField(verbose_name=_("Credit accumulated"),help_text=_("Credit accumulated into the customer's account"),blank=True,null=True)
+
     class Meta:
         unique_together = ['bill','product']
     
@@ -629,7 +655,8 @@ class BillPosition(models.Model):
     def close(self,):
         self.subtotal = self.getSubtotal()
         self.vat_amount = self.getVATAmount()
-        self.save(update_fields=['subtotal','vat_amount'])
+        self.credit_acc = self.getCreditAcc()
+        self.save(update_fields=['subtotal','vat_amount','credit_acc'])
 
     def set_quantity(self,quantity):
         if quantity > self.quantity:
@@ -675,6 +702,14 @@ class BillPosition(models.Model):
     def getNextPosition(self):
         return BillPosition.objects.filter(bill=self.bill).count()+1
     
+    def getCreditAcc(self):
+        from myTPV.models import SiteSettings
+        SETTINGS=SiteSettings.load()
+        if self.bill.owner and SETTINGS.ACCUMULATION:
+            if self.product.credit_acc_factor:
+                return round(self.getSubtotal()*self.product.credit_acc_factor,2) 
+        return None
+
     def getVATAmount(self):
         if self.vat_amount:
             return self.vat_amount
