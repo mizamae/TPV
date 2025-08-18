@@ -164,6 +164,7 @@ def publish_productUpdates(product_id,update_fields=None):
     from .models import Product
     from myTPV.models import SiteSettings
     SETTINGS = SiteSettings.load()
+    data=None
     if SETTINGS.PUBLISH_TO_WEB:
         import requests
         from itsdangerous.serializer import Serializer

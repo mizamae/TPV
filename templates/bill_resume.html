@@ -55,6 +55,12 @@
 									<td>{{ row.getSubtotal }} €</td>
 								</tr>
 								{% endfor %}
+								{% if bill.userDiscount %}
+								<tr> 
+									<td colspan=3>{% trans "User discount " %} {{ bill.userDiscount }} %</td>
+									<td>{{ bill.userDiscountAmount }} €</td>
+								</tr>
+								{% endif %}
 								<tr> 
 									<td colspan=3><h5 class="text-end">{% trans "VAT" %}</h5></td>
 									<td scope="col"><h5>{{ bill.getVATAmount }} €</h5></td>
