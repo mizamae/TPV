@@ -155,6 +155,14 @@ def delete_bill(request,code):
     bill.delete()
     return redirect('home')
 
+@login_required(login_url="login")
+def discountCredit_bill(request,code):
+    bill=BillAccount.objects.get(code=code)
+    bill.discountUserCredit()
+    messages.info(request, _("The customer's credit has been discounted"))
+    return redirect('MaterialsAPP_resume_bill',code = bill.code)
+
+
 def setMultiplier_billPosition(request,id):
     ''' This is an AJAX request, return data for the request to proceed '''
     if request.method == 'POST':
