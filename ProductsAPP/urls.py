@@ -20,6 +20,7 @@ urlpatterns = [
     path("bill/billposition/setmultiplier/<int:id>", views.setMultiplier_billPosition , name="ProductsAPP_billPosition_setMultiplier"),
     path("bill/historics", views.historics_home , name="MaterialsAPP_historics_home"),
     path("bill/print/<str:code>", views.print_bill , name="MaterialsAPP_print_bill"),
+    path("bill/discountcredit/<str:code>", views.discountCredit_bill , name="MaterialsAPP_discountCredit_bill"),
 
     path("MaterialsAPP_check_stocks/", views.check_stock , name="MaterialsAPP_check_stocks"),
     path("MaterialsAPP_check_products/", views.check_products , name="MaterialsAPP_check_products"),

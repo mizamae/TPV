@@ -112,7 +112,9 @@ class siteSettingsForm(forms.ModelForm):
                                         AppendedText('SEC2LOGOUT', 's', active=True)
                                     ),
                                     Fieldset(_("Accountancy details"),
-                                        AppendedText('VAT', '%', active=True)
+                                        AppendedText('VAT', '%', active=True),
+                                        Field('ACCUMULATION',step=0.005),
+                                        AppendedText('MIN_ACCUM', '€', active=True),
                                     ),
 
                                 )

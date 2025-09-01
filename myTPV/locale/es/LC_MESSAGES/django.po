@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-01 16:37+0200\n"
+"POT-Creation-Date: 2025-08-18 13:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104,16 +104,12 @@ msgid "The phone number of the shop"
 msgstr "El numero de telefono del establecimiento"
 
 #: .\myTPV\models.py:51
-#, fuzzy
-#| msgid "Phone of the shop"
 msgid "Contact email of the shop"
-msgstr "Telefono del establecimiento"
+msgstr "Email del establecimiento"
 
 #: .\myTPV\models.py:52
-#, fuzzy
-#| msgid "The name of the shop"
 msgid "The contact email of the shop"
-msgstr "El nombre del establecimiento"
+msgstr "El correo electronico del establecimiento"
 
 #: .\myTPV\models.py:53
 msgid "Web of the shop"
@@ -162,11 +158,27 @@ msgstr ""
 
 #: .\myTPV\models.py:69
 msgid "General VAT"
-msgstr ""
+msgstr "IVA general"
 
 #: .\myTPV\models.py:69
 msgid "Percentage of the cost added as a tax"
 msgstr "Porcentage del coste que se añade como impuesto"
+
+#: .\myTPV\models.py:71
+msgid "Enable accumulation"
+msgstr "Habilitar acumulacion"
+
+#: .\myTPV\models.py:71
+msgid "Enable accumulation of bill amounts into customer's credit"
+msgstr "Permite acumular creditos de usuario en funcion de los importes de las compras."
+
+#: .\myTPV\models.py:74
+msgid "Minimum accumulation"
+msgstr "Acumulacion minima"
+
+#: .\myTPV\models.py:74
+msgid "Minimum accumulation amount that can be exchanged"
+msgstr "Minimo valor acumulado para poder descontarlo de la siguiente factura"
 
 #: .\myTPV\views.py:26
 msgid " customers"

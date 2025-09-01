@@ -44,7 +44,6 @@ class Customer(models.Model):
         default=False,
         help_text=_("Desires to receive the receipts electronically"),
     )
-    profile = models.ForeignKey(CustomerProfile,blank=True,null=True,on_delete=models.SET_NULL,related_name='customers')
 
     def clean(self):
         from django.core.exceptions import ValidationError  
@@ -59,12 +58,16 @@ class Customer(models.Model):
         else:
             return _("Customer ") + str(self.id) 
     
+    def addCredit(self,amount):
+        self.credit += amount
+        self.save(update_fields=("credit",))
+
+    def setCredit(self,value):
+        self.credit = value
+        self.save(update_fields=("credit",))
+
     def toJSON(self):
         return {'name':self.first_name,'surname':self.last_name,'email':self.email,'cif':self.cif}
-
-    @property
-    def hasDiscount(self,):
-        return self.profile and self.profile.percent>0
 
     @staticmethod
     def find(data):

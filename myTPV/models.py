@@ -68,6 +68,12 @@ class SiteSettings(SingletonModel):
     
     VAT = models.FloatField(verbose_name=_("General VAT"),help_text=_("Percentage of the cost added as a tax"),default=21.0)
 
+    ACCUMULATION = models.BooleanField(verbose_name=_("Enable accumulation"),help_text=_("Enable accumulation of bill amounts into customer's credit"),
+                                     default=False)
+    
+    MIN_ACCUM = models.FloatField(verbose_name=_("Minimum accumulation"),help_text=_("Minimum accumulation amount that can be exchanged"),
+                                     default=0.0)
+
     @classmethod
     def runOnInit(cls):
         connected = cls.checkInternetConnection()
