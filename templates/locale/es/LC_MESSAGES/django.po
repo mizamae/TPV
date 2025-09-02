@@ -86,9 +86,11 @@ msgid "TOTAL"
 msgstr ""
 
 #: .\templates\bill.html:160
+#: .\templates\bill.html:160
 msgid " Close bill"
 msgstr " Cerrar cuenta"
 
+#: .\templates\bill.html:195
 #: .\templates\bill.html:195
 msgid "Set Value"
 msgstr "Fijar Uds"
