@@ -44,7 +44,10 @@ class Customer(models.Model):
         default=False,
         help_text=_("Desires to receive the receipts electronically"),
     )
-
+    profile = models.ForeignKey(CustomerProfile,blank=True,null=True,on_delete=models.SET_NULL,related_name='customers')
+    credit = models.FloatField(verbose_name=_("Accumulated credit"),help_text=_("Currently accumulated credit"),
+                                     default=0.0)
+    
     def clean(self):
         from django.core.exceptions import ValidationError  
         if self.saves_paper and not self.email:
@@ -68,6 +71,19 @@ class Customer(models.Model):
 
     def toJSON(self):
         return {'name':self.first_name,'surname':self.last_name,'email':self.email,'cif':self.cif}
+
+    @property
+    def canExchangeCredit(self,):
+        from myTPV.models import SiteSettings
+        SETTINGS=SiteSettings.load()
+        if SETTINGS.ACCUMULATION:
+            if self.credit >= SETTINGS.MIN_ACCUM:
+                return True
+        return False
+            
+    @property
+    def hasDiscount(self,):
+        return self.profile and self.profile.percent>0
 
     @staticmethod
     def find(data):
