@@ -45,6 +45,8 @@ class Customer(models.Model):
         help_text=_("Desires to receive the receipts electronically"),
     )
 
+    profile = models.ForeignKey(CustomerProfile,on_delete=models.SET_NULL,null=True,blank=True,related_name='customers')
+    
     def clean(self):
         from django.core.exceptions import ValidationError  
         if self.saves_paper and not self.email:
@@ -58,6 +60,13 @@ class Customer(models.Model):
         else:
             return _("Customer ") + str(self.id) 
     
+    @property
+    def hasDiscount(self):
+        if self.profile and self.profile.percent>0:
+            return True
+        else:
+            return False
+        
     def addCredit(self,amount):
         self.credit += amount
         self.save(update_fields=("credit",))
