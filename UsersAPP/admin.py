@@ -12,7 +12,7 @@ class CustomerProfileAdmin(admin.ModelAdmin):
 admin.site.register(CustomerProfile, CustomerProfileAdmin)
 
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ("first_name","last_name","email","phone","cif","saves_paper")
+    list_display = ("first_name","last_name","email","phone","cif","saves_paper","credit","profile")
 
 admin.site.register(Customer, CustomerAdmin)
 

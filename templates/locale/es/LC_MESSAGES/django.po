@@ -71,11 +71,11 @@ msgstr ""
 
 #: .\templates\bill.html:127 .\templates\bill_resume.html:65
 msgid "User discount "
-msgstr "Descuento de usuario"
+msgstr "Descuento de usuario "
 
 #: .\templates\bill.html:140 .\templates\bill_resume.html:78
 msgid "User credits "
-msgstr "Creditos de usuario"
+msgstr "Creditos de usuario "
 
 #: .\templates\bill.html:147 .\templates\bill_resume.html:84
 msgid "VAT"

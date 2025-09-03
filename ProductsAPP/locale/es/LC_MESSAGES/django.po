@@ -326,16 +326,12 @@ msgid "Discount due to user affillation"
 msgstr "Descuento por fidelizacion de usuario"
 
 #: .\ProductsAPP\models.py:509
-#, fuzzy
-#| msgid "User discount"
 msgid "User credit"
-msgstr "Descuento de usuario"
+msgstr "Credito de usuario"
 
 #: .\ProductsAPP\models.py:509
-#, fuzzy
-#| msgid "Discount due to user affillation"
 msgid "Discount due to user credit"
-msgstr "Descuento por fidelizacion de usuario"
+msgstr "Descuento por creditos de usuario"
 
 #: .\ProductsAPP\models.py:511
 msgid "Payment"
@@ -346,16 +342,12 @@ msgid " of customer "
 msgstr " del cliente "
 
 #: .\ProductsAPP\models.py:579
-#, fuzzy
-#| msgid "User discount"
 msgid "User credits"
-msgstr "Descuento de usuario"
+msgstr "Creditos de usuario"
 
 #: .\ProductsAPP\models.py:598
-#, fuzzy
-#| msgid "Total including VAT"
 msgid "Total including VAT and discounts"
-msgstr "Total incluyendo IVA"
+msgstr "Total incluyendo IVA y descuentos"
 
 #: .\ProductsAPP\models.py:607 .\ProductsAPP\models.py:638
 #: .\ProductsAPP\templates\ProductsAPP\_list.html:11
@@ -375,18 +367,16 @@ msgid "Selling price at the moment of the operation"
 msgstr "Precio de venta en el momento de la transaccion"
 
 #: .\ProductsAPP\models.py:638
-#, fuzzy
-#| msgid "Selling price at the moment of the operation"
 msgid "VAT amount at the moment of the operation"
-msgstr "Precio de venta en el momento de la transaccion"
+msgstr "Monto de IVA en el momento de la transaccion"
 
 #: .\ProductsAPP\models.py:642
 msgid "Credit accumulated"
-msgstr ""
+msgstr "Credito acumulado"
 
 #: .\ProductsAPP\models.py:642
 msgid "Credit accumulated into the customer's account"
-msgstr ""
+msgstr "Credito acumulado en la cuenta de usuario"
 
 #: .\ProductsAPP\reports.py:34
 msgid "Units sold per product"
