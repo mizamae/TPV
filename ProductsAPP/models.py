@@ -132,7 +132,7 @@ class Consumible(models.Model):
                                              help_text=_("Quantity in stock currently"))
     stock_min = models.FloatField(verbose_name=_("Minimum stock"),blank=True,default=0,
                                                  help_text=_("Quantity in stock that will require a new purchase order"))
-    generates_product = models.BooleanField(verbose_name=_("Can be directly sold"),default=False)
+    generates_product = models.BooleanField(verbose_name=_("Can be directly sold"),default=True)
     infinite = models.BooleanField(verbose_name=_("Infinite consumable"),default=False)
     
     vat = models.ForeignKey(VATValue,verbose_name=_("Applicable VAT"), on_delete=models.SET_NULL, related_name='consumibles', null=True)

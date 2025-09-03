@@ -119,5 +119,6 @@ class customerForm(forms.ModelForm):
                                     Field('cif',type=''),
                                     Field('saves_paper',type=''),
                                     Field('profile',type=''),
+                                    Field('credit',type=''),
                                 )
         self.helper.layout.append(buttons)

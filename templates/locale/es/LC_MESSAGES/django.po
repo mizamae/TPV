@@ -8,11 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2025-08-18 10:22+0200\n"
-=======
 "POT-Creation-Date: 2025-08-18 13:08+0200\n"
->>>>>>> bfce6051bbb2896dc7721d5844641753360b6604
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,13 +69,6 @@ msgstr ""
 msgid "X"
 msgstr ""
 
-<<<<<<< HEAD
-#: .\templates\bill.html:121 .\templates\bill_resume.html:65
-msgid "VAT"
-msgstr "IVA"
-
-#: .\templates\bill.html:125 .\templates\bill_resume.html:69
-=======
 #: .\templates\bill.html:127 .\templates\bill_resume.html:65
 msgid "User discount "
 msgstr "Descuento de usuario"
@@ -93,14 +82,15 @@ msgid "VAT"
 msgstr "IVA"
 
 #: .\templates\bill.html:151 .\templates\bill_resume.html:88
->>>>>>> bfce6051bbb2896dc7721d5844641753360b6604
 msgid "TOTAL"
 msgstr ""
 
 #: .\templates\bill.html:160
+#: .\templates\bill.html:160
 msgid " Close bill"
 msgstr " Cerrar cuenta"
 
+#: .\templates\bill.html:195
 #: .\templates\bill.html:195
 msgid "Set Value"
 msgstr "Fijar Uds"
@@ -113,29 +103,6 @@ msgstr " del cliente "
 msgid "Unit price"
 msgstr "Precio por unidad"
 
-<<<<<<< HEAD
-#: .\templates\bill_resume.html:60
-msgid "User discount "
-msgstr "Descuento de usuario"
-
-#: .\templates\bill_resume.html:81
-msgid "Details of the payment"
-msgstr "Detalles del pago"
-
-#: .\templates\bill_resume.html:95
-msgid "Given amount"
-msgstr "Cantidad entregada"
-
-#: .\templates\bill_resume.html:99
-msgid "Refunded amount"
-msgstr "Cantidad a devolver"
-
-#: .\templates\bill_resume.html:144
-msgid " Exit"
-msgstr " Salir"
-
-#: .\templates\bill_resume.html:151
-=======
 #: .\templates\bill_resume.html:100
 msgid "Details of the payment"
 msgstr "Detalles del pago"
@@ -153,7 +120,6 @@ msgid " Exit"
 msgstr " Salir"
 
 #: .\templates\bill_resume.html:176
->>>>>>> bfce6051bbb2896dc7721d5844641753360b6604
 msgid " Print"
 msgstr " Imprimir"
 

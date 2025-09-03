@@ -8,11 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2025-08-18 10:22+0200\n"
-=======
-"POT-Creation-Date: 2025-08-18 13:08+0200\n"
->>>>>>> bfce6051bbb2896dc7721d5844641753360b6604
+"POT-Creation-Date: 2025-09-02 09:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -234,7 +230,7 @@ msgstr "Fuerza el precio de venta de una unidad"
 
 #: .\ProductsAPP\models.py:256
 msgid "Credit accumulation factor"
-msgstr ""
+msgstr "Factor de acumulacion de credito"
 
 #: .\ProductsAPP\models.py:256
 msgid "Factor of the price accumulated into customer's credit"
@@ -285,11 +281,7 @@ msgstr "Combinacion de consumibles"
 msgid "Combinations of consumables"
 msgstr "Combinaciones de consumibles"
 
-<<<<<<< HEAD
-#: .\ProductsAPP\models.py:465 .\ProductsAPP\models.py:603
-=======
 #: .\ProductsAPP\models.py:468 .\ProductsAPP\models.py:634
->>>>>>> bfce6051bbb2896dc7721d5844641753360b6604
 msgid "Quantity"
 msgstr "Cantidad"
 
@@ -325,25 +317,6 @@ msgstr "Fecha y hora"
 msgid "Status"
 msgstr "Estado"
 
-<<<<<<< HEAD
-#: .\ProductsAPP\models.py:505 .\ProductsAPP\models.py:555
-msgid "User discount"
-msgstr "Descuento de usuario"
-
-#: .\ProductsAPP\models.py:505
-msgid "Discount due to user affillation"
-msgstr "Descuento por fidelizacion de usuario"
-
-#: .\ProductsAPP\models.py:507
-msgid "Payment"
-msgstr "Pago"
-
-#: .\ProductsAPP\models.py:513
-msgid " of customer "
-msgstr " del cliente "
-
-#: .\ProductsAPP\models.py:567
-=======
 #: .\ProductsAPP\models.py:508 .\ProductsAPP\models.py:576
 msgid "User discount"
 msgstr "Descuento de usuario"
@@ -353,16 +326,12 @@ msgid "Discount due to user affillation"
 msgstr "Descuento por fidelizacion de usuario"
 
 #: .\ProductsAPP\models.py:509
-#, fuzzy
-#| msgid "User discount"
 msgid "User credit"
-msgstr "Descuento de usuario"
+msgstr "Credito de usuario"
 
 #: .\ProductsAPP\models.py:509
-#, fuzzy
-#| msgid "Discount due to user affillation"
 msgid "Discount due to user credit"
-msgstr "Descuento por fidelizacion de usuario"
+msgstr "Descuento por creditos de usuario"
 
 #: .\ProductsAPP\models.py:511
 msgid "Payment"
@@ -373,42 +342,18 @@ msgid " of customer "
 msgstr " del cliente "
 
 #: .\ProductsAPP\models.py:579
-#, fuzzy
-#| msgid "User discount"
 msgid "User credits"
-msgstr "Descuento de usuario"
+msgstr "Creditos de usuario"
 
 #: .\ProductsAPP\models.py:598
->>>>>>> bfce6051bbb2896dc7721d5844641753360b6604
-#, fuzzy
-#| msgid "Total including VAT"
 msgid "Total including VAT and discounts"
-msgstr "Total incluyendo IVA"
+msgstr "Total incluyendo IVA y descuentos"
 
-<<<<<<< HEAD
-#: .\ProductsAPP\models.py:576 .\ProductsAPP\models.py:607
-=======
 #: .\ProductsAPP\models.py:607 .\ProductsAPP\models.py:638
->>>>>>> bfce6051bbb2896dc7721d5844641753360b6604
 #: .\ProductsAPP\templates\ProductsAPP\_list.html:11
 msgid "VAT amount"
 msgstr "Importe IVA"
 
-<<<<<<< HEAD
-#: .\ProductsAPP\models.py:601
-msgid "Position"
-msgstr "Posicion"
-
-#: .\ProductsAPP\models.py:606
-msgid "Subtotal"
-msgstr ""
-
-#: .\ProductsAPP\models.py:606
-msgid "Selling price at the moment of the operation"
-msgstr "Precio de venta en el momento de la transaccion"
-
-#: .\ProductsAPP\models.py:607
-=======
 #: .\ProductsAPP\models.py:632
 msgid "Position"
 msgstr "Posicion"
@@ -422,19 +367,16 @@ msgid "Selling price at the moment of the operation"
 msgstr "Precio de venta en el momento de la transaccion"
 
 #: .\ProductsAPP\models.py:638
->>>>>>> bfce6051bbb2896dc7721d5844641753360b6604
-#, fuzzy
-#| msgid "Selling price at the moment of the operation"
 msgid "VAT amount at the moment of the operation"
-msgstr "Precio de venta en el momento de la transaccion"
+msgstr "Monto de IVA en el momento de la transaccion"
 
 #: .\ProductsAPP\models.py:642
 msgid "Credit accumulated"
-msgstr ""
+msgstr "Credito acumulado"
 
 #: .\ProductsAPP\models.py:642
 msgid "Credit accumulated into the customer's account"
-msgstr ""
+msgstr "Credito acumulado en la cuenta de usuario"
 
 #: .\ProductsAPP\reports.py:34
 msgid "Units sold per product"

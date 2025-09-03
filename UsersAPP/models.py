@@ -46,7 +46,7 @@ class Customer(models.Model):
     )
     profile = models.ForeignKey(CustomerProfile,blank=True,null=True,on_delete=models.SET_NULL,related_name='customers')
     credit = models.FloatField(verbose_name=_("Accumulated credit"),help_text=_("Currently accumulated credit"),
-                                     default=0.0)
+                                     default=0.0, blank=True)
     
     def clean(self):
         from django.core.exceptions import ValidationError  
@@ -55,18 +55,22 @@ class Customer(models.Model):
         
     def __str__(self):
         if self.first_name and self.last_name:
-            return self.first_name+" "+self.last_name[0]+"."
+            value= self.first_name+" "+self.last_name[0]+"."
         elif self.email:
-            return self.email
+            value= self.email
         else:
-            return _("Customer ") + str(self.id) 
+            value= _("Customer ") + str(self.id)
+        
+        if self.canExchangeCredit:
+            value +=' (' + str(round(self.credit,2))+"€)"
+        return value
     
     def addCredit(self,amount):
-        self.credit += amount
+        self.credit = round(self.credit+amount,2)
         self.save(update_fields=("credit",))
 
     def setCredit(self,value):
-        self.credit = value
+        self.credit = round(value,2)
         self.save(update_fields=("credit",))
 
     def toJSON(self):
