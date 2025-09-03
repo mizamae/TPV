@@ -81,7 +81,7 @@ class Customer(models.Model):
         from myTPV.models import SiteSettings
         SETTINGS=SiteSettings.load()
         if SETTINGS.ACCUMULATION:
-            if self.credit >= SETTINGS.MIN_ACCUM:
+            if self.credit and self.credit >= SETTINGS.MIN_ACCUM:
                 return True
         return False
             

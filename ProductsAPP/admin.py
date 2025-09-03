@@ -35,7 +35,9 @@ admin.site.register(Manufacturer, MANUFACTURERAdmin)
 
 class CONSUMIBLEAdmin(admin.ModelAdmin):
     list_display = ("name","family","stock")
-    ordering = ('name',"family")            
+    list_filter = ["manufacturer", "family"]
+    ordering = ('name',"family")  
+    save_as = True          
 
 admin.site.register(Consumible, CONSUMIBLEAdmin)
 
@@ -45,6 +47,8 @@ class IngredientInline(admin.TabularInline):
 
 class PRODUCTAdmin(admin.ModelAdmin):
     list_display = ("name","family","price","cost","stock")
+    list_filter = ["family"]
+    
     ordering = ('name',)
     inlines = (IngredientInline,)
     exclude = ('single_ingredient',)

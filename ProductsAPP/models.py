@@ -114,7 +114,7 @@ class Consumible(models.Model):
         verbose_name = _('Consumable')
         verbose_name_plural = _('Consumables')
         unique_together=(('name','manufacturer'))
-
+        
     picture = models.ImageField(_('Image'),null=True,blank=True,storage=IMAGES_FILESYSTEM)
     name = models.CharField(max_length=150, verbose_name=_("Name"))
 
