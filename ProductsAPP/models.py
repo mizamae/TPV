@@ -619,7 +619,8 @@ class BillAccount(models.Model):
         instance.createdBy = createdBy
         date = timezone.now().replace(microsecond=0)
         instance.createdOn = date
-        instance.number = BillAccount.objects.filter(createdOn__date__year = date.year).order_by('number').first().number+1
+        previous = BillAccount.objects.filter(createdOn__date__year = date.year).order_by('number').first()
+        instance.number = previous.number+1 if previous else 1
         instance.code = str(date.year) + "-" + str(instance.number)
         instance.save()
         return instance
