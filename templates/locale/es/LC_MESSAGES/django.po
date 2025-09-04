@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-18 13:08+0200\n"
+"POT-Creation-Date: 2025-09-04 14:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,12 +31,12 @@ msgstr "No estas logueado. Logueate antes de hacer nada..."
 msgid "Powered by "
 msgstr ""
 
-#: .\templates\bill.html:11 .\templates\bill_resume.html:9
-#: .\templates\bill_resume.html:15
+#: .\templates\bill.html:11 .\templates\bill_refund.html:11
+#: .\templates\bill_resume.html:9 .\templates\bill_resume.html:15
 msgid " Bill "
 msgstr " Factura "
 
-#: .\templates\bill.html:11
+#: .\templates\bill.html:11 .\templates\bill_refund.html:11
 msgid " of customer "
 msgstr " del cliente "
 
@@ -44,56 +44,76 @@ msgstr " del cliente "
 msgid " Assign customer to bill "
 msgstr " Asignar cliente "
 
-#: .\templates\bill.html:93
+#: .\templates\bill.html:138 .\templates\bill_refund.html:80
 msgid " position"
 msgstr " posicion"
 
-#: .\templates\bill.html:99 .\templates\bill_resume.html:39
+#: .\templates\bill.html:144 .\templates\bill_refund.html:41
+#: .\templates\bill_refund.html:86 .\templates\bill_resume.html:39
+#: .\templates\bill_resume.html:107
 msgid "Units"
 msgstr "Uds"
 
-#: .\templates\bill.html:100 .\templates\bill_resume.html:40
-#: .\templates\products.html:20
+#: .\templates\bill.html:145 .\templates\bill_refund.html:42
+#: .\templates\bill_refund.html:87 .\templates\bill_resume.html:40
+#: .\templates\bill_resume.html:108 .\templates\products.html:20
 msgid "Product"
 msgstr "Producto"
 
-#: .\templates\bill.html:101
+#: .\templates\bill.html:146 .\templates\bill_refund.html:88
 msgid "Price"
 msgstr "Precio"
 
-#: .\templates\bill.html:102 .\templates\bill_resume.html:42
+#: .\templates\bill.html:147 .\templates\bill_refund.html:43
+#: .\templates\bill_refund.html:89 .\templates\bill_resume.html:42
+#: .\templates\bill_resume.html:109
 msgid "Subtotal"
 msgstr ""
 
-#: .\templates\bill.html:103
+#: .\templates\bill.html:148 .\templates\bill_refund.html:90
 msgid "X"
 msgstr ""
 
-#: .\templates\bill.html:127 .\templates\bill_resume.html:65
+#: .\templates\bill.html:172 .\templates\bill_refund.html:114
+#: .\templates\bill_resume.html:65
 msgid "User discount "
 msgstr "Descuento de usuario"
 
-#: .\templates\bill.html:140 .\templates\bill_resume.html:78
+#: .\templates\bill.html:185 .\templates\bill_refund.html:127
+#: .\templates\bill_resume.html:78
 msgid "User credits "
 msgstr "Creditos de usuario"
 
-#: .\templates\bill.html:147 .\templates\bill_resume.html:84
+#: .\templates\bill.html:192 .\templates\bill_refund.html:134
+#: .\templates\bill_resume.html:84
 msgid "VAT"
 msgstr "IVA"
 
-#: .\templates\bill.html:151 .\templates\bill_resume.html:88
+#: .\templates\bill.html:196 .\templates\bill_refund.html:55
+#: .\templates\bill_refund.html:138 .\templates\bill_resume.html:88
+#: .\templates\bill_resume.html:121
 msgid "TOTAL"
 msgstr ""
 
-#: .\templates\bill.html:160
-#: .\templates\bill.html:160
+#: .\templates\bill.html:205
 msgid " Close bill"
 msgstr " Cerrar cuenta"
 
-#: .\templates\bill.html:195
-#: .\templates\bill.html:195
+#: .\templates\bill.html:240
 msgid "Set Value"
 msgstr "Fijar Uds"
+
+#: .\templates\bill_refund.html:21
+msgid " No customer associated to "
+msgstr " No hay cliente asciado a "
+
+#: .\templates\bill_refund.html:38 .\templates\bill_resume.html:104
+msgid "Refunded articles"
+msgstr "Articulos devueltos"
+
+#: .\templates\bill_refund.html:147
+msgid " Finish refund"
+msgstr " Terminar devolucion"
 
 #: .\templates\bill_resume.html:9
 msgid " from user "
@@ -103,23 +123,23 @@ msgstr " del cliente "
 msgid "Unit price"
 msgstr "Precio por unidad"
 
-#: .\templates\bill_resume.html:100
+#: .\templates\bill_resume.html:133
 msgid "Details of the payment"
 msgstr "Detalles del pago"
 
-#: .\templates\bill_resume.html:114
+#: .\templates\bill_resume.html:147
 msgid "Given amount"
 msgstr "Cantidad entregada"
 
-#: .\templates\bill_resume.html:118
+#: .\templates\bill_resume.html:151
 msgid "Refunded amount"
 msgstr "Cantidad a devolver"
 
-#: .\templates\bill_resume.html:169
+#: .\templates\bill_resume.html:202
 msgid " Exit"
 msgstr " Salir"
 
-#: .\templates\bill_resume.html:176
+#: .\templates\bill_resume.html:209
 msgid " Print"
 msgstr " Imprimir"
 

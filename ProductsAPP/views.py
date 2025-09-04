@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.db.models import Sum, Count
 import os
 import json
-from .models import BillAccount, Product, ProductFamily, BillPosition, Consumible
+from .models import BillAccount, Product, ProductFamily, BillPosition, Consumible, Refund
 from .forms import paymentMethodsForm, StockFormSet, ProductFormSet, barcode2BillForm, billSearchForm
 
 import datetime
@@ -95,6 +95,8 @@ def append_barcode_to_bill(request,code):
     messages.error(request, _("The barcode introduced is not registered"))
     return redirect('MaterialsAPP_edit_bill',code = bill.code,tab=0) 
 
+
+
 @login_required(login_url="login")
 def append_to_bill(request,code,id):
     bill=BillAccount.objects.get(code=code)
@@ -149,6 +151,60 @@ def close_bill(request,code):
 
     return redirect('home')
 
+@login_required(login_url="login")
+def refund_bill(request,code):
+    bill=BillAccount.objects.get(code=code)
+    if request.method == 'POST':
+        if bill.bill_positions.all().count() > 0:
+            paymentForm = paymentMethodsForm(request.POST,instance=bill)
+            if paymentForm.is_valid():
+                paymentForm.save()
+                bill.close()          
+            else:
+                messages.error(request, _("The payment method should be defined"))
+                return redirect('MaterialsAPP_resume_bill',code = bill.code)
+    else:
+        return render(request, 'bill_refund.html',{'bill' : bill,
+                                        "barcode2BillForm":barcode2BillForm(),
+                                        })
+
+@login_required(login_url="login")
+def refund_bill_position(request,id):
+    bill_pos=BillPosition.objects.get(id=id)
+    #bill_pos.reduce_quantity(quantity=1)
+    refund,created = Refund.objects.get_or_create(bill=bill_pos.bill,product=bill_pos.product,
+                                                  unitary_price=round(bill_pos.subtotal/bill_pos.quantity,2))
+    
+    if not created:
+        if refund.quantity<bill_pos.quantity:
+            refund.increaseQuantity(amount=1)
+        else:
+            messages.error(request, _("All the items of the product ") + str(bill_pos.product) + _(" have been refunded"))
+        
+    return redirect('MaterialsAPP_refund_bill',code=bill_pos.bill.code)
+
+@login_required(login_url="login")
+def remove_barcode_to_bill(request,code):
+    bill=BillAccount.objects.get(code=code)
+    if request.method == 'POST':
+        form = barcode2BillForm(request.POST)
+        if form.is_valid():
+            barcode = form.cleaned_data['barcode']
+            try:
+                product=Product.objects.get(barcode=barcode)
+                position = BillPosition.objects.get(product=product,bill=bill)
+                messages.info(request, _("The product ")+str(product) + _(" has been refunded"))
+                return redirect('MaterialsAPP_refund_bill_position',id=position.id)
+            except:
+                pass            
+    messages.error(request, _("The barcode introduced is not in the bill"))
+    return redirect('MaterialsAPP_refund_bill',code = bill.code) 
+
+@login_required(login_url="login")
+def resume_refund(request,code):
+    bill=BillAccount.objects.get(code=code)
+    return redirect('home')
+    
 @login_required(login_url="login")
 def delete_bill(request,code):
     bill=BillAccount.objects.get(code=code)

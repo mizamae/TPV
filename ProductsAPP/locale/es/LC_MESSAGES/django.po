@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-02 09:42+0200\n"
+"POT-Creation-Date: 2025-09-04 14:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -281,7 +281,8 @@ msgstr "Combinacion de consumibles"
 msgid "Combinations of consumables"
 msgstr "Combinaciones de consumibles"
 
-#: .\ProductsAPP\models.py:468 .\ProductsAPP\models.py:634
+#: .\ProductsAPP\models.py:468 .\ProductsAPP\models.py:646
+#: .\ProductsAPP\models.py:748
 msgid "Quantity"
 msgstr "Cantidad"
 
@@ -314,69 +315,81 @@ msgid "Date and time"
 msgstr "Fecha y hora"
 
 #: .\ProductsAPP\models.py:504
+msgid "Number"
+msgstr ""
+
+#: .\ProductsAPP\models.py:506
 msgid "Status"
 msgstr "Estado"
 
-#: .\ProductsAPP\models.py:508 .\ProductsAPP\models.py:576
+#: .\ProductsAPP\models.py:510 .\ProductsAPP\models.py:578
 msgid "User discount"
 msgstr "Descuento de usuario"
 
-#: .\ProductsAPP\models.py:508
+#: .\ProductsAPP\models.py:510
 msgid "Discount due to user affillation"
 msgstr "Descuento por fidelizacion de usuario"
 
-#: .\ProductsAPP\models.py:509
+#: .\ProductsAPP\models.py:511
 msgid "User credit"
 msgstr "Credito de usuario"
 
-#: .\ProductsAPP\models.py:509
+#: .\ProductsAPP\models.py:511
 msgid "Discount due to user credit"
 msgstr "Descuento por creditos de usuario"
 
-#: .\ProductsAPP\models.py:511
+#: .\ProductsAPP\models.py:513
 msgid "Payment"
 msgstr "Pago"
 
-#: .\ProductsAPP\models.py:517
+#: .\ProductsAPP\models.py:519
 msgid " of customer "
 msgstr " del cliente "
 
-#: .\ProductsAPP\models.py:579
+#: .\ProductsAPP\models.py:581
 msgid "User credits"
 msgstr "Creditos de usuario"
 
-#: .\ProductsAPP\models.py:598
+#: .\ProductsAPP\models.py:600
 msgid "Total including VAT and discounts"
 msgstr "Total incluyendo IVA y descuentos"
 
-#: .\ProductsAPP\models.py:607 .\ProductsAPP\models.py:638
+#: .\ProductsAPP\models.py:617 .\ProductsAPP\models.py:650
 #: .\ProductsAPP\templates\ProductsAPP\_list.html:11
 msgid "VAT amount"
 msgstr "Importe IVA"
 
-#: .\ProductsAPP\models.py:632
+#: .\ProductsAPP\models.py:644
 msgid "Position"
 msgstr "Posicion"
 
-#: .\ProductsAPP\models.py:637
+#: .\ProductsAPP\models.py:649
 msgid "Subtotal"
 msgstr ""
 
-#: .\ProductsAPP\models.py:637
+#: .\ProductsAPP\models.py:649
 msgid "Selling price at the moment of the operation"
 msgstr "Precio de venta en el momento de la transaccion"
 
-#: .\ProductsAPP\models.py:638
+#: .\ProductsAPP\models.py:650
 msgid "VAT amount at the moment of the operation"
 msgstr "Monto de IVA en el momento de la transaccion"
 
-#: .\ProductsAPP\models.py:642
+#: .\ProductsAPP\models.py:654
 msgid "Credit accumulated"
 msgstr "Credito acumulado"
 
-#: .\ProductsAPP\models.py:642
+#: .\ProductsAPP\models.py:654
 msgid "Credit accumulated into the customer's account"
 msgstr "Credito acumulado en la cuenta de usuario"
+
+#: .\ProductsAPP\models.py:750
+msgid "Unitary price"
+msgstr "Precio unitario"
+
+#: .\ProductsAPP\models.py:750
+msgid "The price charged at the moment of the trasnaction"
+msgstr "Precio de venta en el momento de la transaccion"
 
 #: .\ProductsAPP\reports.py:34
 msgid "Units sold per product"
@@ -434,6 +447,10 @@ msgstr " Ver"
 msgid " Delete"
 msgstr " Borrar"
 
+#: .\ProductsAPP\templates\ProductsAPP\_bill.html:67
+msgid " Refund"
+msgstr ""
+
 #: .\ProductsAPP\templates\ProductsAPP\_list.html:10
 msgid "Total"
 msgstr ""
@@ -475,23 +492,43 @@ msgstr "Cliente no encontrado"
 msgid "The barcode introduced is not registered"
 msgstr "Codigo de barras no registrado"
 
-#: .\ProductsAPP\views.py:145
+#: .\ProductsAPP\views.py:147 .\ProductsAPP\views.py:164
 msgid "The payment method should be defined"
 msgstr "El metodo de pago debe establecerse antes de cerrar"
 
-#: .\ProductsAPP\views.py:162
+#: .\ProductsAPP\views.py:182
+msgid "All the items of the product "
+msgstr "Todas las unidades del producto "
+
+#: .\ProductsAPP\views.py:182
+msgid " have been refunded"
+msgstr " han sido devueltas"
+
+#: .\ProductsAPP\views.py:196
+msgid "The product "
+msgstr "El producto "
+
+#: .\ProductsAPP\views.py:196
+msgid " has been refunded"
+msgstr " ha sido devuelto"
+
+#: .\ProductsAPP\views.py:200
+msgid "The barcode introduced is not in the bill"
+msgstr "El codigo de barras introducido no esta en la factura"
+
+#: .\ProductsAPP\views.py:218
 msgid "The customer's credit has been discounted"
 msgstr "El credito del cliente se ha descontado"
 
-#: .\ProductsAPP\views.py:185
+#: .\ProductsAPP\views.py:241
 msgid "The stock has been updated"
 msgstr "El stock ha sido actualizado"
 
-#: .\ProductsAPP\views.py:203
+#: .\ProductsAPP\views.py:259
 msgid "Product prices have been updated"
 msgstr "Los precios de los productos han sido actualizados"
 
-#: .\ProductsAPP\views.py:241
+#: .\ProductsAPP\views.py:297
 msgid "Historic"
 msgstr "Historico"
 
