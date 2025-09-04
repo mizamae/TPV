@@ -501,6 +501,8 @@ class BillAccount(models.Model):
     createdBy = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,null=True,blank=True,related_name='createdBy',editable = False)
     createdOn = models.DateTimeField(verbose_name=_("Date and time"),auto_now_add=True)
 
+    number = models.PositiveSmallIntegerField(verbose_name=_("Number"),editable = True)
+    
     status = models.PositiveSmallIntegerField(verbose_name=_("Status"),default=STATUS_OPEN,editable = True,choices=STATUS_TYPES)
 
     positions = models.ManyToManyField(Product,blank=True,through='BillPosition',related_name="bill_lines")
@@ -617,8 +619,8 @@ class BillAccount(models.Model):
         instance.createdBy = createdBy
         date = timezone.now().replace(microsecond=0)
         instance.createdOn = date
-        number = BillAccount.objects.filter(createdOn__date__year = date.year).count()
-        instance.code = str(date.year) + "-" + str(number+1)
+        instance.number = BillAccount.objects.filter(createdOn__date__year = date.year).order_by('number').first().number+1
+        instance.code = str(date.year) + "-" + str(instance.number)
         instance.save()
         return instance
 
