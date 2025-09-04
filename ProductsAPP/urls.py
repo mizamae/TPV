@@ -13,6 +13,7 @@ urlpatterns = [
     path("bill/MaterialsAPP_assign_customer/<str:code>", views.assign_customer , name="MaterialsAPP_assign_customer"),
     path("bill/resume/<str:code>", views.resume_bill , name="MaterialsAPP_resume_bill"),
     path("bill/append/<str:code>", views.append_barcode_to_bill , name="MaterialsAPP_append_barcode_to_bill"),
+    path("bill/remove/<str:code>", views.remove_barcode_to_bill , name="MaterialsAPP_remove_barcode_to_bill"),
     path("bill/append/<str:code>/<int:id>", views.append_to_bill , name="MaterialsAPP_append_to_bill"),
     path("bill/reduce/<int:id>", views.reduce_bill_position , name="MaterialsAPP_reduce_bill_position"),
     path("bill/close/<str:code>", views.close_bill , name="MaterialsAPP_close_bill"),
@@ -21,7 +22,10 @@ urlpatterns = [
     path("bill/historics", views.historics_home , name="MaterialsAPP_historics_home"),
     path("bill/print/<str:code>", views.print_bill , name="MaterialsAPP_print_bill"),
     path("bill/discountcredit/<str:code>", views.discountCredit_bill , name="MaterialsAPP_discountCredit_bill"),
-
+    path("bill/refund/<str:code>", views.refund_bill , name="MaterialsAPP_refund_bill"),
+    path("bill/refundposition/<int:id>", views.refund_bill_position , name="MaterialsAPP_refund_bill_position"),
+    path("bill/resumerefund/<str:code>", views.resume_refund , name="MaterialsAPP_resume_refund"),
+    
     path("MaterialsAPP_check_stocks/", views.check_stock , name="MaterialsAPP_check_stocks"),
     path("MaterialsAPP_check_products/", views.check_products , name="MaterialsAPP_check_products"),
     

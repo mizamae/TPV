@@ -604,10 +604,19 @@ class BillAccount(models.Model):
             total = total-self.userDiscountAmount
         if self.userCredit:
             total = total-self.userCredit
-        return round(total,2)
+        
+        return round(total-self.totalRefunded,2)
     
+    @property
+    def totalRefunded(self,):
+        total = 0
+        for refund in self.refunds.all():
+            total += refund.subtotal
+        return total
+        
     @admin.display(description=_("VAT amount"))
     def getVATAmount(self,):
+        ## TODO: discount the refunded amount of the VAT!!!
         total=0
         for position in self.bill_positions.all():
             total+=position.getVATAmount()
@@ -733,3 +742,23 @@ class BillPosition(models.Model):
     
     def getUnitPVP(self):
         return round(self.getSubtotal()/self.quantity,2)
+    
+class Refund(models.Model):
+    bill = models.ForeignKey(BillAccount, on_delete=models.CASCADE, related_name='refunds')
+    quantity = models.PositiveSmallIntegerField(default=1,verbose_name=_("Quantity"))
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='refunds')
+    unitary_price = models.FloatField(verbose_name=_("Unitary price"),help_text=_("The price charged at the moment of the trasnaction"))
+    
+    def increaseQuantity(self,amount=1):
+        self.quantity += amount
+        self.save(update_fields=['quantity',])
+        self.product.increase_stock(quantity=amount)
+        
+    @property
+    def subtotal(self,):
+        return self.quantity*self.unitary_price
+
+@receiver(post_save, sender=Refund, dispatch_uid="update_stock_onRefundCreation")
+def update_stock_onRefundCreation(sender, instance, created, **kwargs):
+    if created:
+        instance.product.increase_stock(quantity=1)
