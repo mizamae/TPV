@@ -45,7 +45,11 @@
 							<tbody>
 								{% for row in bill.bill_positions.all %}
 								<tr> 
-									<td>{{ row.quantity }}</td>
+									{% if row.hasRefund %}
+										<td><span class="text-decoration-line-through">{{ row.quantity }}</span> -> {{ row.effectiveQuantity }}</td>
+									{% else %}
+										<td>{{ row.quantity }}</td>
+									{% endif %}
 									<td>{{ row.product }} <br> 
 										{% if row.reduce_concept %}
                 							<span class="badge rounded-pill bg-success">{{ row.reduce_concept }}</span>
@@ -99,31 +103,31 @@
 					<div class="col-9">
 						{% if bill.refunds.count > 0 %}
 			
-			<table class="table table-dark" id="bill_table">
-				<thead>
-					<tr><th colspan=3><h5>{% trans "Refunded articles" %}</h5></th></tr>
+						<table class="table table-dark" id="bill_table">
+							<thead>
+								<tr><th colspan=3><h5>{% trans "Refunded articles" %}</h5></th></tr>
 
-					<tr>
-						<th scope="col">{% trans "Units" %}</th>
-						<th scope="col">{% trans "Product" %}</th>
-						<th scope="col">{% trans "Subtotal" %}</th>
-					</tr>
-				</thead>
-				<tbody>	
-					{% for row in bill.refunds.all %}
-					<tr> 
-						<td>{{ row.quantity }}</td>
-						<td>{{ row.product }} </td>
-						<td>{{ row.subtotal }} €</td>
-					</tr>
-					{% endfor %}
-					<tr> 
-						<td colspan=2><h4>{% trans "TOTAL" %}</h4></td>
-						<td scope="col"><h4>{{ bill.totalRefunded }} €</h4></td>
-					</tr>
-				</tbody>    
-			</table>
-			{% endif %}
+								<tr>
+									<th scope="col">{% trans "Units" %}</th>
+									<th scope="col">{% trans "Product" %}</th>
+									<th scope="col">{% trans "Subtotal" %}</th>
+								</tr>
+							</thead>
+							<tbody>	
+								{% for row in bill.refunds.all %}
+								<tr> 
+									<td>{{ row.quantity }}</td>
+									<td>{{ row.bill_pos.product }} </td>
+									<td>{{ row.subtotal }} €</td>
+								</tr>
+								{% endfor %}
+								<tr> 
+									<td colspan=2><h4>{% trans "TOTAL" %}</h4></td>
+									<td scope="col"><h4>{{ bill.totalRefunded }} €</h4></td>
+								</tr>
+							</tbody>    
+						</table>
+						{% endif %}
 					</div>
 				</div>
 			 </div><!-- container -->

@@ -571,7 +571,12 @@ class BillAccount(models.Model):
         value = {'code':self.code,'customer':self.owner.toJSON() if self.owner else {},'paymentType':self.paymenttype,
                  'date':self.createdOn,'status':self.status,'total':self.total,"vat":self.getVATAmount(),'positions':[]}
         for position in self.bill_positions.all():
-            value['positions'].append({'quantity':position.quantity,'product':str(position.product),
+            if hasattr(position, "refund"):
+                quantity = position.quantity-position.refund.quantity
+            else:
+                quantity = position.quantity
+            if quantity>0:
+                value['positions'].append({'quantity': quantity ,'product':str(position.product),
                                        'vat_amount':position.getVATAmount(),'subtotal':position.getSubtotal(),'reduce_concept':position.reduce_concept})
         if self.owner:
             if self.owner.hasDiscount:
@@ -582,6 +587,10 @@ class BillAccount(models.Model):
                                         'vat_amount':0,'subtotal':-self.userCredit,'reduce_concept':None})
         return value
 
+    @property
+    def refunds(self,):
+        return Refund.objects.filter(bill_pos__in=self.bill_positions.all())
+        
     @property
     def userDiscountAmount(self):
         if self.userDiscount:
@@ -605,14 +614,14 @@ class BillAccount(models.Model):
         if self.userCredit:
             total = total-self.userCredit
         
-        return round(total-self.totalRefunded,2)
+        return round(total,2)
     
     @property
     def totalRefunded(self,):
         total = 0
         for refund in self.refunds.all():
             total += refund.subtotal
-        return total
+        return round(total,2)
         
     @admin.display(description=_("VAT amount"))
     def getVATAmount(self,):
@@ -724,16 +733,21 @@ class BillPosition(models.Model):
 
     def getVATAmount(self):
         if self.vat_amount:
-            return self.vat_amount
+            refunded = (self.refund.quantity*self.vat_amount/self.quantity) if hasattr(self, "refund") else 0
+            return round(self.vat_amount - refunded,2)
         else:
             if self.product.promotion:
                 promotion_quantity = self.product.promotion.getEffectiveQuantity(quantity = self.quantity)
                 return round(promotion_quantity*self.product.getVATAmount(),2)
             return round(self.quantity*self.product.getVATAmount(),2)
         
-    def getSubtotal(self):
+    def getSubtotal(self,noRefunds=False):
         if self.subtotal:
-            return self.subtotal
+            if noRefunds:
+                refunded=0
+            else:
+                refunded = (self.refund.subtotal) if hasattr(self, "refund") else 0
+            return round(self.subtotal - refunded,2)
         else:
             if self.product.promotion:
                 promotion_quantity = self.product.promotion.getEffectiveQuantity(quantity = self.quantity)
@@ -741,24 +755,31 @@ class BillPosition(models.Model):
             return round(self.quantity*self.product.pvp,2)
     
     def getUnitPVP(self):
-        return round(self.getSubtotal()/self.quantity,2)
+        return round(self.getSubtotal(noRefunds=True)/(self.quantity),2)
+    
+    @property
+    def effectiveQuantity(self):
+        refunded = (self.refund.quantity) if hasattr(self, "refund") else 0
+        return self.quantity-refunded
+        
+    @property
+    def hasRefund(self):
+        return hasattr(self, "refund")
     
 class Refund(models.Model):
-    bill = models.ForeignKey(BillAccount, on_delete=models.CASCADE, related_name='refunds')
+    bill_pos = models.OneToOneField(BillPosition, on_delete=models.CASCADE,primary_key=True,)
     quantity = models.PositiveSmallIntegerField(default=1,verbose_name=_("Quantity"))
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='refunds')
-    unitary_price = models.FloatField(verbose_name=_("Unitary price"),help_text=_("The price charged at the moment of the trasnaction"))
     
     def increaseQuantity(self,amount=1):
         self.quantity += amount
         self.save(update_fields=['quantity',])
-        self.product.increase_stock(quantity=amount)
+        self.bill_pos.product.increase_stock(quantity=amount)
         
     @property
     def subtotal(self,):
-        return self.quantity*self.unitary_price
+        return round(self.quantity*self.bill_pos.subtotal/self.bill_pos.quantity,2)
 
 @receiver(post_save, sender=Refund, dispatch_uid="update_stock_onRefundCreation")
 def update_stock_onRefundCreation(sender, instance, created, **kwargs):
     if created:
-        instance.product.increase_stock(quantity=1)
+        instance.bill_pos.product.increase_stock(quantity=1)

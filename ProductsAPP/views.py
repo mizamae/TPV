@@ -171,13 +171,12 @@ def refund_bill(request,code):
 @login_required(login_url="login")
 def refund_bill_position(request,id):
     bill_pos=BillPosition.objects.get(id=id)
-    #bill_pos.reduce_quantity(quantity=1)
-    refund,created = Refund.objects.get_or_create(bill=bill_pos.bill,product=bill_pos.product,
-                                                  unitary_price=round(bill_pos.subtotal/bill_pos.quantity,2))
+    refund,created = Refund.objects.get_or_create(bill_pos=bill_pos)
     
     if not created:
         if refund.quantity<bill_pos.quantity:
             refund.increaseQuantity(amount=1)
+            messages.info(request, _("The product ")+str(bill_pos.product) + _(" has been refunded"))
         else:
             messages.error(request, _("All the items of the product ") + str(bill_pos.product) + _(" have been refunded"))
         
@@ -192,9 +191,8 @@ def remove_barcode_to_bill(request,code):
             barcode = form.cleaned_data['barcode']
             try:
                 product=Product.objects.get(barcode=barcode)
-                position = BillPosition.objects.get(product=product,bill=bill)
-                messages.info(request, _("The product ")+str(product) + _(" has been refunded"))
-                return redirect('MaterialsAPP_refund_bill_position',id=position.id)
+                bill_pos = BillPosition.objects.get(product=product,bill=bill)
+                return redirect('MaterialsAPP_refund_bill_position',id=bill_pos.id)
             except:
                 pass            
     messages.error(request, _("The barcode introduced is not in the bill"))
