@@ -445,7 +445,7 @@ msgstr " Borrar"
 
 #: .\ProductsAPP\templates\ProductsAPP\_bill.html:76
 msgid " Refund"
-msgstr ""
+msgstr " Devolucion"
 
 #: .\ProductsAPP\templates\ProductsAPP\_list.html:10
 msgid "Total"
