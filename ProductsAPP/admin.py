@@ -1,8 +1,15 @@
 from django.contrib import admin
-from .models import VATValue, ProductFamily, Manufacturer, Consumible, CombinationPosition, Product, BillAccount, ProductDiscount, ProductPromotion
+from .models import VATValue, ProductFamily, Manufacturer, Consumible, CombinationPosition, Product, BillAccount, ProductDiscount, ProductPromotion, Refund
 
 from .tasks import sendBillReceipt
 # Register your models here.
+
+class RefundAdmin(admin.ModelAdmin):
+    list_display = ("bill_pos__bill__code","bill_pos",)
+    list_filter = ["bill_pos__bill__code",]
+    ordering = ("bill_pos__bill__code",)
+    
+admin.site.register(Refund, RefundAdmin)
 
 class VATValueAdmin(admin.ModelAdmin):
     list_display = ("name","pc_value")
