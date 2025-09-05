@@ -47,7 +47,7 @@
 					{% for row in bill.refunds.all %}
 					<tr> 
 						<td>{{ row.quantity }}</td>
-						<td>{{ row.product }} </td>
+						<td>{{ row.bill_pos.product }} </td>
 						<td>{{ row.subtotal }} €</td>
 					</tr>
 					{% endfor %}
@@ -93,9 +93,13 @@
 				<tbody>	
 					{% for row in bill.bill_positions.all %}
 					<tr> 
-						<td>{{ row.quantity }}</td>
+						{% if row.hasRefund %}
+							<td><span class="text-decoration-line-through">{{ row.quantity }}</span> -> {{ row.effectiveQuantity }}</td>
+						{% else %}
+							<td>{{ row.quantity }}</td>
+						{% endif %}
 						<td>{{ row.product }} <br> {% if row.reduce_concept %}{{ row.reduce_concept }} {% endif %} </td>
-						<td>{{ row.product.pvp }} €</td>
+						<td>{{ row.getUnitPVP }} €</td>
 						<td>{{ row.getSubtotal }} €</td>
 						<td>
 							<a type="button" class="btn btn-primary col-12" href={% url 'MaterialsAPP_refund_bill_position' id=row.id %}>
