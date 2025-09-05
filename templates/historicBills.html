@@ -12,6 +12,9 @@
         {% if totals %}
         <div class='col-3'> 
             <p class="h4">{% trans "Total amount " %}{{ totals.total|floatformat:2 }}€</p>
+            {% for key, value in payments.items %} 
+            <ul>{{ value.description }} : {{ value.value }}€</ul>
+            {% endfor %}
         </div>
         <div class='col-3'> 
             <p class="h4">{% trans "Total VAT amount " %}{{ totals.total_vat|floatformat:2 }}€</p>

@@ -64,6 +64,9 @@
     </div>
     <div class='col-3'> 
         <p class="h4">{% trans "Today's income " %} {{ todays_income }} €</p>
+        {% for key, value in payments.items %} 
+        <ul>{{ value.description }} : {{ value.value }}€</ul>
+        {% endfor %}
     </div>
 </div>
 

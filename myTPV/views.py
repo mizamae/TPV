@@ -20,8 +20,14 @@ def home(request):
     start_datetime = datetime.datetime(now.year, now.month, now.day)
     todays_bills = BillAccount.objects.filter(createdOn__gt=start_datetime).annotate(order_positions = Count('positions'))
     todays_income=0
+    
+    payments = {}
+    for payment in BillAccount.PAYMENT_TYPES:
+        payments[payment[0]]={'value':0,'description':payment[1]}
+        
     for bill in todays_bills.filter(status = BillAccount.STATUS_PAID):
         todays_income += bill.total
+        payments[bill.paymenttype]['value']=round(payments[bill.paymenttype]['value']+bill.total,2)        
     badge={}
     badge["customers"]=str(Customer.objects.count()) + _(" customers")
     badge["stock"]=str(Consumible.objects.count()) + _(" references")
@@ -30,7 +36,9 @@ def home(request):
     badge["historic"]=str(BillAccount.objects.count()) + _(" bills")
     return render(request, 'home.html',{'todays_bills':todays_bills,
                                         'todays_income':round(todays_income,2),
-                                        'badge':badge})
+                                        'badge':badge,
+                                        'payments':payments,
+                                        })
 
 def reports_home(request):
     if request.method == "POST":
