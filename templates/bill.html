@@ -40,81 +40,79 @@
 		<div class="d-flex">
 			<div class="nav flex-column w-15 nav-pills me-3" id="v-pills-tab2" role="tablist" aria-orientation="vertical">
 				{% for tab in productfamilies_tabs %}
-				<a class="nav-link {% if tab.active %} active {% endif %}" id="v-pills-products{{ tab.id }}-tab" data-bs-toggle="pill" data-bs-target="#v-pills-products{{ tab.id }}" type="button" role="tab" aria-controls="v-pills-products{{ tab.id }}" aria-selected="{% if tab.active %} true {% else %} false {% endif %} ">
-					{{ tab.name }}
-				</a>
-				{% endfor %}
+                <a class="nav-link {% if tab.active %} active {% endif %}" href={% url 'MaterialsAPP_edit_bill' code=bill.code family_id=tab.id %} aria-selected="{% if tab.active %} true {% else %} false {% endif %} ">
+                    {{ tab.name }}
+                </a>
+                {% endfor %}
 			</div>
-			<div class="tab-content" id="v-pills-tabContent2">
-				{% for tab in productfamilies_tabs %}
-				<div class="tab-pane fade show {% if tab.active %} active {% endif %}" id="v-pills-products{{ tab.id }}" role="tabpanel" aria-labelledby="v-pills-products{{ tab.id }}-tab">
+			<div class="row" id="v-pills-tabContent2">
+				<div class="tab-pane" id="v-pills-products" role="tabpanel" aria-labelledby="v-pills-products-tab">
 					<div class="card-group">
-						{% for product in tab.items|slice:"0:8" %}	
+						{% for product in rows|slice:"0:8" %}	
 						{% include "ProductsAPP/_product_card.html" %}			
 						{% endfor %}
 					</div>
 					<div class="card-group">
-						{% for product in tab.items|slice:"8:16" %}	
+						{% for product in rows|slice:"8:16" %}	
 						{% include "ProductsAPP/_product_card.html" %}			
 						{% endfor %}
 					</div>
 					<div class="card-group">
-						{% for product in tab.items|slice:"16:24" %}	
+						{% for product in rows|slice:"16:24" %}	
 						{% include "ProductsAPP/_product_card.html" %}			
 						{% endfor %}
 					</div>
 					<div class="card-group">
-						{% for product in tab.items|slice:"24:32" %}	
+						{% for product in rows|slice:"24:32" %}	
 						{% include "ProductsAPP/_product_card.html" %}			
 						{% endfor %}
 					</div>
 					<div class="card-group">
-						{% for product in tab.items|slice:"32:40" %}	
+						{% for product in rows|slice:"32:40" %}	
 						{% include "ProductsAPP/_product_card.html" %}			
 						{% endfor %}
 					</div>
 					<div class="card-group">
-						{% for product in tab.items|slice:"40:48" %}	
+						{% for product in rows|slice:"40:48" %}	
 						{% include "ProductsAPP/_product_card.html" %}			
 						{% endfor %}
 					</div>
 					<div class="card-group">
-						{% for product in tab.items|slice:"48:56" %}	
+						{% for product in rows|slice:"48:56" %}	
 						{% include "ProductsAPP/_product_card.html" %}			
 						{% endfor %}
 					</div>
 					<div class="card-group">
-						{% for product in tab.items|slice:"56:64" %}	
+						{% for product in rows|slice:"56:64" %}	
 						{% include "ProductsAPP/_product_card.html" %}			
 						{% endfor %}
 					</div>
 					<div class="card-group">
-						{% for product in tab.items|slice:"64:72" %}	
+						{% for product in rows|slice:"64:72" %}	
 						{% include "ProductsAPP/_product_card.html" %}			
 						{% endfor %}
 					</div>
 					<div class="card-group">
-						{% for product in tab.items|slice:"72:80" %}	
+						{% for product in rows|slice:"72:80" %}	
 						{% include "ProductsAPP/_product_card.html" %}			
 						{% endfor %}
 					</div>
 					<div class="card-group">
-						{% for product in tab.items|slice:"80:88" %}	
+						{% for product in rows|slice:"80:88" %}	
 						{% include "ProductsAPP/_product_card.html" %}			
 						{% endfor %}
 					</div>
 					<div class="card-group">
-						{% for product in tab.items|slice:"88:96" %}	
+						{% for product in rows|slice:"88:96" %}	
 						{% include "ProductsAPP/_product_card.html" %}			
 						{% endfor %}
 					</div>
 					<div class="card-group">
-						{% for product in tab.items|slice:"96:104" %}	
+						{% for product in rows|slice:"96:104" %}	
 						{% include "ProductsAPP/_product_card.html" %}			
 						{% endfor %}
 					</div>
 				</div>
-				{% endfor %}
 			</div>
 		</div>
 	</div>

@@ -26,37 +26,38 @@ def add_bill(request):
     except:
         messages.warning(request, _("Cannot communicate with the receipt printer"))
     del printer
-    return redirect('MaterialsAPP_edit_bill',code=bill.code,tab=0)
+    return redirect('MaterialsAPP_edit_bill',code=bill.code,family_id=0)
 
 @login_required(login_url="login")
-def edit_bill(request,code,tab=None,billPos=None):
+def edit_bill(request,code,family_id=None,billPos=None):
     bill=BillAccount.objects.get(code=code)
-    productFamilies=ProductFamily.objects.all()
-    productfamilies_tabs=[]
-    if tab is None or tab == 'None':
-        tab=0
-    else:
-        tab=int(tab)
+
+    if not ProductFamily.objects.first():
+        return render(request, 'errorPage.html',{'heading':_('Error on stock revision'),
+                                                 'info':_('There are no product families created. Need to create at least one')
+                                        })
     
+    if not family_id:
+        family_id = ProductFamily.objects.first().id
+
+    productfamilies_tabs=[]
+    productFamilies= ProductFamily.objects.all()
+    for i,_type in enumerate(productFamilies):
+        productfamilies_tabs.append({'name':_type.name,'id':_type.id,'active':_type.id==family_id})
+
+    
+    rows=Product.objects.filter(family=ProductFamily.objects.get(id=family_id))
+
     if billPos is None or billPos == 'None':
         billPos=None
     else:
         billPos=BillPosition.objects.get(id=int(billPos))
 
-    for i,_type in enumerate(productFamilies):
-        productfamilies_tabs.append({'name':_type.name,'id':_type.id,'active':_type.id==tab,'items':Product.objects.filter(family=_type).order_by("name")})
-
-    if not productfamilies_tabs:
-        return render(request, 'errorPage.html',{'heading':_('Error on bill creation'),
-                                                 'info':_('There are no product families created. Need to create at least one')
-                                        })
-    
-    if tab==0:
-        productfamilies_tabs[0]['active']=True
 
     return render(request, 'bill.html',{'bill' : bill,
                                         #'categories':non_emptyFamilies,
                                         'productfamilies_tabs':productfamilies_tabs,
+                                        'rows':rows,
                                         'legend':"Categorías",
                                         "findCustomerForm":findCustomerForm(),
                                         "barcode2BillForm":barcode2BillForm(),
@@ -78,7 +79,7 @@ def assign_customer(request,code):
             else:
                 messages.info(request, _("No customer found "))
                     
-    return redirect('MaterialsAPP_edit_bill',code=bill.code,tab=0)
+    return redirect('MaterialsAPP_edit_bill',code=bill.code,family_id=0)
 
 @login_required(login_url="login")
 def append_barcode_to_bill(request,code):
@@ -103,14 +104,14 @@ def append_to_bill(request,code,id):
     product=Product.objects.get(id=id)
     billPos=bill.add_bill_position(product=product,quantity=1)
 
-    return redirect('MaterialsAPP_edit_billPos',code=bill.code,tab=product.family.id,billPos=billPos.id)
+    return redirect('MaterialsAPP_edit_billPos',code=bill.code,family_id=product.family.id,billPos=billPos.id)
 
 @login_required(login_url="login")
 def reduce_bill_position(request,id):
     bill_pos=BillPosition.objects.get(id=id)
     family=bill_pos.product.family
     bill_pos.reduce_quantity(quantity=1)
-    return redirect('MaterialsAPP_edit_bill',code=bill_pos.bill.code,tab=family.id)
+    return redirect('MaterialsAPP_edit_bill',code=bill_pos.bill.code,family_id=family.id)
 
 @login_required(login_url="login")
 def resume_bill(request,code):
@@ -223,7 +224,7 @@ def setMultiplier_billPosition(request,id):
         value = json.loads(request.body.decode())['value']
         billPosition = BillPosition.objects.get(id=id)
         billPosition.set_quantity(quantity=value)
-        response={'url':reverse('MaterialsAPP_edit_bill',kwargs={'code':billPosition.bill.code,'tab':billPosition.product.family.id})}
+        response={'url':reverse('MaterialsAPP_edit_bill',kwargs={'code':billPosition.bill.code,'family_id':billPosition.product.family.id})}
     else:
         response=None
     return HttpResponse(json.dumps(response), content_type='application/json')
@@ -265,10 +266,26 @@ def check_stock(request,family_id=None):
                                           'stock_value':stock_value})
 
 @login_required(login_url="login")
-def check_products(request):
+def check_products(request,family_id=None):
     user = request.user
+
+    if not ProductFamily.objects.first():
+        return render(request, 'errorPage.html',{'heading':_('Error on prices revision'),
+                                                 'info':_('There are no product families created. Need to create at least one')
+                                        })
+    
+    if family_id is None:
+        family_id = ProductFamily.objects.first().id
+
+    productfamilies_tabs=[]
+    productFamilies= ProductFamily.objects.all()
+    for i,_type in enumerate(productFamilies):
+        productfamilies_tabs.append({'name':_type.name,'id':_type.id,'active':_type.id==family_id})
+
+    queryset=Product.objects.filter(family=ProductFamily.objects.get(id=family_id))
+
     if request.method == 'POST':
-        product_formset = ProductFormSet(request.POST)
+        product_formset = ProductFormSet(request.POST,queryset=queryset)
         if product_formset.is_valid():
             product_formset.save()
             messages.success(request, _("Product prices have been updated"))
@@ -277,8 +294,9 @@ def check_products(request):
             for error in list(product_formset.errors.values()):
                 messages.error(request, error)
 
-    product_formset = ProductFormSet()
-    return render(request, 'products.html', {'product_formset': product_formset,})
+    product_formset = ProductFormSet(queryset=queryset)
+    return render(request, 'products.html', {'productfamilies_tabs':productfamilies_tabs,
+                                            'product_formset': product_formset,})
 
 @login_required(login_url="login")
 def historics_home(request):

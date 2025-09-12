@@ -8,8 +8,8 @@ from . import views
 urlpatterns = [
     
     path("bill/add", views.add_bill , name="MaterialsAPP_create_bill"),
-    path("bill/edit/<str:code>/<int:tab>", views.edit_bill , name="MaterialsAPP_edit_bill"),
-    path("bill/edit/<str:code>/<int:tab>/<int:billPos>", views.edit_bill , name="MaterialsAPP_edit_billPos"),
+    path("bill/edit/<str:code>/<int:family_id>", views.edit_bill , name="MaterialsAPP_edit_bill"),
+    path("bill/edit/<str:code>/<int:family_id>/<int:billPos>", views.edit_bill , name="MaterialsAPP_edit_billPos"),
     path("bill/MaterialsAPP_assign_customer/<str:code>", views.assign_customer , name="MaterialsAPP_assign_customer"),
     path("bill/resume/<str:code>", views.resume_bill , name="MaterialsAPP_resume_bill"),
     path("bill/append/<str:code>", views.append_barcode_to_bill , name="MaterialsAPP_append_barcode_to_bill"),
@@ -29,5 +29,6 @@ urlpatterns = [
     path("MaterialsAPP_check_stocks/", views.check_stock , name="MaterialsAPP_check_stocks"),
     path("MaterialsAPP_check_stocks/<int:family_id>", views.check_stock , name="MaterialsAPP_check_stocks"),
     path("MaterialsAPP_check_products/", views.check_products , name="MaterialsAPP_check_products"),
+    path("MaterialsAPP_check_products/<int:family_id>", views.check_products , name="MaterialsAPP_check_products"),
     
 ]
