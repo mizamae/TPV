@@ -11,7 +11,15 @@
 {% block container %}
 <div class="row">
     <div class = 'col-3'>
-
+        <div class="d-flex justify-content-end">
+            <div class="nav flex-column w-15 nav-pills me-3" id="v-pills-tab2" role="tablist" aria-orientation="vertical">
+                {% for tab in productfamilies_tabs %}
+                <a class="nav-link {% if tab.active %} active {% endif %}" href={% url 'MaterialsAPP_check_stocks' family_id=tab.id %} aria-selected="{% if tab.active %} true {% else %} false {% endif %} ">
+                    {{ tab.name }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
     </div>
     <div class = 'col-6'>
         <table class="table" id="stock_table">

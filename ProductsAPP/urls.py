@@ -27,6 +27,7 @@ urlpatterns = [
     path("bill/resumerefund/<str:code>", views.resume_refund , name="MaterialsAPP_resume_refund"),
     
     path("MaterialsAPP_check_stocks/", views.check_stock , name="MaterialsAPP_check_stocks"),
+    path("MaterialsAPP_check_stocks/<int:family_id>", views.check_stock , name="MaterialsAPP_check_stocks"),
     path("MaterialsAPP_check_products/", views.check_products , name="MaterialsAPP_check_products"),
     
 ]

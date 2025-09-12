@@ -230,10 +230,26 @@ def setMultiplier_billPosition(request,id):
 
 # Create your views here.
 @login_required(login_url="login")
-def check_stock(request):
+def check_stock(request,family_id=None):
     user = request.user
+    
+    if not ProductFamily.objects.first():
+        return render(request, 'errorPage.html',{'heading':_('Error on stock revision'),
+                                                 'info':_('There are no product families created. Need to create at least one')
+                                        })
+    
+    if family_id is None:
+        family_id = ProductFamily.objects.first().id
+
+    productfamilies_tabs=[]
+    productFamilies= ProductFamily.objects.all()
+    for i,_type in enumerate(productFamilies):
+        productfamilies_tabs.append({'name':_type.name,'id':_type.id,'active':_type.id==family_id})
+
+    queryset=Consumible.objects.filter(infinite=False,family=ProductFamily.objects.get(id=family_id))
+
     if request.method == 'POST':
-        stock_formset = StockFormSet(request.POST,queryset=Consumible.objects.filter(infinite=False))
+        stock_formset = StockFormSet(request.POST,queryset=queryset)
         if stock_formset.is_valid():
             stock_formset.save()
             messages.success(request, _("The stock has been updated"))
@@ -242,9 +258,10 @@ def check_stock(request):
             for error in list(stock_formset.errors.values()):
                 messages.error(request, error)
 
-    stock_formset = StockFormSet(queryset=Consumible.objects.filter(infinite=False))
+    stock_formset = StockFormSet(queryset=queryset)
     stock_value = Consumible.get_stock_value()
-    return render(request, 'stock.html', {'stock_formset': stock_formset,
+    return render(request, 'stock.html', {'productfamilies_tabs':productfamilies_tabs,
+                                            'stock_formset': stock_formset,
                                           'stock_value':stock_value})
 
 @login_required(login_url="login")
