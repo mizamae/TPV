@@ -14,6 +14,8 @@ import datetime
 import base64
 from .tasks import publish_familyUpdates, publish_familyDelete, publish_productUpdates, publish_productDelete, send_email, sendBillReceipt, printBillReceipt
 
+from PIL import Image, ExifTags
+import uuid
 import os
 FILE_DIR = os.path.join(settings.MEDIA_ROOT)
 IMAGES_FILESYSTEM = FileSystemStorage(location=FILE_DIR,base_url=settings.MEDIA_URL)
@@ -35,7 +37,54 @@ class VATValue(models.Model):
     def __str__(self):
         return self.name + " ("+str(self.pc_value)+"%)"
 
-class ProductFamily(models.Model):
+class ModelWithImage:
+
+    # Method for image compression
+    def compress_image(self, source_field, target_field, size):
+        if not getattr(self, source_field):
+            # If the source_field is empty, no need to proceed
+            return
+        # Open the original image
+        img = Image.open(getattr(self, source_field))
+        # Check for EXIF orientation and rotate if necessary
+        for orientation in ExifTags.TAGS.keys():
+            if ExifTags.TAGS[orientation] == 'Orientation':
+                try:
+                    exif = dict(img._getexif().items())
+                    if exif[orientation] == 3:
+                        img = img.rotate(180, expand=True)
+                    elif exif[orientation] == 6:
+                        img = img.rotate(270, expand=True)
+                    elif exif[orientation] == 8:
+                        img = img.rotate(90, expand=True)
+                except (AttributeError, KeyError, IndexError):
+                    # No EXIF data or invalid data, don't perform rotation
+                    pass
+        # Calculate the aspect ratio to maintain proportions when resizing
+        aspect_ratio = img.width / img.height
+        # Resize the image to the specified size
+        img = img.resize((size, int(size / aspect_ratio)))
+        # Convert the image to RGB mode if it's in RGBA mode
+        if img.mode == 'RGBA':
+            img = img.convert('RGB')
+        # Save the compressed image to the target_field's upload_to path inside MEDIA_ROOT
+        target_upload_to = getattr(self.__class__, target_field).field.upload_to
+
+        img_path = getattr(self, source_field).path
+        img_name, img_ext = os.path.splitext(os.path.basename(img_path))
+        unique_id = str(uuid.uuid4())
+        compressed_img_name = f'{img_name}{unique_id}_{size}{img_ext}'
+        compressed_img_path = os.path.join(settings.MEDIA_ROOT, target_upload_to, compressed_img_name)
+        # Ensure that the target directory exists before saving
+        os.makedirs(os.path.dirname(compressed_img_path), exist_ok=True)
+        # Save the image as JPEG
+        img.save(compressed_img_path, 'JPEG')
+        img.close()
+        #os.remove(getattr(self, source_field).path)
+        # Set the target_field with the compressed image path relative to MEDIA_ROOT
+        setattr(self, target_field, os.path.relpath(compressed_img_path, settings.MEDIA_ROOT))
+
+class ProductFamily(models.Model,ModelWithImage):
     class Meta:
         verbose_name = _('Product family')
         verbose_name_plural = _('Product families')
@@ -51,6 +100,11 @@ class ProductFamily(models.Model):
     def __str__(self) -> str:
         return self.name
     
+    def save(self, *args, **kwargs):
+        if self.picture:
+            self.compress_image(source_field='picture', target_field='picture', size=200)
+        super(ProductFamily, self).save(*args, **kwargs)
+
     def serialize(self,update_fields=None):
         data={}
         data['id']=self.id
@@ -84,6 +138,7 @@ class ProductFamily(models.Model):
 @receiver(post_save, sender=ProductFamily, dispatch_uid="update_ProductFamily_onSave")
 def update_ProductFamily_onSave(sender, instance, created, **kwargs):
     publish_familyUpdates.delay(family_id=instance.id,update_fields=None)
+    
 
 @receiver(post_delete, sender=ProductFamily, dispatch_uid="updateProductFamily_onDelete")
 def updateProductFamily_onDelete(sender, instance, **kwargs):
@@ -109,7 +164,7 @@ class Manufacturer(models.Model):
     def clean_name(self):
         self.name=self.name.strip().upper()
 
-class Consumible(models.Model):
+class Consumible(models.Model,ModelWithImage):
     class Meta:
         verbose_name = _('Consumable')
         verbose_name_plural = _('Consumables')
@@ -140,6 +195,11 @@ class Consumible(models.Model):
     def __str__(self) -> str:
         return self.name
     
+    def save(self, *args, **kwargs):
+        if self.picture:
+            self.compress_image(source_field='picture', target_field='picture', size=200)
+        super(Consumible, self).save(*args, **kwargs)
+
     def clean(self):
         from django.core.exceptions import ValidationError  
         if self.generates_product and not self.barcode:
@@ -231,7 +291,7 @@ def create_Product_onCreate(sender, instance, created, **kwargs):
         CombinationPosition.objects.get_or_create(product=product,quantity=1,ingredient=instance)
     instance.updateCache()
 
-class Product(models.Model):
+class Product(models.Model,ModelWithImage):
     class Meta:
         verbose_name = _('Sellable product')
         verbose_name_plural = _('Sellable products')
@@ -267,8 +327,10 @@ class Product(models.Model):
         self.name=self.name.strip().upper()
         if self.manual_price and self.manual_price <=0:
             self.manual_price=None
+        if self.picture:
+            self.compress_image(source_field='picture', target_field='picture', size=200)
         return super().save(**kwargs)
-        
+    
     def __str__(self) -> str:
         return self.name
     

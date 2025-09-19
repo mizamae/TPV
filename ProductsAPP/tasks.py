@@ -20,6 +20,25 @@ __sql_createTableStatement__ = """CREATE TABLE IF NOT EXISTS jobs (
 __sql_insertJob__ = ''' INSERT INTO jobs(url,data)
                         VALUES(?,?) '''
 
+@shared_task(bind=False,name='ProductsAPP_resizeImages')
+def resizeImages():
+    from PIL import Image
+    WIDTH = 200
+    for (_, _, files) in os.walk(settings.MEDIA_ROOT):
+        for image in files:
+            # Open the original image
+            img = Image.open(os.path.join(settings.MEDIA_ROOT,image))
+            # Calculate the aspect ratio to maintain proportions when resizing
+            aspect_ratio = img.width / img.height
+            # Resize the image to the specified size
+            img = img.resize((WIDTH, int(WIDTH / aspect_ratio)))
+            # Convert the image to RGB mode if it's in RGBA mode
+            if img.mode == 'RGBA':
+                img = img.convert('RGB')
+            img.save(os.path.join(settings.MEDIA_ROOT,image), 'JPEG')
+            img.close()
+
+
 @shared_task(bind=False,name='ProductsAPP_send_bill')
 def sendBillReceipt(billData):
     from .models import BillAccount
