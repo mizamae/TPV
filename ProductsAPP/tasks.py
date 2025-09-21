@@ -59,6 +59,7 @@ def sendBillReceipt(billData):
 def printBillReceipt(billData):
     from.models import BillAccount
     from utils.usbUtils import ThermalPrinter
+    PRODUCT_DESCRIPTION_LENGTH = 25
     printer = ThermalPrinter()
     if os.path.exists(os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoTicketTop.jpg")):
         printer.printImage(os.path.join(settings.STATIC_ROOT,"site","logos","CompanyLogoTicketTop.jpg"))
@@ -70,7 +71,31 @@ def printBillReceipt(billData):
     printer.printText("----------------------------------------")
     printer.printText("CANT       ARTICULO       PVP      TOTAL")
     for pos in billData['positions']:
-        printer.printText(str(pos['quantity'])+"    " + pos['product'] + "    " + str(round(pos["subtotal"]/pos['quantity'],2))+ "    " + str(pos["subtotal"]))
+        while len(pos['product']) < PRODUCT_DESCRIPTION_LENGTH:
+            pos['product']=pos['product']+" "
+        extra=False
+        if len(pos['product'])>PRODUCT_DESCRIPTION_LENGTH:
+            product_print = pos['product'][0:PRODUCT_DESCRIPTION_LENGTH]
+            extra=True
+        else:
+            product_print = pos['product']
+        text = str(pos['quantity'])
+        while len(text) < 4:
+            text=text+" "
+        text = text + product_print + "  "
+        pvp = str(round(pos["subtotal"]/pos['quantity'],2))
+        digits = len(pvp.split(".")[0])
+        text = text + " "*(4-digits)
+        text = text + pvp
+        while len(text) < 38:
+            text=text+" "
+        digits = len(str(pos["subtotal"]).split(".")[0])
+        text = text + " "*(4-digits)
+        text = text + str(pos["subtotal"])
+        printer.printText(text)
+        #printer.printText(str(pos['quantity'])+"    " + product_print + "    " + str(round(pos["subtotal"]/pos['quantity'],2))+ "    " + str(pos["subtotal"]))
+        if extra:
+            printer.printText(" "*4 + pos['product'][PRODUCT_DESCRIPTION_LENGTH:] )
     printer.printText("")
     printer.printText("BASE: " + str(billData['total']-billData['vat']) + " €")
     printer.printText("IVA: " + str(billData['vat'])+ " €") 
