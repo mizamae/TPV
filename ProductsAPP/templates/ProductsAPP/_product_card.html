@@ -7,8 +7,8 @@
     </div>
 
     <a href="{% url 'MaterialsAPP_append_to_bill' bill.code product.id %}" title = "{{ product.name }}">
-    <img src={% if product.picture %}"{{ product.picture.url }}"{% endif %} class="img-fluid card-img-top bg-transparent" role="button" 
-            alt="{{ product.name }}" style="height:25rem ;" 
+    <img src={% if product.picture %}"{{ product.picture.url }}"{% endif %} class="img-fluid rounded" role="button" 
+            alt="{{ product.name }}" style="height:12rem ;" 
             style="cursor: pointer;">
     </a>
 
