@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.db.models import Sum, Count
 import os
 import json
-from .models import BillAccount, Product, ProductFamily, BillPosition, Consumible, Refund
+from .models import BillAccount, Product, ProductFamily, BillPosition, Consumible, Refund, DiscountVoucher
 from .forms import paymentMethodsForm, StockFormSet, ProductFormSet, barcode2BillForm, billSearchForm
 
 import datetime
@@ -117,7 +117,7 @@ def reduce_bill_position(request,id):
 def resume_bill(request,code):
     bill=BillAccount.objects.get(code=code)
     paymentForm = paymentMethodsForm(instance=bill)
-    return render(request, 'bill_resume.html',{'bill' : bill,'paymentForm':paymentForm})
+    return render(request, 'bill_resume.html',{'bill' : bill,'paymentForm':paymentForm,'vouchers':DiscountVoucher.objects.all()})
 
 @login_required(login_url="login")
 def print_bill(request,code):
@@ -215,6 +215,20 @@ def discountCredit_bill(request,code):
     bill=BillAccount.objects.get(code=code)
     bill.discountUserCredit()
     messages.info(request, _("The customer's credit has been discounted"))
+    return redirect('MaterialsAPP_resume_bill',code = bill.code)
+
+@login_required(login_url="login")
+def applyVoucher_bill(request,code,voucher_id):
+    bill=BillAccount.objects.get(code=code)
+    bill.applyVoucher(voucher_id)
+    messages.info(request, _("The voucher has been discounted"))
+    return redirect('MaterialsAPP_resume_bill',code = bill.code)
+
+@login_required(login_url="login")
+def cancelVoucher_bill(request,code):
+    bill=BillAccount.objects.get(code=code)
+    bill.cancelVouchers()
+    messages.info(request, _("The vouchers have been cancelled"))
     return redirect('MaterialsAPP_resume_bill',code = bill.code)
 
 

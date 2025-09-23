@@ -505,6 +505,14 @@ class ProductPromotion(models.Model):
         else:
             return quantity
 
+class DiscountVoucher(models.Model):
+
+    value = models.FloatField(default=0,verbose_name=_("Discount amount"),validators=[MinValueValidator(0.01)])
+
+    def __str__(self):
+        return str(round(self.value,2))+"€"
+    
+    
 class ProductDiscount(models.Model):
     PERCENTAGE_VALIDATOR = [MinValueValidator(0), MaxValueValidator(100)]
 
@@ -571,7 +579,8 @@ class BillAccount(models.Model):
 
     userDiscount = models.FloatField(verbose_name=_("User discount"),help_text=_("Discount due to user affillation"),blank=True,null=True,editable = False)
     userCredit = models.FloatField(verbose_name=_("User credit"),help_text=_("Discount due to user credit"),blank=True,null=True,editable = False)
-
+    vouchers = models.FloatField(verbose_name=_("Discount vouchers"),help_text=_("Discount due to vouchers"),blank=True,null=True,editable = False)
+    
     paymenttype = models.PositiveSmallIntegerField(verbose_name=_("Payment"),blank=False,null=True,choices=PAYMENT_TYPES)
 
     def __init__(self, *args, **kwargs) -> None:
@@ -623,6 +632,18 @@ class BillAccount(models.Model):
         self.owner.addCredit(amount=-self.userCredit)
         self.save(update_fields=['userCredit',])
 
+    def applyVoucher(self,voucher_id):
+        voucher = DiscountVoucher.objects.get(id=voucher_id)
+        if self.vouchers:
+            self.vouchers += voucher.value
+        else:
+            self.vouchers = voucher.value
+        self.save(update_fields=['vouchers',])
+
+    def cancelVouchers(self):
+        self.vouchers = None
+        self.save(update_fields=['vouchers',])
+
     def setOwner(self,customer):
         self.owner = customer
         if self.owner.hasDiscount:
@@ -647,6 +668,9 @@ class BillAccount(models.Model):
             if self.userCredit:
                 value['positions'].append({'quantity':1,'product':_("User credits"),
                                         'vat_amount':0,'subtotal':-self.userCredit,'reduce_concept':None})
+        if self.vouchers:
+            value['positions'].append({'quantity':1,'product':_("Voucher discount"),
+                                    'vat_amount':0,'subtotal':-self.vouchers,'reduce_concept':None})
         return value
 
     @property
@@ -675,6 +699,8 @@ class BillAccount(models.Model):
             total = total-self.userDiscountAmount
         if self.userCredit:
             total = total-self.userCredit
+        if self.vouchers:
+            total = total-self.vouchers
         
         return round(total,2)
     
@@ -691,6 +717,14 @@ class BillAccount(models.Model):
         total=0
         for position in self.bill_positions.all():
             total+=position.getVATAmount()
+        
+        if self.userDiscount:
+            total = total-self.userDiscountAmount*cache.get("DefaultVAT")/100
+        if self.userCredit:
+            total = total-self.userCredit*cache.get("DefaultVAT")/100
+        if self.vouchers:
+            total = total-self.vouchers*cache.get("DefaultVAT")/100
+
         return round(total,2)
         
     @staticmethod

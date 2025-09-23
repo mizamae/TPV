@@ -97,9 +97,9 @@ def printBillReceipt(billData):
         if extra:
             printer.printText(" "*4 + pos['product'][PRODUCT_DESCRIPTION_LENGTH:] )
     printer.printText("")
-    printer.printText("BASE: " + str(billData['total']-billData['vat']) + " €")
-    printer.printText("IVA: " + str(billData['vat'])+ " €") 
-    printer.printText("TOTAL: " + str(billData['total'])+" €")
+    printer.printText("BASE: " + str(round(billData['total']-billData['vat'],2)) + " €")
+    printer.printText("IVA: " + str(round(billData['vat'],2))+ " €") 
+    printer.printText("TOTAL: " + str(round(billData['total'],2))+" €")
     printer.printText("METODO DE PAGO: " + str(BillAccount.PAYMENT_TYPES[billData['paymentType']][1]))
     printer.printText("----------------------------------------")
     printer.printText("Plazo maximo de devolucion 15 dias")

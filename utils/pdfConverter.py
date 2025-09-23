@@ -191,10 +191,8 @@ class PrintedBill(object):
         self.nextRow(1.5)
         fontSize=10
         self.pdf.setFont(self.fontBoldName, fontSize)
-        vat_amount=0
-        for row in self.billData['positions']:
-            vat_amount += row['vat_amount']
-        text = _("VAT") +": ........................" + str(round(vat_amount,2))+"€"
+
+        text = _("VAT") +": ........................" + str(round(self.billData['vat'],2))+"€"
         string_width = self.pdf.stringWidth(text=text, fontName=self.fontBoldName, fontSize=fontSize)
         self.pdf.drawString(self.maxX-string_width, self.currentY, text)
         self.nextRow(2)

@@ -1,8 +1,14 @@
 from django.contrib import admin
-from .models import VATValue, ProductFamily, Manufacturer, Consumible, CombinationPosition, Product, BillAccount, ProductDiscount, ProductPromotion, Refund
+from .models import VATValue, ProductFamily, Manufacturer, Consumible, CombinationPosition, Product, BillAccount, \
+                    ProductDiscount, ProductPromotion, Refund, DiscountVoucher
 
 from .tasks import sendBillReceipt
 # Register your models here.
+
+class DiscountVoucherAdmin(admin.ModelAdmin):
+    pass
+    
+admin.site.register(DiscountVoucher, DiscountVoucherAdmin)
 
 class RefundAdmin(admin.ModelAdmin):
     list_display = ("bill_pos__bill__code","bill_pos",)
