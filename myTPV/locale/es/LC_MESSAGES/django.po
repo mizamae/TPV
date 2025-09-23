@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-18 13:08+0200\n"
+"POT-Creation-Date: 2025-09-23 15:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: .\myTPV\forms.py:18 .\myTPV\views.py:47
+#: .\myTPV\forms.py:18 .\myTPV\views.py:55
 msgid "Sales report"
 msgstr "Informe de ventas"
 
-#: .\myTPV\forms.py:19 .\myTPV\views.py:51
+#: .\myTPV\forms.py:19 .\myTPV\views.py:59
 msgid "Products report"
 msgstr "Informe de productos"
 
@@ -170,7 +170,9 @@ msgstr "Habilitar acumulacion"
 
 #: .\myTPV\models.py:71
 msgid "Enable accumulation of bill amounts into customer's credit"
-msgstr "Permite acumular creditos de usuario en funcion de los importes de las compras."
+msgstr ""
+"Permite acumular creditos de usuario en funcion de los importes de las "
+"compras."
 
 #: .\myTPV\models.py:74
 msgid "Minimum accumulation"
@@ -180,27 +182,27 @@ msgstr "Acumulacion minima"
 msgid "Minimum accumulation amount that can be exchanged"
 msgstr "Minimo valor acumulado para poder descontarlo de la siguiente factura"
 
-#: .\myTPV\views.py:26
+#: .\myTPV\views.py:32
 msgid " customers"
 msgstr " clientes"
 
-#: .\myTPV\views.py:27
+#: .\myTPV\views.py:33
 msgid " references"
 msgstr " referencias"
 
-#: .\myTPV\views.py:28
+#: .\myTPV\views.py:34
 msgid " products"
 msgstr " productos"
 
-#: .\myTPV\views.py:30
+#: .\myTPV\views.py:36
 msgid " bills"
 msgstr " facturas"
 
-#: .\myTPV\views.py:58
+#: .\myTPV\views.py:66
 msgid "View report"
 msgstr "Ver informe"
 
-#: .\myTPV\views.py:70
+#: .\myTPV\views.py:78
 msgid "Site settings"
 msgstr "Configuracion"
 
