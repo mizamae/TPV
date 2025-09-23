@@ -702,6 +702,8 @@ class BillAccount(models.Model):
         if self.vouchers:
             total = total-self.vouchers
         
+        if total <0:
+            total = 0
         return round(total,2)
     
     @property
@@ -725,6 +727,8 @@ class BillAccount(models.Model):
         if self.vouchers:
             total = total-self.vouchers*cache.get("DefaultVAT")/100
 
+        if total <0:
+            total = 0
         return round(total,2)
         
     @staticmethod
