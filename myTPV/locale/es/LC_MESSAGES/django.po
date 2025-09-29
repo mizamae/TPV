@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-23 15:29+0200\n"
+"POT-Creation-Date: 2025-09-29 08:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,7 +55,7 @@ msgstr "Detalles del comercio"
 msgid "Application details"
 msgstr "Detalles de la aplicacion"
 
-#: .\myTPV\forms.py:114
+#: .\myTPV\forms.py:115
 msgid "Accountancy details"
 msgstr "Detalles de contabilidad"
 
@@ -182,6 +182,14 @@ msgstr "Acumulacion minima"
 msgid "Minimum accumulation amount that can be exchanged"
 msgstr "Minimo valor acumulado para poder descontarlo de la siguiente factura"
 
+#: .\myTPV\models.py:77
+msgid "Enable Google Drive Backup"
+msgstr ""
+
+#: .\myTPV\models.py:77
+msgid "Enable the automatic backup of the database into a Google Drive Account"
+msgstr ""
+
 #: .\myTPV\views.py:32
 msgid " customers"
 msgstr " clientes"
@@ -202,7 +210,7 @@ msgstr " facturas"
 msgid "View report"
 msgstr "Ver informe"
 
-#: .\myTPV\views.py:78
+#: .\myTPV\views.py:81
 msgid "Site settings"
 msgstr "Configuracion"
 

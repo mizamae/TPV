@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-03 10:55+0200\n"
+"POT-Creation-Date: 2025-09-29 08:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -63,7 +63,7 @@ msgstr "Cliente"
 msgid "Surname"
 msgstr "Apellido"
 
-#: .\UsersAPP\models.py:39 .\UsersAPP\models.py:130
+#: .\UsersAPP\models.py:39 .\UsersAPP\models.py:131
 msgid "Email address"
 msgstr "Direccion de email"
 
@@ -72,120 +72,124 @@ msgid "Phone number"
 msgstr "Numero de telefono"
 
 #: .\UsersAPP\models.py:41
+msgid "Zip code"
+msgstr "Codigo postal"
+
+#: .\UsersAPP\models.py:42
 msgid "Tax number"
 msgstr "DNI/CIF"
 
-#: .\UsersAPP\models.py:43
+#: .\UsersAPP\models.py:44
 msgid "Electronic receipt"
 msgstr "Recibo electronico"
 
-#: .\UsersAPP\models.py:45
+#: .\UsersAPP\models.py:46
 msgid "Desires to receive the receipts electronically"
 msgstr "Desea recibir el recibo de forma electronica"
 
-#: .\UsersAPP\models.py:48
+#: .\UsersAPP\models.py:49
 msgid "Accumulated credit"
 msgstr "Credito acumulado"
 
-#: .\UsersAPP\models.py:48
+#: .\UsersAPP\models.py:49
 msgid "Currently accumulated credit"
 msgstr "Valor del credito acumulado actualmente"
 
-#: .\UsersAPP\models.py:54
+#: .\UsersAPP\models.py:55
 msgid "An email is required if electronic receipt is used"
 msgstr "Un email es necesario si se desea el recibo electronico"
 
-#: .\UsersAPP\models.py:62
+#: .\UsersAPP\models.py:63
 msgid "Customer "
 msgstr "Cliente"
 
-#: .\UsersAPP\models.py:114
+#: .\UsersAPP\models.py:115
 msgid "User"
 msgstr "Empleado"
 
-#: .\UsersAPP\models.py:115
+#: .\UsersAPP\models.py:116
 msgid "Users"
 msgstr "Empleados"
 
-#: .\UsersAPP\models.py:121
+#: .\UsersAPP\models.py:122
 msgid "Cashier"
 msgstr "Cajero"
 
-#: .\UsersAPP\models.py:122
+#: .\UsersAPP\models.py:123
 msgid "Manager"
 msgstr ""
 
-#: .\UsersAPP\models.py:125 .\UsersAPP\models.py:197
+#: .\UsersAPP\models.py:126 .\UsersAPP\models.py:198
 msgid "Type"
 msgstr "Tipo"
 
-#: .\UsersAPP\models.py:128
+#: .\UsersAPP\models.py:129
 msgid "First name"
 msgstr "Nombre"
 
-#: .\UsersAPP\models.py:129
+#: .\UsersAPP\models.py:130
 msgid "Last name"
 msgstr "Apellido"
 
-#: .\UsersAPP\models.py:132
+#: .\UsersAPP\models.py:133
 msgid "staff status"
 msgstr "Es staff"
 
-#: .\UsersAPP\models.py:134
+#: .\UsersAPP\models.py:135
 msgid "Designates whether the user can log into this admin site."
 msgstr "Indica si el usuario puede acceder a la zona administrativa."
 
-#: .\UsersAPP\models.py:137
+#: .\UsersAPP\models.py:138
 msgid "active"
 msgstr "activo"
 
-#: .\UsersAPP\models.py:140
+#: .\UsersAPP\models.py:141
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
-msgstr ""
+msgstr "Indica si el usuario esta activado. Desmarca esto en lugar de eliminar el usuario."
 
-#: .\UsersAPP\models.py:145
+#: .\UsersAPP\models.py:146
 msgid "superuser"
-msgstr ""
+msgstr "superusuario"
 
-#: .\UsersAPP\models.py:148
+#: .\UsersAPP\models.py:149
 msgid "Designates whether this user is a superuser. "
-msgstr ""
+msgstr "Indica si el usuario es un superusuario"
 
-#: .\UsersAPP\models.py:151
+#: .\UsersAPP\models.py:152
 msgid "date joined"
 msgstr "fecha de registro"
 
-#: .\UsersAPP\models.py:160
+#: .\UsersAPP\models.py:161
 msgid "Can view reports"
 msgstr "Puede ver informes"
 
-#: .\UsersAPP\models.py:161
+#: .\UsersAPP\models.py:162
 msgid "Can access historic bills"
 msgstr "Puede acceder a los historicos"
 
-#: .\UsersAPP\models.py:162
+#: .\UsersAPP\models.py:163
 msgid "Can manually modify stock values"
 msgstr "Puede modificar los niveles de stock"
 
-#: .\UsersAPP\models.py:163
+#: .\UsersAPP\models.py:164
 msgid "Can manually modify prices"
 msgstr "Puede modificar los precios"
 
-#: .\UsersAPP\models.py:164
+#: .\UsersAPP\models.py:165
 msgid "Can create a new customer"
 msgstr "Puede crear nuevo cliente"
 
-#: .\UsersAPP\models.py:165
+#: .\UsersAPP\models.py:166
 msgid "Can create a new bill"
 msgstr "Puede crear nueva factura"
 
-#: .\UsersAPP\models.py:176 .\UsersAPP\models.py:178
+#: .\UsersAPP\models.py:177 .\UsersAPP\models.py:179
 msgid "Missing name of the user"
 msgstr "Falta el nombre del usuario"
 
-#: .\UsersAPP\models.py:183
+#: .\UsersAPP\models.py:184
 msgid "Profiles"
 msgstr "Perfiles"
 

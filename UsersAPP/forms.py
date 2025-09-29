@@ -116,6 +116,7 @@ class customerForm(forms.ModelForm):
                                     Field('last_name',type=''),
                                     Field('email',type=''),
                                     Field('phone',type=''),
+                                    Field('zip',type=''),
                                     Field('cif',type=''),
                                     Field('saves_paper',type=''),
                                     Field('profile',type=''),

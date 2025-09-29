@@ -38,6 +38,7 @@ class Customer(models.Model):
     last_name = models.CharField(_("Surname"), max_length=150, blank=True)
     email = models.EmailField(_("Email address"), blank=True, null=True)
     phone = models.CharField(_("Phone number"),max_length=15, blank=True)
+    zip = models.CharField(_("Zip code"),max_length=5, blank=True)
     cif = models.CharField(_("Tax number"),max_length=15, unique=True)
     saves_paper = models.BooleanField(
         _("Electronic receipt"),
@@ -60,7 +61,7 @@ class Customer(models.Model):
             value= self.email
         else:
             value= _("Customer ") + str(self.id)
-        
+            
         if self.canExchangeCredit:
             value +=' (' + str(round(self.credit,2))+"€)"
         return value
