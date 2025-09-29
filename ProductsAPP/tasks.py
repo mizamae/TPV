@@ -20,6 +20,20 @@ __sql_createTableStatement__ = """CREATE TABLE IF NOT EXISTS jobs (
 __sql_insertJob__ = ''' INSERT INTO jobs(url,data)
                         VALUES(?,?) '''
 
+@shared_task(bind=False,name='myTPV_DBBackup2GDrive')
+def DBBackup2GDrive():
+     import datetime
+     from utils.googleDrive import GoogleDriveHandler
+     GDrive = GoogleDriveHandler()
+     logger.info("GDrive is authenticated: " + str(GDrive.isAuthenticated))
+     if GDrive.isAuthenticated:
+          folderID = GDrive.FolderExists(folderName="TinyTPV",parentID=None)
+          if not folderID:
+               folderID = GDrive.createFolder(folderName="TinyTPV")
+               logger.info("GDrive New folder created with ID: " + str(folderID))
+          GDrive.uploadFile(filePath=settings.DATABASES['default']['NAME'],folderID=folderID,fileNameOnDrive=str(datetime.date.today())+'_db.sqlite3')
+          GDrive.cleanDriveFolder(folderId=folderID,maxNumArchives=3)
+
 @shared_task(bind=False,name='ProductsAPP_resizeImages')
 def resizeImages():
     from PIL import Image

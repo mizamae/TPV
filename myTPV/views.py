@@ -70,6 +70,9 @@ def siteSettings(request):
     if request.method == "POST":
         form=siteSettingsForm(request.POST)
         if form.is_valid():
+            if 'GDRIVE_BACKUP' in form.changed_data:
+                if form.instance.GDRIVE_BACKUP:
+                    SiteSettings.activateGDriveBackup()
             form.save()
     else:
         form=siteSettingsForm(instance = SiteSettings.load())

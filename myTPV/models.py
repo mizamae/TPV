@@ -74,6 +74,9 @@ class SiteSettings(SingletonModel):
     MIN_ACCUM = models.FloatField(verbose_name=_("Minimum accumulation"),help_text=_("Minimum accumulation amount that can be exchanged"),
                                      default=0.0)
 
+    GDRIVE_BACKUP = models.BooleanField(verbose_name=_("Enable Google Drive Backup"),help_text=_("Enable the automatic backup of the database into a Google Drive Account"),
+                                     default=False)
+    
     @classmethod
     def runOnInit(cls):
         connected = cls.checkInternetConnection()
@@ -127,3 +130,8 @@ class SiteSettings(SingletonModel):
         except socket.error:
             return None
         return s.getsockname()[0]
+    
+    @staticmethod
+    def activateGDriveBackup():
+        from utils.googleDrive import GoogleDriveHandler
+        GoogleDriveHandler()

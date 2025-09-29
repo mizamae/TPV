@@ -50,13 +50,14 @@ def config_loggers(*args, **kwargs):
 def hourlyTasks(arg):
     import logging
     logger = logging.getLogger("celery")
-    logger.info(arg)
+    pass
 
 @app.task(name='main Daily task')
 def dailyTasks():
     import logging
     logger = logging.getLogger("celery")
     logger.info("Enters daily-task")
+    
 
 @app.task(name='main Yearly task')
 def yearlyTasks():

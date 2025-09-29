@@ -34,8 +34,10 @@ GIT_PATH = BASE_DIR
 import platform
 if platform.system() == 'Linux' or platform.system() == 'Darwin':
     PYTHON_PATH = join(BASE_DIR,  'env','bin','python3')
+    CELERY_PATH = join(BASE_DIR,  'env','bin','celery')
 else:
     PYTHON_PATH = join(BASE_DIR,  '.venv','Scripts','python')
+    CELERY_PATH = join(BASE_DIR,  '.venv','Scripts','celery')
 
 MEDIA_ROOT = join(BASE_DIR,  'media')
 MEDIA_URL = '/media/' # Public URL at the browser

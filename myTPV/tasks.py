@@ -6,8 +6,11 @@ from django.conf import settings
 import re    
 from sys import stdout as sys_stdout
 from subprocess import Popen, PIPE
+import datetime
 
-@shared_task(bind=False,name='mainAPP_checkRepository')
+
+
+@shared_task(bind=False,name='myTPV_checkRepository')
 def checkRepository(force=False):
      from .models import SiteSettings
      SETTINGS = SiteSettings.load()

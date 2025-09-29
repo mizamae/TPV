@@ -109,7 +109,8 @@ class siteSettingsForm(forms.ModelForm):
                                         'VERSION_AUTO_UPDATE',
                                         'VERSION_CODE',
                                         'LAN_IP',
-                                        AppendedText('SEC2LOGOUT', 's', active=True)
+                                        AppendedText('SEC2LOGOUT', 's', active=True),
+                                        'GDRIVE_BACKUP'
                                     ),
                                     Fieldset(_("Accountancy details"),
                                         AppendedText('VAT', '%', active=True),
