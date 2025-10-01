@@ -37,7 +37,21 @@ class VATValue(models.Model):
     def __str__(self):
         return self.name + " ("+str(self.pc_value)+"%)"
 
-class ModelWithImage:
+class ModelWithImage(models.Model):
+
+    class Meta:
+        abstract = True
+
+    picture = models.ImageField(_('Image'),null=True,blank=True,storage=IMAGES_FILESYSTEM)
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.cached_picture_path = self.picture.path if self.picture else None
+
+    def save(self, *args, **kwargs):
+        if self.picture and self.cached_picture_path != self.picture.path:
+            self.compress_image(source_field='picture', target_field='picture', size=200)
+        super().save(*args, **kwargs)
 
     # Method for image compression
     def compress_image(self, source_field, target_field, size):
@@ -84,26 +98,25 @@ class ModelWithImage:
         # Set the target_field with the compressed image path relative to MEDIA_ROOT
         setattr(self, target_field, os.path.relpath(compressed_img_path, settings.MEDIA_ROOT))
 
-class ProductFamily(models.Model,ModelWithImage):
+class ProductFamily(ModelWithImage):
     class Meta:
         verbose_name = _('Product family')
         verbose_name_plural = _('Product families')
 
-    picture = models.ImageField(_('Image'),null=True,blank=True,storage=IMAGES_FILESYSTEM)
     name = models.CharField(max_length=30, unique=True,verbose_name=_("Name"))
     short_description = models.CharField(_("Brief description"), max_length=300)
     long_description = models.CharField(_("Detailed description"), max_length=1000)
 
     class Meta:
         ordering = ['name']
-   
+    
     def __str__(self) -> str:
         return self.name
     
-    def save(self, *args, **kwargs):
-        if self.picture:
-            self.compress_image(source_field='picture', target_field='picture', size=200)
-        super(ProductFamily, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if self.cached_picture_path != self.picture.path:
+    #         self.compress_image(source_field='picture', target_field='picture', size=200)
+    #     super(ProductFamily, self).save(*args, **kwargs)
 
     def serialize(self,update_fields=None):
         data={}
@@ -122,7 +135,7 @@ class ProductFamily(models.Model,ModelWithImage):
                     encoded_string = base64.b64encode(image_file.read())
 
                 data['image'] = str(encoded_string)[2:] # this is to remove the 'b/ header'
-                _, extension = os.path.splitext(self.picture.name)
+                _, extension = os.path.splitext(self.picture.path)
                 data['image_extension'] = extension
             else:
                 data['image'] = None
@@ -164,13 +177,12 @@ class Manufacturer(models.Model):
     def clean_name(self):
         self.name=self.name.strip().upper()
 
-class Consumible(models.Model,ModelWithImage):
+class Consumible(ModelWithImage):
     class Meta:
         verbose_name = _('Consumable')
         verbose_name_plural = _('Consumables')
         unique_together=(('name','manufacturer'))
         
-    picture = models.ImageField(_('Image'),null=True,blank=True,storage=IMAGES_FILESYSTEM)
     name = models.CharField(max_length=150, verbose_name=_("Name"))
 
     barcode = models.CharField(max_length=150, unique=True,verbose_name=_("Barcode"),blank=True,null=True)
@@ -195,10 +207,10 @@ class Consumible(models.Model,ModelWithImage):
     def __str__(self) -> str:
         return self.name
     
-    def save(self, *args, **kwargs):
-        if self.picture:
-            self.compress_image(source_field='picture', target_field='picture', size=200)
-        super(Consumible, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if 'picture' in kwargs['update_fields']:
+    #         self.compress_image(source_field='picture', target_field='picture', size=200)
+    #     super(Consumible, self).save(*args, **kwargs)
 
     def clean(self):
         from django.core.exceptions import ValidationError  
@@ -291,13 +303,11 @@ def create_Product_onCreate(sender, instance, created, **kwargs):
         CombinationPosition.objects.get_or_create(product=product,quantity=1,ingredient=instance)
     instance.updateCache()
 
-class Product(models.Model,ModelWithImage):
+class Product(ModelWithImage):
     class Meta:
         verbose_name = _('Sellable product')
         verbose_name_plural = _('Sellable products')
 
-
-    picture = models.ImageField(verbose_name=_('Image of the product'),null=True,blank=True,storage=IMAGES_FILESYSTEM)
     barcode = models.CharField(max_length=150, unique=True,verbose_name=_("Barcode"))
     name = models.CharField(max_length=150, verbose_name=_("Name of the product"))
     details = models.TextField(_('Details'),blank=True,null=True)
@@ -319,16 +329,13 @@ class Product(models.Model,ModelWithImage):
     class Meta:
         ordering = ['name']
     
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self.cached_picture_path = self.picture.path if self.picture else None
 
     def save(self, **kwargs):
         self.name=self.name.strip().upper()
         if self.manual_price and self.manual_price <=0:
             self.manual_price=None
-        if self.picture:
-            self.compress_image(source_field='picture', target_field='picture', size=200)
+        # if self.cached_picture_path != self.picture.path:
+        #     self.compress_image(source_field='picture', target_field='picture', size=200)
         return super().save(**kwargs)
     
     def __str__(self) -> str:
@@ -361,7 +368,7 @@ class Product(models.Model,ModelWithImage):
                     encoded_string = base64.b64encode(image_file.read())
 
                 data['image'] = str(encoded_string)[2:] # this is to remove the 'b/ header'
-                _, extension = os.path.splitext(self.picture.name)
+                _, extension = os.path.splitext(self.picture.path)
                 data['image_extension'] = extension
             else:
                 data['image'] = None
