@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-23 15:29+0200\n"
+"POT-Creation-Date: 2025-10-04 16:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -152,8 +152,12 @@ msgid " Exit"
 msgstr " Salir"
 
 #: .\templates\bill_resume.html:239
-msgid " Print"
-msgstr " Imprimir"
+msgid " Print bill"
+msgstr " Imprimir factura"
+
+#: .\templates\bill_resume.html:246
+msgid " Print receipt"
+msgstr " Imprimir ticket"
 
 #: .\templates\historicBills.html:10
 msgid " bills found"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-29 08:34+0200\n"
+"POT-Creation-Date: 2025-10-04 16:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -320,7 +320,7 @@ msgstr "Fecha y hora"
 
 #: .\ProductsAPP\models.py:574
 msgid "Number"
-msgstr ""
+msgstr "Numero"
 
 #: .\ProductsAPP\models.py:576
 msgid "Status"
@@ -483,77 +483,77 @@ msgstr "Informacion"
 msgid "Stock"
 msgstr ""
 
-#: .\ProductsAPP\views.py:27
+#: .\ProductsAPP\views.py:28
 msgid "Cannot communicate with the receipt printer"
 msgstr "No se puede comunicar con la impresora de recibos"
 
-#: .\ProductsAPP\views.py:36 .\ProductsAPP\views.py:252
+#: .\ProductsAPP\views.py:37 .\ProductsAPP\views.py:260
 msgid "Error on stock revision"
 msgstr "Error revisando stock"
 
-#: .\ProductsAPP\views.py:37 .\ProductsAPP\views.py:253
-#: .\ProductsAPP\views.py:288
+#: .\ProductsAPP\views.py:38 .\ProductsAPP\views.py:261
+#: .\ProductsAPP\views.py:296
 msgid "There are no product families created. Need to create at least one"
 msgstr ""
 "No hay ninguna familia de producto creada. Se necesita crear al menos una"
 
-#: .\ProductsAPP\views.py:80
+#: .\ProductsAPP\views.py:81
 msgid "No customer found "
 msgstr "Cliente no encontrado"
 
-#: .\ProductsAPP\views.py:96
+#: .\ProductsAPP\views.py:97
 msgid "The barcode introduced is not registered"
 msgstr "Codigo de barras no registrado"
 
-#: .\ProductsAPP\views.py:148 .\ProductsAPP\views.py:165
+#: .\ProductsAPP\views.py:156 .\ProductsAPP\views.py:173
 msgid "The payment method should be defined"
 msgstr "El metodo de pago debe establecerse antes de cerrar"
 
-#: .\ProductsAPP\views.py:180
+#: .\ProductsAPP\views.py:188
 msgid "The product "
 msgstr "El producto "
 
-#: .\ProductsAPP\views.py:180
+#: .\ProductsAPP\views.py:188
 msgid " has been refunded"
 msgstr " ha sido devuelto"
 
-#: .\ProductsAPP\views.py:182
+#: .\ProductsAPP\views.py:190
 msgid "All the items of the product "
 msgstr "Todas las unidades del producto "
 
-#: .\ProductsAPP\views.py:182
+#: .\ProductsAPP\views.py:190
 msgid " have been refunded"
 msgstr " han sido devueltas"
 
-#: .\ProductsAPP\views.py:199
+#: .\ProductsAPP\views.py:207
 msgid "The barcode introduced is not in the bill"
 msgstr "El codigo de barras introducido no esta en la factura"
 
-#: .\ProductsAPP\views.py:217
+#: .\ProductsAPP\views.py:225
 msgid "The customer's credit has been discounted"
 msgstr "El credito del cliente se ha descontado"
 
-#: .\ProductsAPP\views.py:224
+#: .\ProductsAPP\views.py:232
 msgid "The voucher has been discounted"
 msgstr "El cupon se ha descontado"
 
-#: .\ProductsAPP\views.py:231
+#: .\ProductsAPP\views.py:239
 msgid "The vouchers have been cancelled"
 msgstr "Los cupones se han cancelado"
 
-#: .\ProductsAPP\views.py:270
+#: .\ProductsAPP\views.py:278
 msgid "The stock has been updated"
 msgstr "El stock ha sido actualizado"
 
-#: .\ProductsAPP\views.py:287
+#: .\ProductsAPP\views.py:295
 msgid "Error on prices revision"
 msgstr "Error revisando los precios"
 
-#: .\ProductsAPP\views.py:305
+#: .\ProductsAPP\views.py:313
 msgid "Product prices have been updated"
 msgstr "Los precios de los productos han sido actualizados"
 
-#: .\ProductsAPP\views.py:350
+#: .\ProductsAPP\views.py:358
 msgid "Historic"
 msgstr "Historico"
 

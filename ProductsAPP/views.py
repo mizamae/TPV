@@ -10,6 +10,7 @@ import os
 import json
 from .models import BillAccount, Product, ProductFamily, BillPosition, Consumible, Refund, DiscountVoucher
 from .forms import paymentMethodsForm, StockFormSet, ProductFormSet, barcode2BillForm, billSearchForm
+from .tasks import printBillReceipt
 
 import datetime
 from UsersAPP.forms import findCustomerForm
@@ -135,6 +136,13 @@ def print_bill(request,code):
     os.remove(billData["code"]+".pdf")
     return response
 
+@login_required(login_url="login")
+def print_receipt(request,code):
+    bill=BillAccount.objects.get(code=code)
+    billData = bill.toJSON()
+    printBillReceipt.delay(billData=billData)
+    return redirect('MaterialsAPP_resume_bill',code = bill.code)
+    
 @login_required(login_url="login")
 def close_bill(request,code):
     bill=BillAccount.objects.get(code=code)
