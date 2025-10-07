@@ -59,9 +59,10 @@ class barcode2BillForm(forms.Form):
             help_text = self.fields[field].help_text
             self.fields[field].help_text = None
             if help_text != '':
-                self.fields[field].widget.attrs.update({'class':'form-control','data-toggle':'tooltip' ,'title':help_text, 'data-bs-placement':'right', 'data-bs-container':'body'})
+                self.fields[field].widget.attrs.update({'class':'form-control','data-toggle':'tooltip' ,'title':help_text, 
+                                                        'data-bs-placement':'right', 'data-bs-container':'body',"autocomplete":"off"})
             else:
-                self.fields[field].widget.attrs.update({'class':'form-control'})
+                self.fields[field].widget.attrs.update({'class':'form-control',"autocomplete":"off"})
 
         self.helper.layout = Layout(
                                     Field('barcode',type='',id='id_barcode',placeholder=_('Enter/Scan a barcode')),
