@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-04 16:38+0200\n"
+"POT-Creation-Date: 2025-10-10 11:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -159,19 +159,23 @@ msgstr " Imprimir factura"
 msgid " Print receipt"
 msgstr " Imprimir ticket"
 
-#: .\templates\historicBills.html:10
+#: .\templates\historicBills.html:39
 msgid " bills found"
 msgstr " facturas encontradas"
 
-#: .\templates\historicBills.html:14
+#: .\templates\historicBills.html:43
 msgid "Total amount "
 msgstr "Monto total "
 
-#: .\templates\historicBills.html:20
+#: .\templates\historicBills.html:49
 msgid "Total VAT amount "
 msgstr "Monto de IVA "
 
-#: .\templates\historicBills.html:33
+#: .\templates\historicBills.html:57
+msgid " Download table"
+msgstr " Descargar tabla"
+
+#: .\templates\historicBills.html:75
 msgid "No bills found"
 msgstr "No se han encontrado facturas"
 

@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import gettext as _
 from django.contrib import messages
 from django.conf import settings
-from django.utils.translation import gettext as _
 from django.urls import reverse
 from django.http import HttpResponse
 from django.db.models import Sum, Count
+from django.views.decorators.csrf import csrf_exempt
+
+from io import BytesIO
+
 import os
 import json
 from .models import BillAccount, Product, ProductFamily, BillPosition, Consumible, Refund, DiscountVoucher
@@ -16,6 +20,9 @@ import datetime
 from UsersAPP.forms import findCustomerForm
 from UsersAPP.models import Customer
 from utils.usbUtils import ThermalPrinter
+
+from openpyxl import Workbook
+from openpyxl.styles import Alignment, Font, Protection
 
 
 @login_required(login_url="login")
@@ -349,7 +356,8 @@ def historics_home(request):
                 bill_totals={'total':total,'total_vat':total_vat}
             
             return render(request, 'historicBills.html', {'bills':bills,'number':bills.count(),
-                                                          'totals':bill_totals,'payments':payments,})
+                                                          'totals':bill_totals,'payments':payments,
+                                                          'query_info':{'code':info['code'],'from':info['from'].isoformat(),'to':info['to'].isoformat()}})
             
     else:
         form=billSearchForm()
@@ -357,3 +365,49 @@ def historics_home(request):
     return render(request, 'form.html', {'form': form,
                                         'title':_("Historic"),
                                         'back_to':'home',})
+
+@csrf_exempt
+def historics_download(request):
+    if request.method == "POST":
+        info = json.loads(request.body.decode())
+        if info['code']:
+            bills = BillAccount.objects.filter(code=info['code'])
+        else:
+            bills = BillAccount.objects.filter(createdOn__gt=info['from'],
+                                                createdOn__lt=info['to'])
+        
+        excelfile = BytesIO()
+        workbook = Workbook()
+        workbook.remove(workbook.active)
+        worksheet = workbook.create_sheet(title='Bills', index=1)
+        columns = ['Code', 'Date', 'Total', 'VAT', 'Customer', 'Payment']
+        row_num = 1
+        # Assign the titles for each cell of the header
+        for col_num, column_title in enumerate(columns, 1):
+            cell = worksheet.cell(row=row_num, column=col_num)
+            cell.value = column_title
+            cell.alignment = Alignment(horizontal='center', vertical='center', wrap_text=True)
+            cell.font = Font(bold=True)
+        # Iterate through all coins
+        for bill in bills:
+            row_num += 1
+
+            # Define the data for each cell in the row
+            row = [
+                bill.code,
+                bill.createdOn.replace(tzinfo=None),
+                bill.total,
+                bill.getVATAmount(),
+                bill.owner.cif if bill.owner else "",
+                bill.get_paymenttype_display(),
+            ]
+
+            # Assign the data for each cell of the row
+            for col_num, cell_value in enumerate(row, 1):
+                cell = worksheet.cell(row=row_num, column=col_num)
+                cell.value = cell_value
+        workbook.save(excelfile)
+        response = HttpResponse(excelfile.getvalue(),content_type='application/force-download')
+        filename = "facturas_"+str(info['from']).replace("-","_")+"_"+str(info['to']).replace("-","_")+".xlsx"
+        response['Content-Disposition'] = 'attachment; filename='+filename
+        return response
