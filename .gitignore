@@ -7,3 +7,5 @@ ProductsAPP/models.py
 myTPV/local.env
 */migrations/*
 */__pycache__/*
+credentials.json
+token.json
