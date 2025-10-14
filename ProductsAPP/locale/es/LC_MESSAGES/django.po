@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-10 11:55+0200\n"
+"POT-Creation-Date: 2025-10-14 15:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -208,7 +208,7 @@ msgid "Name of the product"
 msgstr "Nombre del producto"
 
 #: .\ProductsAPP\models.py:313
-#: .\ProductsAPP\templates\ProductsAPP\_product_card.html:16
+#: .\ProductsAPP\templates\ProductsAPP\_product_card.html:24
 msgid "Details"
 msgstr "Detalles"
 
@@ -230,14 +230,14 @@ msgstr "Factor de acumulacion de credito"
 
 #: .\ProductsAPP\models.py:326
 msgid "Factor of the price accumulated into customer's credit"
-msgstr ""
+msgstr "Fraccion del precio acumulado en forma de credito de cliente"
 
 #: .\ProductsAPP\models.py:395
 msgid "Cost"
 msgstr "Coste"
 
 #: .\ProductsAPP\models.py:403
-#: .\ProductsAPP\templates\ProductsAPP\_product_card.html:24
+#: .\ProductsAPP\templates\ProductsAPP\_product_card.html:32
 msgid "Sell price"
 msgstr "Precio de venta"
 
@@ -281,8 +281,8 @@ msgstr "Combinacion de consumibles"
 msgid "Combinations of consumables"
 msgstr "Combinaciones de consumibles"
 
-#: .\ProductsAPP\models.py:545 .\ProductsAPP\models.py:762
-#: .\ProductsAPP\models.py:878
+#: .\ProductsAPP\models.py:545 .\ProductsAPP\models.py:763
+#: .\ProductsAPP\models.py:879
 msgid "Quantity"
 msgstr "Cantidad"
 
@@ -322,7 +322,7 @@ msgstr "Numero"
 msgid "Status"
 msgstr "Estado"
 
-#: .\ProductsAPP\models.py:587 .\ProductsAPP\models.py:673
+#: .\ProductsAPP\models.py:587 .\ProductsAPP\models.py:674
 msgid "User discount"
 msgstr "Descuento de usuario"
 
@@ -354,44 +354,44 @@ msgstr "Pago"
 msgid " of customer "
 msgstr " del cliente "
 
-#: .\ProductsAPP\models.py:676
+#: .\ProductsAPP\models.py:677
 msgid "User credits"
 msgstr "Creditos de usuario"
 
-#: .\ProductsAPP\models.py:679
+#: .\ProductsAPP\models.py:680
 msgid "Voucher discount"
 msgstr "Vales descuento"
 
-#: .\ProductsAPP\models.py:702
+#: .\ProductsAPP\models.py:703
 msgid "Total including VAT and discounts"
 msgstr "Total incluyendo IVA y descuentos"
 
-#: .\ProductsAPP\models.py:723 .\ProductsAPP\models.py:766
+#: .\ProductsAPP\models.py:724 .\ProductsAPP\models.py:767
 #: .\ProductsAPP\templates\ProductsAPP\_list.html:11
 msgid "VAT amount"
 msgstr "Importe IVA"
 
-#: .\ProductsAPP\models.py:760
+#: .\ProductsAPP\models.py:761
 msgid "Position"
 msgstr "Posicion"
 
-#: .\ProductsAPP\models.py:765
+#: .\ProductsAPP\models.py:766
 msgid "Subtotal"
 msgstr ""
 
-#: .\ProductsAPP\models.py:765
+#: .\ProductsAPP\models.py:766
 msgid "Selling price at the moment of the operation"
 msgstr "Precio de venta en el momento de la transaccion"
 
-#: .\ProductsAPP\models.py:766
+#: .\ProductsAPP\models.py:767
 msgid "VAT amount at the moment of the operation"
 msgstr "Monto de IVA en el momento de la transaccion"
 
-#: .\ProductsAPP\models.py:770
+#: .\ProductsAPP\models.py:771
 msgid "Credit accumulated"
 msgstr "Credito acumulado"
 
-#: .\ProductsAPP\models.py:770
+#: .\ProductsAPP\models.py:771
 msgid "Credit accumulated into the customer's account"
 msgstr "Credito acumulado en la cuenta de usuario"
 
@@ -419,19 +419,19 @@ msgstr "Por dia de la semana"
 msgid "Per hour"
 msgstr "Por hora"
 
-#: .\ProductsAPP\tasks.py:287
+#: .\ProductsAPP\tasks.py:302
 msgid "[MONTHLY_RESULTS] Results of the month "
 msgstr "[RESULTADOS MENSUALES] Rsultados del mes "
 
-#: .\ProductsAPP\tasks.py:315
+#: .\ProductsAPP\tasks.py:330
 msgid "The following consumables are below its safety stock level:"
 msgstr "Los siguientes consumibles estan por debajo de su nivel de seguridad:"
 
-#: .\ProductsAPP\tasks.py:326
+#: .\ProductsAPP\tasks.py:341
 msgid "\t- "
 msgstr ""
 
-#: .\ProductsAPP\tasks.py:333
+#: .\ProductsAPP\tasks.py:348
 msgid "[STOCK_WARNING] List of the products with stock below its minimum"
 msgstr "[AVISO_STOCK] Listado de productos por debajo de su stock de seguridad"
 
@@ -475,81 +475,81 @@ msgstr "Posiciones"
 msgid "Information"
 msgstr "Informacion"
 
-#: .\ProductsAPP\templates\ProductsAPP\_product_card.html:32
+#: .\ProductsAPP\templates\ProductsAPP\_product_card.html:40
 msgid "Stock"
 msgstr ""
 
-#: .\ProductsAPP\views.py:35
+#: .\ProductsAPP\views.py:36
 msgid "Cannot communicate with the receipt printer"
 msgstr "No se puede comunicar con la impresora de recibos"
 
-#: .\ProductsAPP\views.py:44 .\ProductsAPP\views.py:267
+#: .\ProductsAPP\views.py:45 .\ProductsAPP\views.py:268
 msgid "Error on stock revision"
 msgstr "Error revisando stock"
 
-#: .\ProductsAPP\views.py:45 .\ProductsAPP\views.py:268
-#: .\ProductsAPP\views.py:303
+#: .\ProductsAPP\views.py:46 .\ProductsAPP\views.py:269
+#: .\ProductsAPP\views.py:304
 msgid "There are no product families created. Need to create at least one"
 msgstr ""
 "No hay ninguna familia de producto creada. Se necesita crear al menos una"
 
-#: .\ProductsAPP\views.py:88
+#: .\ProductsAPP\views.py:89
 msgid "No customer found "
 msgstr "Cliente no encontrado"
 
-#: .\ProductsAPP\views.py:104
+#: .\ProductsAPP\views.py:105
 msgid "The barcode introduced is not registered"
 msgstr "Codigo de barras no registrado"
 
-#: .\ProductsAPP\views.py:163 .\ProductsAPP\views.py:180
+#: .\ProductsAPP\views.py:164 .\ProductsAPP\views.py:181
 msgid "The payment method should be defined"
 msgstr "El metodo de pago debe establecerse antes de cerrar"
 
-#: .\ProductsAPP\views.py:195
+#: .\ProductsAPP\views.py:196
 msgid "The product "
 msgstr "El producto "
 
-#: .\ProductsAPP\views.py:195
+#: .\ProductsAPP\views.py:196
 msgid " has been refunded"
 msgstr " ha sido devuelto"
 
-#: .\ProductsAPP\views.py:197
+#: .\ProductsAPP\views.py:198
 msgid "All the items of the product "
 msgstr "Todas las unidades del producto "
 
-#: .\ProductsAPP\views.py:197
+#: .\ProductsAPP\views.py:198
 msgid " have been refunded"
 msgstr " han sido devueltas"
 
-#: .\ProductsAPP\views.py:214
+#: .\ProductsAPP\views.py:215
 msgid "The barcode introduced is not in the bill"
 msgstr "El codigo de barras introducido no esta en la factura"
 
-#: .\ProductsAPP\views.py:232
+#: .\ProductsAPP\views.py:233
 msgid "The customer's credit has been discounted"
 msgstr "El credito del cliente se ha descontado"
 
-#: .\ProductsAPP\views.py:239
+#: .\ProductsAPP\views.py:240
 msgid "The voucher has been discounted"
 msgstr "El cupon se ha descontado"
 
-#: .\ProductsAPP\views.py:246
+#: .\ProductsAPP\views.py:247
 msgid "The vouchers have been cancelled"
 msgstr "Los cupones se han cancelado"
 
-#: .\ProductsAPP\views.py:285
+#: .\ProductsAPP\views.py:286
 msgid "The stock has been updated"
 msgstr "El stock ha sido actualizado"
 
-#: .\ProductsAPP\views.py:302
+#: .\ProductsAPP\views.py:303
 msgid "Error on prices revision"
 msgstr "Error revisando los precios"
 
-#: .\ProductsAPP\views.py:320
+#: .\ProductsAPP\views.py:321
 msgid "Product prices have been updated"
 msgstr "Los precios de los productos han sido actualizados"
 
-#: .\ProductsAPP\views.py:366
+#: .\ProductsAPP\views.py:367
 msgid "Historic"
 msgstr "Historico"
 

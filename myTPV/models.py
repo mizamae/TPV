@@ -77,6 +77,9 @@ class SiteSettings(SingletonModel):
     GDRIVE_BACKUP = models.BooleanField(verbose_name=_("Enable Google Drive Backup"),help_text=_("Enable the automatic backup of the database into a Google Drive Account"),
                                      default=False)
     
+    SHOW_PRODUCT_PICTURES = models.BooleanField(verbose_name=_("Show product pictures"),help_text=_("Shows the product cards with pictures while creating a bill"),
+                                     default=False)
+    
     @classmethod
     def runOnInit(cls):
         connected = cls.checkInternetConnection()

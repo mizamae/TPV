@@ -7,9 +7,17 @@
     </div>
 
     <a href="{% url 'MaterialsAPP_append_to_bill' bill.code product.id %}" title = "{{ product.name }}">
-    <img src={% if product.picture %}"{{ product.picture.url }}"{% endif %} class="img-fluid rounded" role="button" 
+        {% if siteSettings.SHOW_PRODUCT_PICTURES %}
+            <img src={% if product.picture %}"{{ product.picture.url }}"{% endif %} class="img-fluid rounded" role="button" 
             alt="{{ product.name }}" style="height:12rem ;" 
             style="cursor: pointer;">
+        {% else %}
+            <div style="height:50px;background-color:lightblue;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                </svg>
+            </div>
+        {% endif %}
     </a>
 
     <div class="card-body bg-light">

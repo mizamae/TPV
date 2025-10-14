@@ -5,6 +5,7 @@ from django.utils.translation import gettext as _
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.conf import settings
+from django.template.response import TemplateResponse
 import datetime
 
 from django.db.models import Q
@@ -34,7 +35,7 @@ def home(request):
     badge["prices"]=str(Product.objects.count()) + _(" products")
     badge["reports"]=""
     badge["historic"]=str(BillAccount.objects.count()) + _(" bills")
-    return render(request, 'home.html',{'todays_bills':todays_bills,
+    return TemplateResponse(request, 'home.html',{'todays_bills':todays_bills,
                                         'todays_income':round(todays_income,2),
                                         'badge':badge,
                                         'payments':payments,
@@ -62,7 +63,7 @@ def reports_home(request):
     else:
         form=reportForm()
 
-    return render(request, 'form.html', {'form': form,
+    return TemplateResponse(request, 'form.html', {'form': form,
                                         'title':_("View report"),
                                         'back_to':'home',})
 @login_required
@@ -77,6 +78,6 @@ def siteSettings(request):
     else:
         form=siteSettingsForm(instance = SiteSettings.load())
 
-    return render(request, 'form.html', {'form': form,
+    return TemplateResponse(request, 'form.html', {'form': form,
                                         'title':_("Site settings"),
                                         'back_to':'home',})

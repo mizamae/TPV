@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-29 08:35+0200\n"
+"POT-Creation-Date: 2025-10-14 15:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -147,7 +147,9 @@ msgstr "activo"
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
-msgstr "Indica si el usuario esta activado. Desmarca esto en lugar de eliminar el usuario."
+msgstr ""
+"Indica si el usuario esta activado. Desmarca esto en lugar de eliminar el "
+"usuario."
 
 #: .\UsersAPP\models.py:146
 msgid "superuser"
@@ -193,10 +195,10 @@ msgstr "Falta el nombre del usuario"
 msgid "Profiles"
 msgstr "Perfiles"
 
-#: .\UsersAPP\views.py:43
+#: .\UsersAPP\views.py:44
 msgid "New customer created"
 msgstr "Nuevo cliente creado"
 
-#: .\UsersAPP\views.py:49
+#: .\UsersAPP\views.py:50
 msgid "Create new customer"
 msgstr "Crear nuevo cliente"

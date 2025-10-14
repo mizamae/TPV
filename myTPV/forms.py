@@ -106,6 +106,7 @@ class siteSettingsForm(forms.ModelForm):
                                         'PUBLISH_TO_WEB'
                                     ),
                                     Fieldset(_("Application details"),
+                                        'SHOW_PRODUCT_PICTURES',
                                         'VERSION_AUTO_UPDATE',
                                         'VERSION_CODE',
                                         'LAN_IP',

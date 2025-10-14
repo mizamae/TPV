@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-29 08:34+0200\n"
+"POT-Creation-Date: 2025-10-14 15:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: .\myTPV\forms.py:18 .\myTPV\views.py:55
+#: .\myTPV\forms.py:18 .\myTPV\views.py:56
 msgid "Sales report"
 msgstr "Informe de ventas"
 
-#: .\myTPV\forms.py:19 .\myTPV\views.py:59
+#: .\myTPV\forms.py:19 .\myTPV\views.py:60
 msgid "Products report"
 msgstr "Informe de productos"
 
@@ -55,7 +55,7 @@ msgstr "Detalles del comercio"
 msgid "Application details"
 msgstr "Detalles de la aplicacion"
 
-#: .\myTPV\forms.py:115
+#: .\myTPV\forms.py:116
 msgid "Accountancy details"
 msgstr "Detalles de contabilidad"
 
@@ -190,27 +190,35 @@ msgstr ""
 msgid "Enable the automatic backup of the database into a Google Drive Account"
 msgstr ""
 
-#: .\myTPV\views.py:32
+#: .\myTPV\models.py:80
+msgid "Show product pictures"
+msgstr "Mostrar imagenes de los productos"
+
+#: .\myTPV\models.py:80
+msgid "Shows the product cards with pictures while creating a bill"
+msgstr "Muestra las imagenes de los productos en las tarjetas mientras se crea una cuenta"
+
+#: .\myTPV\views.py:33
 msgid " customers"
 msgstr " clientes"
 
-#: .\myTPV\views.py:33
+#: .\myTPV\views.py:34
 msgid " references"
 msgstr " referencias"
 
-#: .\myTPV\views.py:34
+#: .\myTPV\views.py:35
 msgid " products"
 msgstr " productos"
 
-#: .\myTPV\views.py:36
+#: .\myTPV\views.py:37
 msgid " bills"
 msgstr " facturas"
 
-#: .\myTPV\views.py:66
+#: .\myTPV\views.py:67
 msgid "View report"
 msgstr "Ver informe"
 
-#: .\myTPV\views.py:81
+#: .\myTPV\views.py:82
 msgid "Site settings"
 msgstr "Configuracion"
 

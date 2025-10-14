@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext as _
+from django.template.response import TemplateResponse
 
 # Create your views here.
 from .models import User
@@ -25,7 +26,7 @@ def login_view(request):
         else:
             messages.error(request, "Identifier does not match...")
 
-    return render(request, "registration/login.html")
+    return TemplateResponse(request, "registration/login.html")
 
 def logout_view(request):
     if request.method == "POST":
@@ -45,6 +46,6 @@ def createCustomer(request):
         
     else:
         form = customerForm()
-    return render(request, 'form.html', {'form': form,
+    return TemplateResponse(request, 'form.html', {'form': form,
                                         'title':_("Create new customer"),
                                         'back_to':'home',})

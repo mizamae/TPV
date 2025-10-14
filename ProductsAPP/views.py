@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.http import HttpResponse
 from django.db.models import Sum, Count
 from django.views.decorators.csrf import csrf_exempt
+from django.template.response import TemplateResponse
 
 from io import BytesIO
 
@@ -41,7 +42,7 @@ def edit_bill(request,code,family_id=None,billPos=None):
     bill=BillAccount.objects.get(code=code)
 
     if not ProductFamily.objects.first():
-        return render(request, 'errorPage.html',{'heading':_('Error on stock revision'),
+        return TemplateResponse(request, 'errorPage.html',{'heading':_('Error on stock revision'),
                                                  'info':_('There are no product families created. Need to create at least one')
                                         })
     
@@ -62,7 +63,7 @@ def edit_bill(request,code,family_id=None,billPos=None):
         billPos=BillPosition.objects.get(id=int(billPos))
 
 
-    return render(request, 'bill.html',{'bill' : bill,
+    return TemplateResponse(request, 'bill.html',{'bill' : bill,
                                         #'categories':non_emptyFamilies,
                                         'productfamilies_tabs':productfamilies_tabs,
                                         'rows':rows,
@@ -125,7 +126,7 @@ def reduce_bill_position(request,id):
 def resume_bill(request,code):
     bill=BillAccount.objects.get(code=code)
     paymentForm = paymentMethodsForm(instance=bill)
-    return render(request, 'bill_resume.html',{'bill' : bill,'paymentForm':paymentForm,'vouchers':DiscountVoucher.objects.all()})
+    return TemplateResponse(request, 'bill_resume.html',{'bill' : bill,'paymentForm':paymentForm,'vouchers':DiscountVoucher.objects.all()})
 
 @login_required(login_url="login")
 def print_bill(request,code):
@@ -180,7 +181,7 @@ def refund_bill(request,code):
                 messages.error(request, _("The payment method should be defined"))
                 return redirect('MaterialsAPP_resume_bill',code = bill.code)
     else:
-        return render(request, 'bill_refund.html',{'bill' : bill,
+        return TemplateResponse(request, 'bill_refund.html',{'bill' : bill,
                                         "barcode2BillForm":barcode2BillForm(),
                                         })
 
@@ -264,7 +265,7 @@ def check_stock(request,family_id=None):
     user = request.user
     
     if not ProductFamily.objects.first():
-        return render(request, 'errorPage.html',{'heading':_('Error on stock revision'),
+        return TemplateResponse(request, 'errorPage.html',{'heading':_('Error on stock revision'),
                                                  'info':_('There are no product families created. Need to create at least one')
                                         })
     
@@ -290,7 +291,7 @@ def check_stock(request,family_id=None):
 
     stock_formset = StockFormSet(queryset=queryset)
     stock_value = Consumible.get_stock_value()
-    return render(request, 'stock.html', {'productfamilies_tabs':productfamilies_tabs,
+    return TemplateResponse(request, 'stock.html', {'productfamilies_tabs':productfamilies_tabs,
                                             'stock_formset': stock_formset,
                                           'stock_value':stock_value})
 
@@ -299,7 +300,7 @@ def check_products(request,family_id=None):
     user = request.user
 
     if not ProductFamily.objects.first():
-        return render(request, 'errorPage.html',{'heading':_('Error on prices revision'),
+        return TemplateResponse(request, 'errorPage.html',{'heading':_('Error on prices revision'),
                                                  'info':_('There are no product families created. Need to create at least one')
                                         })
     
@@ -324,7 +325,7 @@ def check_products(request,family_id=None):
                 messages.error(request, error)
 
     product_formset = ProductFormSet(queryset=queryset)
-    return render(request, 'products.html', {'productfamilies_tabs':productfamilies_tabs,
+    return TemplateResponse(request, 'products.html', {'productfamilies_tabs':productfamilies_tabs,
                                             'product_formset': product_formset,})
 
 @login_required(login_url="login")
@@ -355,14 +356,14 @@ def historics_home(request):
                 #bill_totals = bills.aggregate(total=Sum('total'),total_vat=Sum('vat_amount'))
                 bill_totals={'total':total,'total_vat':total_vat}
             
-            return render(request, 'historicBills.html', {'bills':bills,'number':bills.count(),
+            return TemplateResponse(request, 'historicBills.html', {'bills':bills,'number':bills.count(),
                                                           'totals':bill_totals,'payments':payments,
                                                           'query_info':{'code':info['code'],'from':info['from'].isoformat(),'to':info['to'].isoformat()}})
             
     else:
         form=billSearchForm()
 
-    return render(request, 'form.html', {'form': form,
+    return TemplateResponse(request, 'form.html', {'form': form,
                                         'title':_("Historic"),
                                         'back_to':'home',})
 

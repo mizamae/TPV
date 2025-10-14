@@ -134,6 +134,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_plotly_dash.middleware.BaseMiddleware',
     #"debug_toolbar.middleware.DebugToolbarMiddleware",
+    'myTPV.middleware.SettingsInjectionMiddleware',
 ]
 
 ROOT_URLCONF = 'myTPV.urls'
