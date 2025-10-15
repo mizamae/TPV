@@ -608,6 +608,14 @@ class BillAccount(models.Model):
             position.set_quantity(quantity=position.quantity+quantity)
         return position
 
+    def setPaymentType(self,value):
+        values = [value[0] for value in BillAccount.PAYMENT_TYPES]
+        if value in values:
+            self.paymenttype = value
+            self.save(update_fields=['paymenttype',])
+        else:
+            return "Invalid parameter for payment type"
+
     def close(self):
         if self.paymenttype is not None:
             # self.total = self.getTotalBeforeVAT()
@@ -667,7 +675,7 @@ class BillAccount(models.Model):
                 quantity = position.quantity
             if quantity>0:
                 value['positions'].append({'quantity': quantity ,'product':str(position.product),
-                                       'vat_amount':position.getVATAmount(),'subtotal':position.getSubtotal(),'reduce_concept':position.reduce_concept})
+                                       'vat_amount':position.getVATAmount(),'subtotal':position.getSubtotal(noRefunds=False),'reduce_concept':position.reduce_concept})
         if self.owner:
             if self.owner.hasDiscount:
                 value['positions'].append({'quantity':1,'product':_("User discount"),
@@ -709,8 +717,8 @@ class BillAccount(models.Model):
         if self.vouchers:
             total = total-self.vouchers
         
-        if total <0:
-            total = 0
+        # if total <0:
+        #     total = 0
         return round(total,2)
     
     @property
@@ -734,8 +742,8 @@ class BillAccount(models.Model):
         if self.vouchers:
             total = total-self.vouchers*cache.get("DefaultVAT")/100
 
-        if total <0:
-            total = 0
+        # if total <0:
+        #     total = 0
         return round(total,2)
         
     @staticmethod
@@ -759,7 +767,7 @@ def restoreStock_onDelete(sender, instance, **kwargs):
 class BillPosition(models.Model):
     position = models.SmallIntegerField(verbose_name=_("Position"),null=True,blank=True,editable = True)
     bill = models.ForeignKey(BillAccount, on_delete=models.CASCADE, related_name='bill_positions')
-    quantity = models.PositiveSmallIntegerField(default=1,verbose_name=_("Quantity"))
+    quantity = models.SmallIntegerField(default=1,verbose_name=_("Quantity"))
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='bill_positions')
     
     subtotal = models.FloatField(verbose_name=_("Subtotal"),help_text=_("Selling price at the moment of the operation"),blank=True,null=True)
@@ -802,7 +810,7 @@ class BillPosition(models.Model):
         self.update(quantity=self.quantity-quantity)
 
     def update(self, quantity):
-        if quantity > 0 :
+        if quantity != 0 :
             if self.product.discount:
                 self.reduce_concept =  "-" + str(self.product.discount)
             else:
@@ -835,7 +843,7 @@ class BillPosition(models.Model):
         SETTINGS=SiteSettings.load()
         if self.bill.owner and SETTINGS.ACCUMULATION:
             if self.product.credit_acc_factor:
-                return round(self.getSubtotal()*self.product.credit_acc_factor,2) 
+                return round(self.getSubtotal(noRefunds=False)*self.product.credit_acc_factor,2) 
         return None
 
     def getVATAmount(self):
@@ -848,7 +856,7 @@ class BillPosition(models.Model):
                 return round(promotion_quantity*self.product.getVATAmount(),2)
             return round(self.quantity*self.product.getVATAmount(),2)
         
-    def getSubtotal(self,noRefunds=False):
+    def getSubtotal(self,noRefunds=True):
         if self.subtotal:
             if noRefunds:
                 refunded=0
@@ -885,6 +893,18 @@ class Refund(models.Model):
     @property
     def subtotal(self,):
         return round(self.quantity*self.bill_pos.subtotal/self.bill_pos.quantity,2)
+
+    @staticmethod
+    def close(bill,user):
+        refunds = Refund.objects.filter(bill_pos__in=bill.bill_positions.all())
+        newBill = BillAccount.create(createdBy=user)
+        if bill.owner:
+            newBill.setOwner(bill.owner)
+        for refund in refunds:
+            newBill.add_bill_position(product=refund.bill_pos.product,quantity=-refund.quantity)
+        newBill.setPaymentType(value=bill.paymenttype)
+        newBill.close() 
+
 
 @receiver(post_save, sender=Refund, dispatch_uid="update_stock_onRefundCreation")
 def update_stock_onRefundCreation(sender, instance, created, **kwargs):

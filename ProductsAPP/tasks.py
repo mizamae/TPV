@@ -63,10 +63,11 @@ def sendBillReceipt(billData):
         bill = PrintedBill(billData=billData,commerceData=SETTINGS.commerceData())
         with open(billData["code"]+".pdf", "wb") as binary_file:
             binary_file.write(bill.pdf)
-        if "gmail" in settings.EMAIL_HOST:
+        if "gmail" in settings.EMAIL_HOST or True:
             from utils.googleGmail import googleGmail_handler
             googleGmail_handler.sendEmail(subject='Invoice test',attachments=[billData["code"]+".pdf",],recipient=billData['customer']['email'],
-                                          html_content='Hello darling')
+                                          html_content='Hello!! This is an exemplary mail')
+            
         os.remove(billData["code"]+".pdf")
         
 @shared_task(bind=False,name='ProductsAPP_printReceipt')

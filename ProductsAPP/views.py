@@ -219,11 +219,12 @@ def remove_barcode_to_bill(request,code):
 def resume_refund(request,code):
     from myTPV.models import SiteSettings
     SETTINGS = SiteSettings.load()
+    bill=BillAccount.objects.get(code=code)
     if SETTINGS.PRINT_RECEIPT_ON_REFUND:
-        bill=BillAccount.objects.get(code=code)
         # here a printReceipt action could be issued
         billData = bill.toJSON()
         printBillReceipt.delay(billData=billData)
+    Refund.close(bill=bill,user=request.user)
     return redirect('home')
     
 @login_required(login_url="login")
