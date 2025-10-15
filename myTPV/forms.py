@@ -107,6 +107,7 @@ class siteSettingsForm(forms.ModelForm):
                                     ),
                                     Fieldset(_("Application details"),
                                         'SHOW_PRODUCT_PICTURES',
+                                        'PRINT_RECEIPT_ON_REFUND',
                                         'VERSION_AUTO_UPDATE',
                                         'VERSION_CODE',
                                         'LAN_IP',

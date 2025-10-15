@@ -79,6 +79,8 @@ class SiteSettings(SingletonModel):
     
     SHOW_PRODUCT_PICTURES = models.BooleanField(verbose_name=_("Show product pictures"),help_text=_("Shows the product cards with pictures while creating a bill"),
                                      default=False)
+    PRINT_RECEIPT_ON_REFUND = models.BooleanField(verbose_name=_("Print a receipt after a refund"),help_text=_("Print a new ticket when a refund is marked as completed"),
+                                     default=False)
     
     @classmethod
     def runOnInit(cls):
