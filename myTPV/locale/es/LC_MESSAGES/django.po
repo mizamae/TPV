@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-14 15:43+0200\n"
+"POT-Creation-Date: 2025-10-15 09:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,7 +55,7 @@ msgstr "Detalles del comercio"
 msgid "Application details"
 msgstr "Detalles de la aplicacion"
 
-#: .\myTPV\forms.py:116
+#: .\myTPV\forms.py:117
 msgid "Accountancy details"
 msgstr "Detalles de contabilidad"
 
@@ -184,11 +184,11 @@ msgstr "Minimo valor acumulado para poder descontarlo de la siguiente factura"
 
 #: .\myTPV\models.py:77
 msgid "Enable Google Drive Backup"
-msgstr ""
+msgstr "Habilita copia de seguridad en Drive"
 
 #: .\myTPV\models.py:77
 msgid "Enable the automatic backup of the database into a Google Drive Account"
-msgstr ""
+msgstr "Habilita el backup automatico de la base de datos en una cuenta de Google Drive"
 
 #: .\myTPV\models.py:80
 msgid "Show product pictures"
@@ -196,7 +196,17 @@ msgstr "Mostrar imagenes de los productos"
 
 #: .\myTPV\models.py:80
 msgid "Shows the product cards with pictures while creating a bill"
-msgstr "Muestra las imagenes de los productos en las tarjetas mientras se crea una cuenta"
+msgstr ""
+"Muestra las imagenes de los productos en las tarjetas mientras se crea una "
+"cuenta"
+
+#: .\myTPV\models.py:82
+msgid "Print a receipt after a refund"
+msgstr "Imprimir recibo tras devolucion"
+
+#: .\myTPV\models.py:82
+msgid "Print a new ticket when a refund is marked as completed"
+msgstr "Imprime un ticket nuevo al completar una devolucion"
 
 #: .\myTPV\views.py:33
 msgid " customers"

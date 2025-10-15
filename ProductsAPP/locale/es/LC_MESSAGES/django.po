@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-14 15:43+0200\n"
+"POT-Creation-Date: 2025-10-15 09:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -483,12 +483,12 @@ msgstr ""
 msgid "Cannot communicate with the receipt printer"
 msgstr "No se puede comunicar con la impresora de recibos"
 
-#: .\ProductsAPP\views.py:45 .\ProductsAPP\views.py:268
+#: .\ProductsAPP\views.py:45 .\ProductsAPP\views.py:274
 msgid "Error on stock revision"
 msgstr "Error revisando stock"
 
-#: .\ProductsAPP\views.py:46 .\ProductsAPP\views.py:269
-#: .\ProductsAPP\views.py:304
+#: .\ProductsAPP\views.py:46 .\ProductsAPP\views.py:275
+#: .\ProductsAPP\views.py:310
 msgid "There are no product families created. Need to create at least one"
 msgstr ""
 "No hay ninguna familia de producto creada. Se necesita crear al menos una"
@@ -525,31 +525,31 @@ msgstr " han sido devueltas"
 msgid "The barcode introduced is not in the bill"
 msgstr "El codigo de barras introducido no esta en la factura"
 
-#: .\ProductsAPP\views.py:233
+#: .\ProductsAPP\views.py:239
 msgid "The customer's credit has been discounted"
 msgstr "El credito del cliente se ha descontado"
 
-#: .\ProductsAPP\views.py:240
+#: .\ProductsAPP\views.py:246
 msgid "The voucher has been discounted"
 msgstr "El cupon se ha descontado"
 
-#: .\ProductsAPP\views.py:247
+#: .\ProductsAPP\views.py:253
 msgid "The vouchers have been cancelled"
 msgstr "Los cupones se han cancelado"
 
-#: .\ProductsAPP\views.py:286
+#: .\ProductsAPP\views.py:292
 msgid "The stock has been updated"
 msgstr "El stock ha sido actualizado"
 
-#: .\ProductsAPP\views.py:303
+#: .\ProductsAPP\views.py:309
 msgid "Error on prices revision"
 msgstr "Error revisando los precios"
 
-#: .\ProductsAPP\views.py:321
+#: .\ProductsAPP\views.py:327
 msgid "Product prices have been updated"
 msgstr "Los precios de los productos han sido actualizados"
 
-#: .\ProductsAPP\views.py:367
+#: .\ProductsAPP\views.py:373
 msgid "Historic"
 msgstr "Historico"
 
