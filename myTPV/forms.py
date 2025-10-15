@@ -62,12 +62,25 @@ class reportForm(forms.Form):
         
     def clean__type(self,):
         return int(self.cleaned_data['_type'])
-    
+
+from django_toggle_switch_widget.widgets import DjangoToggleSwitchWidget
+
+class CustomToggleSwitch(Field):
+    template = '__toggle_switch_widget.html'
+
 class siteSettingsForm(forms.ModelForm):
 
     class Meta:
         model = SiteSettings
         exclude = []
+        widgets = {
+            'PUBLISH_TO_WEB': DjangoToggleSwitchWidget(round=True, klass="django-toggle-switch-success form-check"),
+            'SHOW_PRODUCT_PICTURES': DjangoToggleSwitchWidget(round=True, klass="django-toggle-switch-success form-check"),
+            'PRINT_RECEIPT_ON_REFUND': DjangoToggleSwitchWidget(round=True, klass="django-toggle-switch-success form-check"),
+            'VERSION_AUTO_UPDATE': DjangoToggleSwitchWidget(round=True, klass="django-toggle-switch-success form-check"),
+            'GDRIVE_BACKUP': DjangoToggleSwitchWidget(round=True, klass="django-toggle-switch-success form-check"),
+            'ACCUMULATION': DjangoToggleSwitchWidget(round=True, klass="django-toggle-switch-success form-check"),
+        }
 
     def __init__(self, *args, **kwargs):
         super(siteSettingsForm, self).__init__(*args, **kwargs)
@@ -86,7 +99,7 @@ class siteSettingsForm(forms.ModelForm):
                 self.fields[field].widget.attrs.update({'class':'form-control','data-toggle':'tooltip' ,'title':help_text, 'data-bs-placement':'right', 'data-bs-container':'body'})
             else:
                 self.fields[field].widget.attrs.update({'class':'form-control'})
-        
+            
         buttons=FormActions(
                         Div(
                         Column(Submit('submit', _('Save'),css_class="btn btn-primary col-12"),css_class="col-9"),
@@ -103,21 +116,21 @@ class siteSettingsForm(forms.ModelForm):
                                         'SHOP_PHONE',
                                         'SHOP_EMAIL',
                                         'SHOP_WEB',
-                                        'PUBLISH_TO_WEB'
+                                        CustomToggleSwitch('PUBLISH_TO_WEB')
                                     ),
                                     Fieldset(_("Application details"),
-                                        'SHOW_PRODUCT_PICTURES',
-                                        'PRINT_RECEIPT_ON_REFUND',
-                                        'VERSION_AUTO_UPDATE',
+                                        CustomToggleSwitch('SHOW_PRODUCT_PICTURES'),
+                                        CustomToggleSwitch('PRINT_RECEIPT_ON_REFUND'),
+                                        CustomToggleSwitch('VERSION_AUTO_UPDATE'),
                                         'VERSION_CODE',
                                         'LAN_IP',
                                         AppendedText('SEC2LOGOUT', 's', active=True),
-                                        'GDRIVE_BACKUP'
+                                        CustomToggleSwitch('GDRIVE_BACKUP')
                                     ),
                                     Fieldset(_("Accountancy details"),
                                         AppendedText('VAT', '%', active=True),
-                                        Field('ACCUMULATION',step=0.005),
-                                        AppendedText('MIN_ACCUM', '€', active=True),
+                                        CustomToggleSwitch('ACCUMULATION'),
+                                        AppendedText('MIN_ACCUM', '€', active=True,step=0.005),
                                     ),
 
                                 )

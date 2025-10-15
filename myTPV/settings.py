@@ -113,7 +113,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     "crispy_bootstrap5",
     "bootstrap_datepicker_plus",
-
+    "django_toggle_switch_widget",
     #"debug_toolbar",
 
     'myTPV',

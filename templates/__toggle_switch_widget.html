@@ -1,0 +1,8 @@
+{% load crispy_forms_field %}
+
+<div class="mb-3 row">
+    <label class="col-form-label pt-0 col" for="{{ field.id_for_label }}">{{ field.label }}</label>
+    <div class="col text-center">
+        {% crispy_field field 'class' 'form-control checkboxinput form-check-input' %}
+    </div>
+</div>

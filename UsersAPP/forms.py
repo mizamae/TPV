@@ -10,11 +10,21 @@ from .models import Customer, User
 FORMS_LABEL_CLASS='col'
 FORMS_FIELD_CLASS='col'
 
+from django_toggle_switch_widget.widgets import DjangoToggleSwitchWidget
+
+class CustomToggleSwitch(Field):
+    template = '__toggle_switch_widget.html'
+
 class userForm(forms.ModelForm):
 
     class Meta:
         model = User
         exclude = ['password','last_login','user_permissions']
+        widgets = {
+            'is_staff': DjangoToggleSwitchWidget(round=True, klass="django-toggle-switch-success form-check"),
+            'is_active': DjangoToggleSwitchWidget(round=True, klass="django-toggle-switch-success form-check"),
+            'is_superuser': DjangoToggleSwitchWidget(round=True, klass="django-toggle-switch-success form-check"),
+        }
 
     def __init__(self, *args, **kwargs):
         super(userForm, self).__init__(*args, **kwargs)
@@ -47,9 +57,9 @@ class userForm(forms.ModelForm):
                                     Field('email',type=''),
                                     Field('type',type=''),
                                     Field('identifier',type=''),
-                                    Field('is_staff',type=''),
-                                    Field('is_active',type=''),
-                                    Field('is_superuser',type=''),
+                                    CustomToggleSwitch('is_staff',type=''),
+                                    CustomToggleSwitch('is_active',type=''),
+                                    CustomToggleSwitch('is_superuser',type=''),
                                     Field('groups',type=''),
                                 )
         self.helper.layout.append(buttons)
@@ -80,11 +90,16 @@ class findCustomerForm(forms.Form):
                                     Field('data',type=''),
                                 )
 
+
+
 class customerForm(forms.ModelForm):
 
     class Meta:
         model = Customer
         exclude = []
+        widgets = {
+            'saves_paper': DjangoToggleSwitchWidget(round=True, klass="django-toggle-switch-success form-check"),
+        }
 
     def __init__(self, *args, **kwargs):
         super(customerForm, self).__init__(*args, **kwargs)
@@ -118,7 +133,7 @@ class customerForm(forms.ModelForm):
                                     Field('phone',type=''),
                                     Field('zip',type=''),
                                     Field('cif',type=''),
-                                    Field('saves_paper',type=''),
+                                    CustomToggleSwitch('saves_paper',type=''),
                                     Field('profile',type=''),
                                     Field('credit',type=''),
                                 )
