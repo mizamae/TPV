@@ -100,7 +100,7 @@
 						{% endif %}
 						<td>{{ row.product }} <br> {% if row.reduce_concept %}{{ row.reduce_concept }} {% endif %} </td>
 						<td>{{ row.getUnitPVP }} €</td>
-						<td>{{ row.getSubtotal }} €</td>
+						<td>{{ row.getSubtotalWithRefunds }} €</td>
 						<td>
 							<a type="button" class="btn btn-primary col-12" href={% url 'MaterialsAPP_refund_bill_position' id=row.id %}>
 								-
@@ -136,11 +136,11 @@
 
 					<tr> 
 						<td colspan=3><h5>{% trans "VAT" %}</h5></td>
-						<td scope="col"><h5>{{ bill.getVATAmount }} €</h5></td>
+						<td scope="col"><h5>{{ bill.getVATAmountWithRefunds }} €</h5></td>
 					</tr>
 					<tr> 
 						<td colspan=3><h4>{% trans "TOTAL" %}</h4></td>
-						<td scope="col"><h4>{{ bill.total }} €</h4></td>
+						<td scope="col"><h4>{{ bill.totalWithRefunds }} €</h4></td>
 					</tr>
 					<tr>
 						<a type="button" class="btn btn-success col-12" href={% url 'MaterialsAPP_resume_refund' code=bill.code %} >

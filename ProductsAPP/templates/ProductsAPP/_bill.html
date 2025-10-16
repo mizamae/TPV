@@ -12,7 +12,7 @@
     </td>
     <td>{{ row.createdOn }}</td>
     <td scope="col">{{ row.total|floatformat:2 }} €</td>
-    <td scope="col">{{ row.getVATAmount }} €</td>
+    <td scope="col">{{ row.getVATAmount|floatformat:2 }} €</td>
     <td>{{ row.owner.cif }}</td>
     <td>{{ row.order_positions }}
         {% if row.refunds %}
@@ -65,7 +65,7 @@
                     </svg>
                     <span class="h6 text-white">{% trans " Delete" %}</span>
                 </a>
-                {% else %}
+                {% elif row.total > 0 %}
                 <a type="button" class="btn btn-success col-12" href={% url 'MaterialsAPP_refund_bill' code=row.code %} >
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/>

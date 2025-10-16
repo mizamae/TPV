@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext as _
 from django.contrib.auth import get_user_model
+from django.db.models import Sum
 User=get_user_model()
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
@@ -667,15 +668,15 @@ class BillAccount(models.Model):
 
     def toJSON(self):
         value = {'code':self.code,'customer':self.owner.toJSON() if self.owner else {},'paymentType':self.paymenttype,
-                 'date':self.createdOn,'status':self.status,'total':self.total,"vat":self.getVATAmount(),'positions':[]}
+                 'date':self.createdOn,'status':self.status,'total':self.totalWithRefunds,"vat":self.getVATAmount(withRefunds=True),'positions':[]}
         for position in self.bill_positions.all():
             if hasattr(position, "refund"):
-                quantity = position.quantity-position.refund.quantity
+                quantity = position.effectiveQuantity
             else:
                 quantity = position.quantity
-            if quantity>0:
+            if quantity!=0:
                 value['positions'].append({'quantity': quantity ,'product':str(position.product),
-                                       'vat_amount':position.getVATAmount(),'subtotal':position.getSubtotal(noRefunds=False),'reduce_concept':position.reduce_concept})
+                                       'vat_amount':position.getVATAmount(withRefunds=True),'subtotal':position.getSubtotal(noRefunds=False),'reduce_concept':position.reduce_concept})
         if self.owner:
             if self.owner.hasDiscount:
                 value['positions'].append({'quantity':1,'product':_("User discount"),
@@ -707,6 +708,21 @@ class BillAccount(models.Model):
         return total
 
     @property
+    @admin.display(description=_("Total including VAT and discounts and refunds"))
+    def totalWithRefunds(self,):
+        total=self.totalNoBillDiscounts
+        if self.userDiscount:
+            total = total-self.userDiscountAmount
+        if self.userCredit:
+            total = total-self.userCredit
+        if self.vouchers:
+            total = total-self.vouchers
+        
+        # if total <0:
+        #     total = 0
+        return round(total-self.totalRefunded,2)
+    
+    @property
     @admin.display(description=_("Total including VAT and discounts"))
     def total(self,):
         total=self.totalNoBillDiscounts
@@ -727,9 +743,12 @@ class BillAccount(models.Model):
         for refund in self.refunds.all():
             total += refund.subtotal
         return round(total,2)
-        
+    
+    def getVATAmountWithRefunds(self):
+        return self.getVATAmount(withRefunds=True)
+    
     @admin.display(description=_("VAT amount"))
-    def getVATAmount(self,):
+    def getVATAmount(self,withRefunds=False):
         ## TODO: discount the refunded amount of the VAT!!!
         total=0
         for position in self.bill_positions.all():
@@ -846,9 +865,12 @@ class BillPosition(models.Model):
                 return round(self.getSubtotal(noRefunds=False)*self.product.credit_acc_factor,2) 
         return None
 
-    def getVATAmount(self):
+    def getVATAmount(self,withRefunds=False):
         if self.vat_amount:
-            refunded = (self.refund.quantity*self.vat_amount/self.quantity) if hasattr(self, "refund") else 0
+            if withRefunds:
+                refunded = (self.refund.first.billPosRefundedQuantity*self.vat_amount/self.quantity) if self.refund.first() else 0
+            else:
+                refunded = 0
             return round(self.vat_amount - refunded,2)
         else:
             if self.product.promotion:
@@ -861,7 +883,7 @@ class BillPosition(models.Model):
             if noRefunds:
                 refunded=0
             else:
-                refunded = (self.refund.subtotal) if hasattr(self, "refund") else 0
+                refunded = (self.refund.first().total) if self.refund.first() else 0
             return round(self.subtotal - refunded,2)
         else:
             if self.product.promotion:
@@ -869,39 +891,57 @@ class BillPosition(models.Model):
                 return round(promotion_quantity*self.product.pvp,2)
             return round(self.quantity*self.product.pvp,2)
     
+    def getSubtotalWithRefunds(self,):
+        return self.getSubtotal(noRefunds=False)
+    
     def getUnitPVP(self):
         return round(self.getSubtotal(noRefunds=True)/(self.quantity),2)
     
     @property
     def effectiveQuantity(self):
-        refunded = (self.refund.quantity) if hasattr(self, "refund") else 0
-        return self.quantity-refunded
+        return (self.refund.first().billPosEffectiveQuantity) if self.refund.first() else self.quantity
         
     @property
     def hasRefund(self):
-        return hasattr(self, "refund")
+        return self.refund.first()
     
 class Refund(models.Model):
-    bill_pos = models.OneToOneField(BillPosition, on_delete=models.CASCADE,primary_key=True,)
+    bill_pos = models.ForeignKey(BillPosition, on_delete=models.CASCADE,related_name="refund")
     quantity = models.PositiveSmallIntegerField(default=1,verbose_name=_("Quantity"))
+    accounted = models.BooleanField(verbose_name=_("Has the refund been accounted?"),default=False)
+
+    @property
+    def billPosRefundedQuantity(self,):
+        return Refund.objects.filter(bill_pos=self.bill_pos).aggregate(Sum('quantity'))["quantity__sum"]
     
+    @property
+    def billPosEffectiveQuantity(self,):
+        return self.bill_pos.quantity - self.billPosRefundedQuantity
+
     def increaseQuantity(self,amount=1):
         self.quantity += amount
         self.save(update_fields=['quantity',])
         self.bill_pos.product.increase_stock(quantity=amount)
-        
+    
+    @property
+    def total(self,):
+        returned = self.billPosRefundedQuantity
+        return round(returned*self.bill_pos.subtotal/self.bill_pos.quantity,2)
+    
     @property
     def subtotal(self,):
         return round(self.quantity*self.bill_pos.subtotal/self.bill_pos.quantity,2)
 
     @staticmethod
     def close(bill,user):
-        refunds = Refund.objects.filter(bill_pos__in=bill.bill_positions.all())
+        refunds = Refund.objects.filter(bill_pos__in=bill.bill_positions.all()).filter(accounted=False)
         newBill = BillAccount.create(createdBy=user)
         if bill.owner:
             newBill.setOwner(bill.owner)
         for refund in refunds:
             newBill.add_bill_position(product=refund.bill_pos.product,quantity=-refund.quantity)
+            refund.accounted = True
+            refund.save(update_fields=["accounted",])
         newBill.setPaymentType(value=bill.paymenttype)
         newBill.close() 
 

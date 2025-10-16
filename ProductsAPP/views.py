@@ -188,14 +188,13 @@ def refund_bill(request,code):
 @login_required(login_url="login")
 def refund_bill_position(request,id):
     bill_pos=BillPosition.objects.get(id=id)
-    refund,created = Refund.objects.get_or_create(bill_pos=bill_pos)
+    refund = Refund.objects.create(bill_pos=bill_pos)
     
-    if not created:
-        if refund.quantity<bill_pos.quantity:
-            refund.increaseQuantity(amount=1)
-            messages.info(request, _("The product ")+str(bill_pos.product) + _(" has been refunded"))
-        else:
-            messages.error(request, _("All the items of the product ") + str(bill_pos.product) + _(" have been refunded"))
+    if refund.quantity<bill_pos.quantity:
+        #refund.increaseQuantity(amount=1)
+        messages.info(request, _("The product ")+str(bill_pos.product) + _(" has been refunded"))
+    else:
+        messages.error(request, _("All the items of the product ") + str(bill_pos.product) + _(" have been refunded"))
         
     return redirect('MaterialsAPP_refund_bill',code=bill_pos.bill.code)
 
@@ -358,7 +357,7 @@ def historics_home(request):
                 total_vat=0
                 for bill in bills.filter(status = BillAccount.STATUS_PAID):
                     total += bill.total
-                    total_vat += bill.getVATAmount()
+                    total_vat += bill.getVATAmount(withRefunds=False)
                     payments[bill.paymenttype]['value']=round(payments[bill.paymenttype]['value']+bill.total,2) 
                 #bill_totals = bills.aggregate(total=Sum('total'),total_vat=Sum('vat_amount'))
                 bill_totals={'total':total,'total_vat':total_vat}
