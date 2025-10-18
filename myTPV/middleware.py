@@ -23,6 +23,8 @@ class SettingsInjectionMiddleware:
         return response
     
     def process_template_response(self, request, response):
+        if not response.context_data:
+            response.context_data = {}
         response.context_data["siteSettings"] = SiteSettings.load()
         return response
     
