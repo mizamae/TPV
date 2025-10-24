@@ -38,7 +38,11 @@ class Customer(models.Model):
     last_name = models.CharField(_("Surname"), max_length=150, blank=True)
     email = models.EmailField(_("Email address"), blank=True, null=True)
     phone = models.CharField(_("Phone number"),max_length=15, blank=True)
-    zip = models.CharField(_("Zip code"),max_length=5, blank=True)
+    addr1 = models.CharField(verbose_name=_('Address (line 1)'),max_length=200,
+                                    help_text=_('The street and number of the customer'),blank=True,null=True)
+    addr2 = models.CharField(verbose_name=_('Address (line 2)'),max_length=200,
+                                    help_text=_('The town and country of the customer'),blank=True,null=True)
+    zip = models.CharField(_("Zip code"),max_length=5, blank=True,null=True)
     cif = models.CharField(_("Tax number"),max_length=15, unique=True)
     saves_paper = models.BooleanField(
         _("Electronic receipt"),
@@ -75,7 +79,7 @@ class Customer(models.Model):
         self.save(update_fields=("credit",))
 
     def toJSON(self):
-        return {'name':self.first_name,'surname':self.last_name,'email':self.email,'cif':self.cif}
+        return {'name':self.first_name,'surname':self.last_name,'email':self.email,'cif':self.cif,'addr1':self.addr1,'addr2':self.addr2,'zip':self.zip}
 
     @property
     def canExchangeCredit(self,):

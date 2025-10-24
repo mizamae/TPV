@@ -868,7 +868,7 @@ class BillPosition(models.Model):
     def getVATAmount(self,withRefunds=False):
         if self.vat_amount:
             if withRefunds:
-                refunded = (self.refund.first.billPosRefundedQuantity*self.vat_amount/self.quantity) if self.refund.first() else 0
+                refunded = (self.refund.first().billPosRefundedQuantity*self.vat_amount/self.quantity) if self.refund.first() else 0
             else:
                 refunded = 0
             return round(self.vat_amount - refunded,2)

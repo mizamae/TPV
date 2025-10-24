@@ -173,6 +173,24 @@ class PrintedBill(object):
             text = _("Customer Tax number: ") + self.billData['customer']['cif']
             string_width = self.pdf.stringWidth(text=text, fontName=self.fontBoldName, fontSize=fontSize)
             self.pdf.drawString(self.minX, self.currentY, text)
+            self.nextRow(1)
+            text = _("Address: ")
+            self.pdf.drawString(self.minX, self.currentY, text)
+            string_width = self.pdf.stringWidth(text=text, fontName=self.fontBoldName, fontSize=fontSize)
+            self.nextRow(1)
+            if self.billData['customer']['addr1']:
+                text = self.billData['customer']['addr1']
+                self.pdf.drawString(self.minX+string_width, self.currentY, text)
+                if self.billData['customer']['addr2']:
+                    self.nextRow(1)
+                    if self.billData['customer']['zip']:
+                        text = self.billData['customer']['zip'] + " " + self.billData['customer']['addr2']
+                    else:
+                        text = self.billData['customer']['addr2']
+                    self.pdf.drawString(self.minX+string_width, self.currentY, text)
+            else:
+                text = _("There is no address registered for this customer")
+                self.pdf.drawString(self.minX+string_width, self.currentY, text)
             self.nextRow(5)       
         
         tableRows = [(row['product'],row['quantity'],str(round(row['subtotal']/row['quantity'],2))+'€',str(row['subtotal'])+'€') for row in self.billData['positions']]

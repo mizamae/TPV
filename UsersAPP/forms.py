@@ -131,6 +131,8 @@ class customerForm(forms.ModelForm):
                                     Field('last_name',type=''),
                                     Field('email',type=''),
                                     Field('phone',type=''),
+                                    Field('addr1',type='',placeholder=_("Street and number")),
+                                    Field('addr2',type='',placeholder=_("Town (Country)")),
                                     Field('zip',type=''),
                                     Field('cif',type=''),
                                     CustomToggleSwitch('saves_paper',type=''),
