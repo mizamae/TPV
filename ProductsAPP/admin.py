@@ -84,6 +84,7 @@ admin.site.register(Product, PRODUCTAdmin)
 class BILLACCOUNT_Admin(admin.ModelAdmin):
     list_display = ("createdOn","code","owner","get_status_display")
     ordering = ('createdOn',)
+    list_filter  = ('createdOn',)
     actions=['sendToCustomer',]
     
     def sendToCustomer(self, request, queryset):
