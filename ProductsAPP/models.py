@@ -680,13 +680,13 @@ class BillAccount(models.Model):
         if self.owner:
             if self.owner.hasDiscount:
                 value['positions'].append({'quantity':1,'product':_("User discount"),
-                                        'vat_amount':0,'subtotal':-self.userDiscountAmount,'reduce_concept':None})
+                                        'vat_amount':0,'subtotal':-round(self.userDiscountAmount,2),'reduce_concept':None})
             if self.userCredit:
                 value['positions'].append({'quantity':1,'product':_("User credits"),
-                                        'vat_amount':0,'subtotal':-self.userCredit,'reduce_concept':None})
+                                        'vat_amount':0,'subtotal':-round(self.userCredit,2),'reduce_concept':None})
         if self.vouchers:
             value['positions'].append({'quantity':1,'product':_("Voucher discount"),
-                                    'vat_amount':0,'subtotal':-self.vouchers,'reduce_concept':None})
+                                    'vat_amount':0,'subtotal':-round(self.vouchers,2),'reduce_concept':None})
         return value
 
     @property
