@@ -654,6 +654,7 @@ class BillAccount(models.Model):
             self.vouchers += voucher.value
         else:
             self.vouchers = voucher.value
+        self.vouchers = round(self.vouchers,2)
         self.save(update_fields=['vouchers',])
 
     def cancelVouchers(self):
@@ -750,20 +751,27 @@ class BillAccount(models.Model):
     @admin.display(description=_("VAT amount"))
     def getVATAmount(self,withRefunds=False):
         ## TODO: discount the refunded amount of the VAT!!!
-        total=0
+        vat=0
+        total = 0
         for position in self.bill_positions.all():
-            total+=position.getVATAmount()
+            vat+=position.getVATAmount()
+            total+=position.getSubtotal()
         
+        if (total-vat>0):
+            effectiveVAT = vat/(total-vat)
+        else:
+            effectiveVAT = 0
+
         if self.userDiscount:
-            total = total-self.userDiscountAmount*cache.get("DefaultVAT")/100
+            vat = vat-self.userDiscountAmount*(1-effectiveVAT)/effectiveVAT/100
         if self.userCredit:
-            total = total-self.userCredit*cache.get("DefaultVAT")/100
+            vat = vat-self.userCredit*(1-effectiveVAT)/effectiveVAT/100
         if self.vouchers:
-            total = total-self.vouchers*cache.get("DefaultVAT")/100
+            vat = vat-self.vouchers*(1-effectiveVAT)/effectiveVAT/100
 
         # if total <0:
         #     total = 0
-        return round(total,2)
+        return round(vat,2)
         
     @staticmethod
     def create(createdBy):
