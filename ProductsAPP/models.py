@@ -760,14 +760,17 @@ class BillAccount(models.Model):
         if (total-vat>0):
             effectiveVAT = vat/(total-vat)
         else:
-            effectiveVAT = 1
+            effectiveVAT = 0
 
+        totalReduction=0
         if self.userDiscount:
-            vat = vat-self.userDiscountAmount*(1-effectiveVAT)/effectiveVAT/100
+            totalReduction = self.userDiscountAmount
         if self.userCredit:
-            vat = vat-self.userCredit*(1-effectiveVAT)/effectiveVAT/100
+            totalReduction += self.userCredit
         if self.vouchers:
-            vat = vat-self.vouchers*(1-effectiveVAT)/effectiveVAT/100
+            totalReduction += self.vouchers
+        
+        vat = (total-totalReduction)/(1+effectiveVAT)*effectiveVAT
 
         # if total <0:
         #     total = 0
