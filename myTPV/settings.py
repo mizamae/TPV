@@ -180,6 +180,11 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = "UsersAPP.User"
 CUSTOMER_MODEL = "UsersAPP.Customer"
 
+def get_customer_model():
+    app_label,modelName = CUSTOMER_MODEL.split('.')
+    from UsersAPP.models import Customer
+    return Customer
+                    
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 

@@ -11,9 +11,10 @@ FORMS_LABEL_CLASS='col'
 FORMS_FIELD_CLASS='col'
 
 class billSearchForm(forms.Form):
-    code=forms.CharField(label=_("Code"),help_text="Code of the bill",required=False)
-    _from = forms.DateField(label=_("From"),help_text="Date of the initial data",required=False,disabled=False,widget=DatePickerInput(options={"format": "DD/MM/YYYY "}))
-    _to = forms.DateField(label=_("To"),help_text="Date of the final data",required=False,disabled=False,widget=DatePickerInput(options={"format": "DD/MM/YYYY "}))
+    customer=forms.CharField(label=_("Customer"),help_text=_("Search for a customer"),required=False)
+    code=forms.CharField(label=_("Code"),help_text=_("Code of the bill"),required=False)
+    _from = forms.DateField(label=_("From"),help_text=_("Date of the initial data"),required=False,disabled=False,widget=DatePickerInput(options={"format": "DD/MM/YYYY "}))
+    _to = forms.DateField(label=_("To"),help_text=_("Date of the final data"),required=False,disabled=False,widget=DatePickerInput(options={"format": "DD/MM/YYYY "}))
 
     def __init__(self, *args, **kwargs):
         super(billSearchForm, self).__init__(*args, **kwargs)
@@ -39,6 +40,7 @@ class billSearchForm(forms.Form):
                     )
         
         self.helper.layout = Layout(
+                                    Field('user',type='',id='id_user',placeholder=_('Enter customer ID')),
                                     Field('code',type='',id='id_code',placeholder=_('Enter bill code')),
                                     Field('_from',type=''),
                                     Field('_to',type=''),

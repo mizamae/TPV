@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.db.models import Sum, Count
 from django.views.decorators.csrf import csrf_exempt
 from django.template.response import TemplateResponse
+from django.contrib.contenttypes.models import ContentType
 
 from io import BytesIO
 
@@ -338,18 +339,36 @@ def check_products(request,family_id=None):
 def historics_home(request):
     if request.method == "POST":
         form=billSearchForm(request.POST)
+        payments = {}
         if form.is_valid():
             info={}
             info['code'] = form.cleaned_data['code']
+            info['customer'] = form.cleaned_data['customer']
             info['to'] = form.cleaned_data['_to'] if form.cleaned_data['_to'] else datetime.datetime.today().date()+datetime.timedelta(days=1)
             info['from'] = form.cleaned_data['_from'] if form.cleaned_data['_from'] else info['to']-datetime.timedelta(days=365)
-            if info['code']:
+            if info['customer']:
+                from myTPV.settings import get_customer_model
+                try:
+                    customer = get_customer_model().objects.get(email = info['customer'])
+                except get_customer_model().DoesNotExist:
+                    try:
+                        customer = get_customer_model().objects.get(cif = info['customer'])
+                    except get_customer_model().DoesNotExist:
+                        customer = None
+                if customer:
+                    bills = BillAccount.objects.filter(owner=customer).annotate(order_positions = Count('positions'))
+                    bill_totals=None
+                else:
+                    bills = None
+                    bill_totals=None
+                    messages.error(request,_("No customer found"))
+            elif info['code']:
                 bills = BillAccount.objects.filter(code=info['code']).annotate(order_positions = Count('positions'))
                 bill_totals=None
             else:
                 bills = BillAccount.objects.filter(createdOn__gt=info['from'],
                                                    createdOn__lt=info['to']).annotate(order_positions = Count('positions'))
-                payments = {}
+                
                 for payment in BillAccount.PAYMENT_TYPES:
                     payments[payment[0]]={'value':0,'description':payment[1]}
         
@@ -362,7 +381,7 @@ def historics_home(request):
                 #bill_totals = bills.aggregate(total=Sum('total'),total_vat=Sum('vat_amount'))
                 bill_totals={'total':total,'total_vat':total_vat}
             
-            return TemplateResponse(request, 'historicBills.html', {'bills':bills,'number':bills.count(),
+            return TemplateResponse(request, 'historicBills.html', {'bills':bills,'number':bills.count() if bills else 0,
                                                           'totals':bill_totals,'payments':payments,
                                                           'query_info':{'code':info['code'],'from':info['from'].isoformat(),'to':info['to'].isoformat()}})
             

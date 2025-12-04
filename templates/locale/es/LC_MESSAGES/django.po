@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-10 11:55+0200\n"
+"POT-Creation-Date: 2025-12-04 12:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,62 +44,62 @@ msgstr " del cliente "
 msgid " Assign customer to bill "
 msgstr " Asignar cliente "
 
-#: .\templates\bill.html:136 .\templates\bill_refund.html:80
+#: .\templates\bill.html:196 .\templates\bill_refund.html:80
 msgid " position"
 msgstr " posicion"
 
-#: .\templates\bill.html:142 .\templates\bill_refund.html:41
+#: .\templates\bill.html:202 .\templates\bill_refund.html:41
 #: .\templates\bill_refund.html:86 .\templates\bill_resume.html:39
 #: .\templates\bill_resume.html:123
 msgid "Units"
 msgstr "Uds"
 
-#: .\templates\bill.html:143 .\templates\bill_refund.html:42
+#: .\templates\bill.html:203 .\templates\bill_refund.html:42
 #: .\templates\bill_refund.html:87 .\templates\bill_resume.html:40
 #: .\templates\bill_resume.html:124 .\templates\products.html:28
 msgid "Product"
 msgstr "Producto"
 
-#: .\templates\bill.html:144 .\templates\bill_refund.html:88
+#: .\templates\bill.html:204 .\templates\bill_refund.html:88
 msgid "Price"
 msgstr "Precio"
 
-#: .\templates\bill.html:145 .\templates\bill_refund.html:43
+#: .\templates\bill.html:205 .\templates\bill_refund.html:43
 #: .\templates\bill_refund.html:89 .\templates\bill_resume.html:42
 #: .\templates\bill_resume.html:125
 msgid "Subtotal"
 msgstr ""
 
-#: .\templates\bill.html:146 .\templates\bill_refund.html:90
+#: .\templates\bill.html:206 .\templates\bill_refund.html:90
 msgid "X"
 msgstr ""
 
-#: .\templates\bill.html:170 .\templates\bill_refund.html:118
+#: .\templates\bill.html:230 .\templates\bill_refund.html:118
 #: .\templates\bill_resume.html:69
 msgid "User discount "
 msgstr "Descuento de usuario "
 
-#: .\templates\bill.html:183 .\templates\bill_refund.html:131
+#: .\templates\bill.html:243 .\templates\bill_refund.html:131
 #: .\templates\bill_resume.html:82
 msgid "User credits "
 msgstr "Creditos de usuario "
 
-#: .\templates\bill.html:190 .\templates\bill_refund.html:138
+#: .\templates\bill.html:250 .\templates\bill_refund.html:138
 #: .\templates\bill_resume.html:100
 msgid "VAT"
 msgstr "IVA"
 
-#: .\templates\bill.html:194 .\templates\bill_refund.html:55
+#: .\templates\bill.html:254 .\templates\bill_refund.html:55
 #: .\templates\bill_refund.html:142 .\templates\bill_resume.html:104
 #: .\templates\bill_resume.html:137
 msgid "TOTAL"
 msgstr ""
 
-#: .\templates\bill.html:203
+#: .\templates\bill.html:263
 msgid " Close bill"
 msgstr " Cerrar cuenta"
 
-#: .\templates\bill.html:238
+#: .\templates\bill.html:298
 msgid "Set Value"
 msgstr "Fijar Uds"
 
