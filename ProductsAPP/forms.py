@@ -40,7 +40,7 @@ class billSearchForm(forms.Form):
                     )
         
         self.helper.layout = Layout(
-                                    Field('user',type='',id='id_user',placeholder=_('Enter customer ID')),
+                                    Field('customer',type='',id='id_customer',placeholder=_('Enter customer ID')),
                                     Field('code',type='',id='id_code',placeholder=_('Enter bill code')),
                                     Field('_from',type=''),
                                     Field('_to',type=''),
