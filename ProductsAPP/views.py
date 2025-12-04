@@ -283,7 +283,7 @@ def check_stock(request,family_id=None):
     for i,_type in enumerate(productFamilies):
         productfamilies_tabs.append({'name':_type.name,'id':_type.id,'active':_type.id==family_id})
 
-    queryset=Consumible.objects.filter(infinite=False,family=ProductFamily.objects.get(id=family_id))
+    queryset=Consumible.objects.filter(infinite=False,family=ProductFamily.objects.get(id=family_id)).order_by('name')
 
     if request.method == 'POST':
         stock_formset = StockFormSet(request.POST,queryset=queryset)
