@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-04 12:34+0100\n"
+"POT-Creation-Date: 2025-12-29 11:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -305,8 +305,8 @@ msgstr "Combinacion de consumibles"
 msgid "Combinations of consumables"
 msgstr "Combinaciones de consumibles"
 
-#: .\ProductsAPP\models.py:546 .\ProductsAPP\models.py:801
-#: .\ProductsAPP\models.py:922
+#: .\ProductsAPP\models.py:546 .\ProductsAPP\models.py:800
+#: .\ProductsAPP\models.py:921
 msgid "Quantity"
 msgstr "Cantidad"
 
@@ -346,7 +346,7 @@ msgstr "Numero"
 msgid "Status"
 msgstr "Estado"
 
-#: .\ProductsAPP\models.py:588 .\ProductsAPP\models.py:684
+#: .\ProductsAPP\models.py:588 .\ProductsAPP\models.py:683
 msgid "User discount"
 msgstr "Descuento de usuario"
 
@@ -378,52 +378,52 @@ msgstr "Pago"
 msgid " of customer "
 msgstr " del cliente "
 
-#: .\ProductsAPP\models.py:687
+#: .\ProductsAPP\models.py:686
 msgid "User credits"
 msgstr "Creditos de usuario"
 
-#: .\ProductsAPP\models.py:690
+#: .\ProductsAPP\models.py:689
 msgid "Voucher discount"
 msgstr "Vales descuento"
 
-#: .\ProductsAPP\models.py:713
+#: .\ProductsAPP\models.py:712
 msgid "Total including VAT and discounts and refunds"
 msgstr "Total incluyendo IVA y descuentos y devoluciones"
 
-#: .\ProductsAPP\models.py:728
+#: .\ProductsAPP\models.py:727
 msgid "Total including VAT and discounts"
 msgstr "Total incluyendo IVA y descuentos"
 
-#: .\ProductsAPP\models.py:752 .\ProductsAPP\models.py:805
+#: .\ProductsAPP\models.py:751 .\ProductsAPP\models.py:804
 #: .\ProductsAPP\templates\ProductsAPP\_list.html:11
 msgid "VAT amount"
 msgstr "Importe IVA"
 
-#: .\ProductsAPP\models.py:799
+#: .\ProductsAPP\models.py:798
 msgid "Position"
 msgstr "Posicion"
 
-#: .\ProductsAPP\models.py:804
+#: .\ProductsAPP\models.py:803
 msgid "Subtotal"
 msgstr ""
 
-#: .\ProductsAPP\models.py:804
+#: .\ProductsAPP\models.py:803
 msgid "Selling price at the moment of the operation"
 msgstr "Precio de venta en el momento de la transaccion"
 
-#: .\ProductsAPP\models.py:805
+#: .\ProductsAPP\models.py:804
 msgid "VAT amount at the moment of the operation"
 msgstr "Monto de IVA en el momento de la transaccion"
 
-#: .\ProductsAPP\models.py:809
+#: .\ProductsAPP\models.py:808
 msgid "Credit accumulated"
 msgstr "Credito acumulado"
 
-#: .\ProductsAPP\models.py:809
+#: .\ProductsAPP\models.py:808
 msgid "Credit accumulated into the customer's account"
 msgstr "Credito acumulado en la cuenta de usuario"
 
-#: .\ProductsAPP\models.py:923
+#: .\ProductsAPP\models.py:922
 msgid "Has the refund been accounted?"
 msgstr "¿La devolucion se ha contabilizado?"
 
@@ -451,19 +451,19 @@ msgstr "Por dia de la semana"
 msgid "Per hour"
 msgstr "Por hora"
 
-#: .\ProductsAPP\tasks.py:302
+#: .\ProductsAPP\tasks.py:288
 msgid "[MONTHLY_RESULTS] Results of the month "
 msgstr "[RESULTADOS MENSUALES] Rsultados del mes "
 
-#: .\ProductsAPP\tasks.py:330
+#: .\ProductsAPP\tasks.py:316
 msgid "The following consumables are below its safety stock level:"
 msgstr "Los siguientes consumibles estan por debajo de su nivel de seguridad:"
 
-#: .\ProductsAPP\tasks.py:341
+#: .\ProductsAPP\tasks.py:327
 msgid "\t- "
 msgstr ""
 
-#: .\ProductsAPP\tasks.py:348
+#: .\ProductsAPP\tasks.py:334
 msgid "[STOCK_WARNING] List of the products with stock below its minimum"
 msgstr "[AVISO_STOCK] Listado de productos por debajo de su stock de seguridad"
 
@@ -479,7 +479,7 @@ msgstr " Cerrar"
 msgid " Edit"
 msgstr " Editar"
 
-#: .\ProductsAPP\templates\ProductsAPP\_bill.html:56
+#: .\ProductsAPP\templates\ProductsAPP\_bill.html:55
 msgid " View"
 msgstr " Ver"
 

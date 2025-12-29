@@ -102,6 +102,7 @@ class customerForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        compactView = kwargs.pop('compactView',False)
         super(customerForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.use_custom_control = True
@@ -119,14 +120,23 @@ class customerForm(forms.ModelForm):
             else:
                 self.fields[field].widget.attrs.update({'class':'form-control'})
         
-        buttons=FormActions(
+        if not self.instance:
+            buttons=FormActions(
                         Div(
                         Column(Submit('submit', _('Create'),css_class="btn btn-primary col-12"),css_class="col-9"),
                         Column(HTML('<a href="{% url "home" %}" class="btn btn-secondary col-12">'+str(_('Cancel'))+'</a>'),css_class="col-3"),
                         css_class="row")
                     )
+        else:
+            buttons=FormActions(
+                        Div(
+                        Column(Submit('submit', _('Save'),css_class="btn btn-primary col-12"),css_class="col-9"),
+                        Column(HTML('<a href="{% url "home" %}" class="btn btn-secondary col-12">'+str(_('Cancel'))+'</a>'),css_class="col-3"),
+                        css_class="row")
+                    )
         
-        self.helper.layout = Layout(
+        if not compactView:
+            self.helper.layout = Layout(
                                     Field('first_name',type=''),
                                     Field('last_name',type=''),
                                     Field('email',type=''),
@@ -138,5 +148,31 @@ class customerForm(forms.ModelForm):
                                     CustomToggleSwitch('saves_paper',type=''),
                                     Field('profile',type=''),
                                     Field('credit',type=''),
+                                )
+        else:
+            self.helper.layout = Layout(
+                                    Row(
+                                        Column('first_name', css_class='form-group col-md-4 mb-0'),
+                                        Column('last_name', css_class='form-group col-md-4 mb-0'),
+                                        css_class='form-row'
+                                    ),
+                                    Row(
+                                        Column('email', css_class='form-group col-md-4 mb-0'),
+                                        Column('phone', css_class='form-group col-md-4 mb-0'),
+                                        Column('cif', css_class='form-group col-md-4 mb-0'),
+                                        css_class='form-row'
+                                    ),
+                                    Row(
+                                        Column('addr1', css_class='form-group col-md-4 mb-0'),
+                                        Column('addr2', css_class='form-group col-md-4 mb-0'),
+                                        Column('zip', css_class='form-group col-md-4 mb-0'),
+                                        css_class='form-row'
+                                    ),
+                                    Row(
+                                        Column('profile', css_class='form-group col-md-4 mb-0'),
+                                        Column('credit', css_class='form-group col-md-4 mb-0'),
+                                        Column(CustomToggleSwitch('saves_paper',type=''),css_class='form-group col-md-4 mb-0'),
+                                        css_class='form-row'
+                                    ),
                                 )
         self.helper.layout.append(buttons)

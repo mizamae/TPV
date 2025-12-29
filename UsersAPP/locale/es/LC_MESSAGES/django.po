@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-24 09:21+0200\n"
+"POT-Creation-Date: 2025-12-29 11:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,25 +19,29 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
 "1 : 2;\n"
 
-#: .\UsersAPP\forms.py:39 .\UsersAPP\forms.py:109
+#: .\UsersAPP\forms.py:49 .\UsersAPP\forms.py:126
 msgid "Create"
 msgstr "Crear"
 
-#: .\UsersAPP\forms.py:40 .\UsersAPP\forms.py:110
+#: .\UsersAPP\forms.py:50 .\UsersAPP\forms.py:127 .\UsersAPP\forms.py:134
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: .\UsersAPP\forms.py:58
+#: .\UsersAPP\forms.py:68
 msgid "Enter ID, phone or email"
 msgstr "Introduce DNI, telefono o email"
 
-#: .\UsersAPP\forms.py:134
-msgid "Street and number"
-msgstr ""
+#: .\UsersAPP\forms.py:133
+msgid "Save"
+msgstr "Guardar"
 
-#: .\UsersAPP\forms.py:135
+#: .\UsersAPP\forms.py:144
+msgid "Street and number"
+msgstr "Calle y numero"
+
+#: .\UsersAPP\forms.py:145
 msgid "Town (Country)"
-msgstr ""
+msgstr "Localidad (Pais)"
 
 #: .\UsersAPP\managers.py:15
 msgid "The identifier must be set"
@@ -71,7 +75,7 @@ msgstr "Cliente"
 msgid "Surname"
 msgstr "Apellido"
 
-#: .\UsersAPP\models.py:39 .\UsersAPP\models.py:135
+#: .\UsersAPP\models.py:39 .\UsersAPP\models.py:140
 msgid "Email address"
 msgstr "Direccion de email"
 
@@ -127,47 +131,47 @@ msgstr "Un email es necesario si se desea el recibo electronico"
 msgid "Customer "
 msgstr "Cliente"
 
-#: .\UsersAPP\models.py:119
+#: .\UsersAPP\models.py:124
 msgid "User"
 msgstr "Empleado"
 
-#: .\UsersAPP\models.py:120
+#: .\UsersAPP\models.py:125
 msgid "Users"
 msgstr "Empleados"
 
-#: .\UsersAPP\models.py:126
+#: .\UsersAPP\models.py:131
 msgid "Cashier"
 msgstr "Cajero"
 
-#: .\UsersAPP\models.py:127
+#: .\UsersAPP\models.py:132
 msgid "Manager"
 msgstr ""
 
-#: .\UsersAPP\models.py:130 .\UsersAPP\models.py:202
+#: .\UsersAPP\models.py:135 .\UsersAPP\models.py:207
 msgid "Type"
 msgstr "Tipo"
 
-#: .\UsersAPP\models.py:133
+#: .\UsersAPP\models.py:138
 msgid "First name"
 msgstr "Nombre"
 
-#: .\UsersAPP\models.py:134
+#: .\UsersAPP\models.py:139
 msgid "Last name"
 msgstr "Apellido"
 
-#: .\UsersAPP\models.py:137
+#: .\UsersAPP\models.py:142
 msgid "staff status"
 msgstr "Es staff"
 
-#: .\UsersAPP\models.py:139
+#: .\UsersAPP\models.py:144
 msgid "Designates whether the user can log into this admin site."
 msgstr "Indica si el usuario puede acceder a la zona administrativa."
 
-#: .\UsersAPP\models.py:142
+#: .\UsersAPP\models.py:147
 msgid "active"
 msgstr "activo"
 
-#: .\UsersAPP\models.py:145
+#: .\UsersAPP\models.py:150
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
@@ -175,54 +179,78 @@ msgstr ""
 "Indica si el usuario esta activado. Desmarca esto en lugar de eliminar el "
 "usuario."
 
-#: .\UsersAPP\models.py:150
+#: .\UsersAPP\models.py:155
 msgid "superuser"
 msgstr "superusuario"
 
-#: .\UsersAPP\models.py:153
+#: .\UsersAPP\models.py:158
 msgid "Designates whether this user is a superuser. "
 msgstr "Indica si el usuario es un superusuario"
 
-#: .\UsersAPP\models.py:156
+#: .\UsersAPP\models.py:161
 msgid "date joined"
 msgstr "fecha de registro"
 
-#: .\UsersAPP\models.py:165
+#: .\UsersAPP\models.py:170
 msgid "Can view reports"
 msgstr "Puede ver informes"
 
-#: .\UsersAPP\models.py:166
+#: .\UsersAPP\models.py:171
 msgid "Can access historic bills"
 msgstr "Puede acceder a los historicos"
 
-#: .\UsersAPP\models.py:167
+#: .\UsersAPP\models.py:172
 msgid "Can manually modify stock values"
 msgstr "Puede modificar los niveles de stock"
 
-#: .\UsersAPP\models.py:168
+#: .\UsersAPP\models.py:173
 msgid "Can manually modify prices"
 msgstr "Puede modificar los precios"
 
-#: .\UsersAPP\models.py:169
+#: .\UsersAPP\models.py:174
 msgid "Can create a new customer"
 msgstr "Puede crear nuevo cliente"
 
-#: .\UsersAPP\models.py:170
+#: .\UsersAPP\models.py:175
 msgid "Can create a new bill"
 msgstr "Puede crear nueva factura"
 
-#: .\UsersAPP\models.py:181 .\UsersAPP\models.py:183
+#: .\UsersAPP\models.py:186 .\UsersAPP\models.py:188
 msgid "Missing name of the user"
 msgstr "Falta el nombre del usuario"
 
-#: .\UsersAPP\models.py:188
+#: .\UsersAPP\models.py:193
 msgid "Profiles"
 msgstr "Perfiles"
 
-#: .\UsersAPP\views.py:44
+#: .\UsersAPP\templates\UsersAPP\customerDetail.html:47
+msgid " bills found"
+msgstr " facturas encontradas"
+
+#: .\UsersAPP\templates\UsersAPP\customerDetail.html:51
+msgid "Total amount "
+msgstr "Momnto total "
+
+#: .\UsersAPP\templates\UsersAPP\customerDetail.html:57
+msgid "Total VAT amount "
+msgstr "Monto total de IVA "
+
+#: .\UsersAPP\templates\UsersAPP\customerDetail.html:65
+msgid " Download table"
+msgstr " Descargar la tabla"
+
+#: .\UsersAPP\templates\UsersAPP\customerDetail.html:83
+msgid "No bills found"
+msgstr "Ninguna factura encontrada"
+
+#: .\UsersAPP\views.py:48
 msgid "New customer created"
 msgstr "Nuevo cliente creado"
 
-#: .\UsersAPP\views.py:50
+#: .\UsersAPP\views.py:54
 msgid "Create new customer"
 msgstr "Crear nuevo cliente"
+
+#: .\UsersAPP\views.py:65
+msgid "Customer updated"
+msgstr "Cliente actualizado"

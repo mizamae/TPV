@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-15 09:12+0200\n"
+"POT-Creation-Date: 2025-12-29 11:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,23 +39,23 @@ msgstr "Mostrar"
 msgid "Back"
 msgstr "Volver"
 
-#: .\myTPV\forms.py:92
+#: .\myTPV\forms.py:105
 msgid "Save"
 msgstr "Guardar"
 
-#: .\myTPV\forms.py:93
+#: .\myTPV\forms.py:106
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: .\myTPV\forms.py:98
+#: .\myTPV\forms.py:111
 msgid "Shop details"
 msgstr "Detalles del comercio"
 
-#: .\myTPV\forms.py:108
+#: .\myTPV\forms.py:121
 msgid "Application details"
 msgstr "Detalles de la aplicacion"
 
-#: .\myTPV\forms.py:117
+#: .\myTPV\forms.py:130
 msgid "Accountancy details"
 msgstr "Detalles de contabilidad"
 
@@ -188,7 +188,9 @@ msgstr "Habilita copia de seguridad en Drive"
 
 #: .\myTPV\models.py:77
 msgid "Enable the automatic backup of the database into a Google Drive Account"
-msgstr "Habilita el backup automatico de la base de datos en una cuenta de Google Drive"
+msgstr ""
+"Habilita el backup automatico de la base de datos en una cuenta de Google "
+"Drive"
 
 #: .\myTPV\models.py:80
 msgid "Show product pictures"

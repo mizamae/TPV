@@ -337,6 +337,7 @@ def check_products(request,family_id=None):
 
 @login_required(login_url="login")
 def historics_home(request):
+    customer = None
     if request.method == "POST":
         form=billSearchForm(request.POST)
         payments = {}
@@ -356,8 +357,7 @@ def historics_home(request):
                     except get_customer_model().DoesNotExist:
                         customer = None
                 if customer:
-                    bills = BillAccount.objects.filter(owner=customer).annotate(order_positions = Count('positions'))
-                    bill_totals=None
+                    return redirect('UsersAPP_view_customer',id=customer.id)
                 else:
                     bills = None
                     bill_totals=None
@@ -382,7 +382,7 @@ def historics_home(request):
                 bill_totals={'total':total,'total_vat':total_vat}
             
             return TemplateResponse(request, 'historicBills.html', {'bills':bills,'number':bills.count() if bills else 0,
-                                                          'totals':bill_totals,'payments':payments,
+                                                          'totals':bill_totals,'payments':payments,'customer':customer,
                                                           'query_info':{'code':info['code'],'from':info['from'].isoformat(),'to':info['to'].isoformat()}})
             
     else:

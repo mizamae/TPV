@@ -10,4 +10,5 @@ urlpatterns = [
     path("logout/", views.logout_view , name="logout"),
     
     path("customers/create", views.createCustomer , name="UsersAPP_create_customer"),
+    path("customers/view/<int:id>", views.viewCustomer , name="UsersAPP_view_customer"),
 ]

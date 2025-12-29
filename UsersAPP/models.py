@@ -82,6 +82,11 @@ class Customer(models.Model):
         return {'name':self.first_name,'surname':self.last_name,'email':self.email,'cif':self.cif,'addr1':self.addr1,'addr2':self.addr2,'zip':self.zip}
 
     @property
+    def form(self,):
+        from UsersAPP.forms import customerForm
+        return customerForm(instance=self,compactView=True)
+    
+    @property
     def canExchangeCredit(self,):
         from myTPV.models import SiteSettings
         SETTINGS=SiteSettings.load()
