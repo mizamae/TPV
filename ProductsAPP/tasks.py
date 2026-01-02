@@ -20,6 +20,17 @@ __sql_createTableStatement__ = """CREATE TABLE IF NOT EXISTS jobs (
 __sql_insertJob__ = ''' INSERT INTO jobs(url,data)
                         VALUES(?,?) '''
 
+@shared_task(bind=False,name='myTPV_accFactor')
+def applyAccumulationFactor(value,family_id):
+    from .models import Product, ProductFamily
+    family = ProductFamily.objects.get(id=family_id)
+    products = Product.objects.exclude(family=family)
+    serials=[]
+    for product in products:
+        product.credit_acc_factor = value
+        serials.append(product)
+    Product.objects.bulk_update(serials,['credit_acc_factor'])
+
 @shared_task(bind=False,name='myTPV_DBBackup2GDrive')
 def DBBackup2GDrive():
      import datetime
