@@ -104,7 +104,7 @@ def append_barcode_to_bill(request,code):
             except:
                 pass            
     messages.error(request, _("The barcode introduced is not registered"))
-    return redirect('MaterialsAPP_edit_bill',code = bill.code,tab=0) 
+    return redirect('MaterialsAPP_edit_bill',code = bill.code,family_id=0) 
 
 
 
